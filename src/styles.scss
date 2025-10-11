@@ -1,1 +1,37 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+:root {
+  --mat-sys-body-large-font: 'Roboto', "Helvetica Neue", sans-serif;
+  --mat-sys-body-medium-font: 'Roboto', "Helvetica Neue", sans-serif;
+  --mat-sys-body-small-font: 'Roboto', "Helvetica Neue", sans-serif;
+
+  --mat-sys-title-large-font: 'Roboto', "Helvetica Neue", sans-serif;
+  --mat-sys-title-medium-font: 'Roboto', "Helvetica Neue", sans-serif;
+  --mat-sys-title-small-font: 'Roboto', "Helvetica Neue", sans-serif;
+}
+
+// Define your theme using the MDC `mat.theme()` mixin
+// This exposes CSS variables for primary, secondary, background, etc.
+
+html {
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      secondary: mat.$blue-palette,
+      // optional: tertiary / error / surface
+    ),
+    // typography: mat.define-typography-config(), // optional
+    density: 0,
+  ));
+}
+
+// Example body styles using Material 3 system variables
+body {
+  font-family: var(--mat-toolbar-title-text-font, var(--mat-sys-title-large-font));
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+  margin: 0;
+  height: 100%;
+}
