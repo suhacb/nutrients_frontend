@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router, Routes } from '@angular/router';
 
 @Component({
   selector: 'app-test',
@@ -7,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrl: './test.scss'
 })
 export class Test {
+  public routes: Routes;
 
+  constructor(private router: Router) {
+    this.routes = router.config;
+  }
 }
