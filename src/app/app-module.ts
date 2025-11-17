@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Test } from './test/test';
 import { CallbackPage } from './modules/callback/pages/callback-page/callback-page';
 import { AppRoutingModule } from './app-routing-module';
+import { HomePage } from './modules/home/home';
 
 /** Material 3 components and modules */
 
@@ -17,7 +18,8 @@ import { AppRoutingModule } from './app-routing-module';
   declarations: [
     App,
     Test,
-    CallbackPage
+    CallbackPage,
+    HomePage
   ],
   imports: [
     BrowserModule,
