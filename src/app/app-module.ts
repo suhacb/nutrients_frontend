@@ -22,6 +22,9 @@ import { SpinnerInterceptor } from './core/Spinner/spinner.interceptor';
 import { MatProgressSpinner, MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Spinner } from './core/Spinner/spinner';
+import { MainMenu } from './modules/auth-layout/main-menu/main-menu';
+import { MatListModule } from '@angular/material/list';
+import { MatDividerModule } from '@angular/material/divider';
 
 /** Material 3 components and modules */
 
@@ -37,6 +40,7 @@ import { Spinner } from './core/Spinner/spinner';
     Welcome,
     ConfirmCancelDialog,
     SnackBarComponent,
+    MainMenu,
   ],
   imports: [
     BrowserModule,
@@ -49,7 +53,9 @@ import { Spinner } from './core/Spinner/spinner';
     MatMenuModule,
     MatDialogModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatListModule,
+    MatDividerModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),

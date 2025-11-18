@@ -1,11 +1,10 @@
 <mat-sidenav-container>
   <mat-sidenav  #sidenav mode="over">
-    <!-- <app-main-menu (logoutClicked)="openLogoutModal()" (menuItemClicked)="sidenav.close()"></app-main-menu> -->
+    <app-main-menu (logoutClicked)="openLogoutModal()" (menuItemClicked)="sidenav.close()"></app-main-menu>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      <!-- <button mat-icon-button (click)="toggleMainMenuSidebar()"> -->
-      <button mat-icon-button>
+      <button mat-icon-button (click)="toggleMainMenuSidebar()">
         <mat-icon>menu</mat-icon>
       </button>
     

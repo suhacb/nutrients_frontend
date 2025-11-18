@@ -1,3 +1,25 @@
+:host {
+  display: block;
+  height: 100vh;
+}
+
+mat-sidenav-container {
+  height: 100%; /* container fills the host */
+}
+
+mat-toolbar {
+  position: sticky; /* optional: keep toolbar on top when scrolling */
+  top: 0;
+  z-index: 2;
+}
+
 .spacer {
   flex: 1 1 auto;
+}
+
+.content-container {
+  padding: 16px;
+  background-color: white;
+  min-height: calc(100% - 64px); /* leave space for toolbar */
+  box-sizing: border-box;
 }

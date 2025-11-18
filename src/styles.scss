@@ -1,13 +1,38 @@
 html, body {
-  height: 100%;
-  margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  color-scheme: light;
-  background-color: var(--md-sys-color-surface);
-  color: var(--md-sys-color-on-surface);
-  font: var(--md-sys-typescale-body-medium);
+  margin: 0;
+  padding: 0;
 }
 
-* {
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+/* Remove MDC default padding and dark background for all snackbars */
+.mat-mdc-snack-bar-container {
+  padding: 0 !important;
+}
+
+/* Flatten label wrapper */
+.mat-mdc-snack-bar-container .mat-mdc-snack-bar-label {
+  padding: 0 !important;
+  min-height: 0 !important;
+}
+
+/* Slim, colored snackbar surface for success */
+.snackbar-success.mat-mdc-snack-bar-container .mat-mdc-snack-bar-surface {
+  background-color: #4caf50 !important;
+  color: #fff !important;
+  min-height: 40px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  border-radius: 4px;
+}
+
+/* Slim, colored snackbar surface for error */
+.snackbar-error.mat-mdc-snack-bar-container .mat-mdc-snack-bar-surface {
+  background-color: #f44336 !important;
+  color: #fff !important;
+  min-height: 40px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  border-radius: 4px;
 }

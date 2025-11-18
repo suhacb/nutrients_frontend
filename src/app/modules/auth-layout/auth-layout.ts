@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { AuthStore } from '../../core/Auth/store/auth.store';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmCancelDialog } from '../../core/ConfirmCancelDialog/confirm-cancel-dialog';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-auth-layout',
@@ -44,5 +45,12 @@ export class AuthLayout {
       }
     });
   };
+
+  @ViewChild('sidenav') sidenav!: MatSidenav;
+
+  toggleMainMenuSidebar() {
+    console.log('here');
+    this.sidenav.toggle();
+  }
 
 }
