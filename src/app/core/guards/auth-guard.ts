@@ -38,7 +38,7 @@ export class AuthGuard implements CanActivate {
         if (isValid === true) {
           return true;
         } else {
-          return this.router.parseUrl('/');
+          return this.router.parseUrl('/welcome');
         }
       }),
       catchError(error => {
