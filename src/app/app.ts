@@ -9,20 +9,5 @@ import { AuthStore } from './core/Auth/store/auth.store';
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('nutrients');
-  private return_uri: string | null = null;
-  constructor(private http: HttpClient, public store: AuthStore) { }
 
-
-  login():void  {
-    this.http.post('http://localhost:9015/api/auth/login', {}, {observe: 'response'}).subscribe({
-      next: (response: HttpResponse<any>) => {
-        const url = new URL(response.body.redirect_uri);
-        // url.searchParams.set('redirect_uri', 'http://localhost:9010/test');
-        url.searchParams.set('appName', 'nutrients');
-        url.searchParams.set('appUrl', 'http://localhost:9010');
-        window.location.href = url.toString();
-      }
-    });
-  }
 }

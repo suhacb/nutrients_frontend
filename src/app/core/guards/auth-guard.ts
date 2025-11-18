@@ -21,16 +21,16 @@ export class AuthGuard implements CanActivate {
       this.store.setStoreValue(key, localStorage.getItem(key) ?? null);
     });
 
-    // If either is missing → redirect to login
+    // If either is missing → redirect to welcome (guest page)
     if (!localStorage.getItem('accessToken') || !this.store.accessToken()) {
       this.store.resetToken();
-      return this.router.parseUrl('/');
+      return this.router.parseUrl('/welcome');
     }    
 
-    // If tokens don't match → redirect to login
+    // If tokens don't match → redirect to welcome (guest page)
     if (localStorage.getItem('accessToken') !== this.store.accessToken()) {
       this.store.resetToken();
-      return this.router.parseUrl('/');
+      return this.router.parseUrl('/welcome');
     }
 
     return this.store.validateAccessToken().pipe(
@@ -41,12 +41,12 @@ export class AuthGuard implements CanActivate {
           console.log('should return true');
           return true;
         } else {
-          return this.router.parseUrl('/home');
+          return this.router.parseUrl('/');
         }
       }),
       catchError(error => {
         console.error(error);
-        return of(this.router.parseUrl('/'));
+        return of(this.router.parseUrl('/welcome'));
       })
     );
   }

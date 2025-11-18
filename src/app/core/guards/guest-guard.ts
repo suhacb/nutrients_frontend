@@ -1,40 +1,42 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, GuardResult, MaybeAsync, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { AuthStore } from '../Auth/store/auth.store';
+import { AccessTokenMapper } from '../AccessToken/AccessTokenMapper';
+import { AccessToken } from '../AccessToken/AccessToken';
 
 
 @Injectable({providedIn: 'root'})
 
 export class GuestGuard implements CanActivate {
-  canActivate(): boolean {
-    return true;
+  constructor(private store: AuthStore, private router: Router) {}
+
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
+    console.log('guest gurad');
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+      // Clear all tokens
+      this.store.resetToken();
+      return true; // allow access to welcome or other guest page
+    }
+
+    // Access token exists in local storage → sync store and redirect to guarded homepage
+    const token = this.store.accessToken();
+    if (!token) {
+      const tokenDefinition = new AccessTokenMapper().definition();
+      this.store.setToken({
+        access_token: localStorage.getItem('accessToken') ?? '',
+        token_type: localStorage.getItem('tokenType') ?? '',
+        expires_in: Number(localStorage.getItem('expiresIn')) ?? 0,
+        refresh_token: localStorage.getItem('refreshToken') ?? '',
+        refresh_expires_in: Number(localStorage.getItem('refreshExpiresIn')) ?? 0,
+        scope: localStorage.getItem('scope') ?? '',
+        id_token: localStorage.getItem('idToken') ?? '',
+        not_before_policy: localStorage.getItem('notBeforePolicy') ?? '',
+        session_state: localStorage.getItem('sessionState') ?? '',
+      });
+    }
+    // this.snackbar.showSuccess('You are already logged in.');
+    return this.router.parseUrl('/');
   }
-//   constructor(private store: AuthStore, private router: Router, private snackbar: ApiHandlerService) {}
-// 
-//   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
-//     const accessToken = localStorage.getItem('access_token');
-//     if (!accessToken) {
-//       // Clear all tokens
-//       this.store.resetToken();
-//       return true; // allow access to login
-//     }
-// 
-//     // Access token exists in local storage → sync store
-//     const token = this.store.accessToken(); // readonly signal
-//     if (!token) {
-//       this.store.setToken({
-//         accessToken: localStorage.getItem('access_token') ?? '',
-//         tokenType: localStorage.getItem('token_type') ?? '',
-//         expiresIn: Number(localStorage.getItem('expires_in')) ?? 0,
-//         refreshToken: localStorage.getItem('refresh_token') ?? '',
-//         refreshExpiresIn: Number(localStorage.getItem('refresh_expires_in')) ?? 0,
-//         scope: localStorage.getItem('scope') ?? '',
-//         idToken: localStorage.getItem('id_token') ?? '',
-//         notBeforePolicy: localStorage.getItem('not_before_policy') ?? '',
-//         sessionState: localStorage.getItem('session_state') ?? '',
-//       });
-//     }
-//     this.snackbar.showSuccess('You are already logged in.');
-//     return this.router.parseUrl('/');
-//   }
 }

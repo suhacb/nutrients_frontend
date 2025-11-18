@@ -17,7 +17,7 @@ export class CallbackPage implements OnInit {
   ngOnInit(): void {
     const token = this.getAccessTokenFromUri(this.route.snapshot.queryParamMap);
     this.store.setToken(token);
-    this.router.navigate(['/home']);
+    this.router.navigate(['/']);
   }
 
   objectKeys = Object.keys;

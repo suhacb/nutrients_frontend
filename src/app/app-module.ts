@@ -11,6 +11,10 @@ import { CallbackPage } from './modules/callback/pages/callback-page/callback-pa
 import { AppRoutingModule } from './app-routing-module';
 import { HomePage } from './modules/home/home';
 import { appHeadersInterceptor } from './core/Auth/interceptors/headers.interceptor';
+import { AuthLayout } from './modules/auth-layout/auth-layout';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { Welcome } from './modules/welcome/welcome';
+import { GuestLayout } from './modules/guest-layout/guest-layout';
 
 /** Material 3 components and modules */
 
@@ -20,7 +24,10 @@ import { appHeadersInterceptor } from './core/Auth/interceptors/headers.intercep
     App,
     Test,
     CallbackPage,
-    HomePage
+    HomePage,
+    AuthLayout,
+    Welcome,
+    GuestLayout
   ],
   imports: [
     BrowserModule,
@@ -28,6 +35,7 @@ import { appHeadersInterceptor } from './core/Auth/interceptors/headers.intercep
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
+    MatSidenavModule,
     AppRoutingModule,
   ],
   providers: [
