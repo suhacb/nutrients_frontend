@@ -18,8 +18,7 @@
         <button mat-button [matMenuTriggerFor]="userMenu" class="user-button">
           <mat-icon>account_circle</mat-icon>
           <div class="user-text">
-            <!-- <div class="full-name">{{ store.user()?.name }} {{ store.user()?.familyName }}</div> -->
-            <div class="full-name">User</div>
+            <div class="full-name">{{ store.user()?.name }} {{ store.user()?.familyName }}</div>
           </div>
         </button>
         <mat-menu #userMenu="matMenu">

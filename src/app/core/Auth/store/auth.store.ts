@@ -4,6 +4,7 @@ import { AccessTokenMapper } from '../../AccessToken/AccessTokenMapper';
 import { catchError, map, Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ApiHandlerService } from '../../ApiHandlerService/api-handler-service';
+import { decodeJwt } from '../../DecodeJWT/decodeJwt';
 
 @Injectable({ providedIn: 'root' })
 
@@ -39,21 +40,21 @@ export class AuthStore {
     readonly isLoggedIn = computed(() => !!this._accessToken());
 
     // user information from access_token
-    // readonly user = computed(() => {
-    //     const token = this._accessToken();
-    //     if (!token) return null;
-    //     try {
-    //         const payload: any = decodeJwt(token);
-    //         return {
-    //             username: payload.preferred_username,
-    //             name: payload.given_name,
-    //             familyName: payload.family_name,
-    //             email: payload.email
-    //         }
-    //     } catch {
-    //         return null;
-    //     }
-    // });
+    readonly user = computed(() => {
+        const token = this._accessToken();
+        if (!token) return null;
+        try {
+            const payload: any = decodeJwt(token);
+            return {
+                username: payload.preferred_username,
+                name: payload.given_name,
+                familyName: payload.family_name,
+                email: payload.email
+            }
+        } catch {
+            return null;
+        }
+    });
 
     // setters
     setToken(tokenApi: AccessTokenApiResource | null = null): void {
