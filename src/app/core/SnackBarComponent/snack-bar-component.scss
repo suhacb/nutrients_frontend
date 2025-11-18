@@ -1,0 +1,41 @@
+:host {
+  display: block;
+  width: 100%; /* fill the container */
+}
+
+.snackbar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.25rem 1rem; /* slim padding */
+  border-radius: 4px;
+  background-color: #4caf50; /* default success color */
+  color: #fff;
+}
+
+/* red background for error */
+:host-context(.snackbar-error) .snackbar-content {
+  background-color: #f44336;
+  color: #fff;
+}
+
+.snackbar-message {
+  flex: 1;
+  font-size: 0.95rem;
+  line-height: 1.1;
+}
+
+.success-icon,
+.error-icon {
+  color: #fff;
+}
+
+.dismiss-button {
+  background: transparent;
+  box-shadow: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+}

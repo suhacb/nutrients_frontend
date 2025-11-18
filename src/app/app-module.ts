@@ -17,6 +17,7 @@ import { Welcome } from './modules/welcome/welcome';
 import { MatMenuModule } from '@angular/material/menu';
 import { ConfirmCancelDialog } from './core/ConfirmCancelDialog/confirm-cancel-dialog';
 import { MatDialogModule } from '@angular/material/dialog';
+import { SnackBarComponent } from './core/SnackBarComponent/snack-bar-component';
 
 /** Material 3 components and modules */
 
@@ -29,7 +30,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     HomePage,
     AuthLayout,
     Welcome,
-    ConfirmCancelDialog
+    ConfirmCancelDialog,
+    SnackBarComponent
   ],
   imports: [
     BrowserModule,

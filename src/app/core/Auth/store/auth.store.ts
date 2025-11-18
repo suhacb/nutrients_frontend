@@ -3,11 +3,12 @@ import { AccessToken, AccessTokenApiResource } from '../../AccessToken/AccessTok
 import { AccessTokenMapper } from '../../AccessToken/AccessTokenMapper';
 import { catchError, map, Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { ApiHandlerService } from '../../ApiHandlerService/api-handler-service';
 
 @Injectable({ providedIn: 'root' })
 
 export class AuthStore {
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient, private apiHandlerService: ApiHandlerService) {}
 
     private _accessToken = signal<string | null>(null);
     private _tokenType = signal<string | null>(null);
@@ -125,7 +126,7 @@ export class AuthStore {
         return this.http.post<boolean>(url, [], { observe: 'response' as const}).pipe(
             map(() => {
                 this.resetToken();
-                // this.apiHandlerService.showSuccess('You are logged out.');
+                this.apiHandlerService.showSuccess('You are logged out.');
                 return true;
             })
         );
