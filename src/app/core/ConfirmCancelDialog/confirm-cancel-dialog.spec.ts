@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GuestLayout } from './guest-layout';
+import { ConfirmCancelDialog } from './confirm-cancel-dialog';
 
-describe('GuestLayout', () => {
-  let component: GuestLayout;
-  let fixture: ComponentFixture<GuestLayout>;
+describe('ConfirmCancelDialog', () => {
+  let component: ConfirmCancelDialog;
+  let fixture: ComponentFixture<ConfirmCancelDialog>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GuestLayout]
+      declarations: [ConfirmCancelDialog]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(GuestLayout);
+    fixture = TestBed.createComponent(ConfirmCancelDialog);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

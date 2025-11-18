@@ -35,10 +35,7 @@ export class AuthGuard implements CanActivate {
 
     return this.store.validateAccessToken().pipe(
       map(isValid => {
-        console.log('just validated access token');
-        console.log(isValid);
         if (isValid === true) {
-          console.log('should return true');
           return true;
         } else {
           return this.router.parseUrl('/');

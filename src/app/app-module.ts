@@ -14,7 +14,9 @@ import { appHeadersInterceptor } from './core/Auth/interceptors/headers.intercep
 import { AuthLayout } from './modules/auth-layout/auth-layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { Welcome } from './modules/welcome/welcome';
-import { GuestLayout } from './modules/guest-layout/guest-layout';
+import { MatMenuModule } from '@angular/material/menu';
+import { ConfirmCancelDialog } from './core/ConfirmCancelDialog/confirm-cancel-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 /** Material 3 components and modules */
 
@@ -27,16 +29,18 @@ import { GuestLayout } from './modules/guest-layout/guest-layout';
     HomePage,
     AuthLayout,
     Welcome,
-    GuestLayout
+    ConfirmCancelDialog
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    AppRoutingModule,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
     MatSidenavModule,
-    AppRoutingModule,
+    MatMenuModule,
+    MatDialogModule,
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),

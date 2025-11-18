@@ -12,7 +12,6 @@ export class GuestGuard implements CanActivate {
 
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
-    console.log('guest gurad');
     const accessToken = localStorage.getItem('accessToken');
     if (!accessToken) {
       // Clear all tokens

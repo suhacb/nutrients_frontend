@@ -9,7 +9,6 @@ import { AuthStore } from '../../core/Auth/store/auth.store';
 })
 export class HomePage {
   constructor(public store: AuthStore) {
-    console.log('home');
-    console.log(this.store.accessToken());
+
   }
 }

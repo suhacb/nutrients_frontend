@@ -98,7 +98,6 @@ export class AuthStore {
             map((response) => {
                 if (!response.body) throw new Error('Response body is empty');
                 const body = response.body;
-                console.log('validateAccessToken body:', body, typeof body);
 
                 // If body is string, convert to boolean
                 if (typeof body === 'string') {
@@ -107,7 +106,6 @@ export class AuthStore {
 
                 // If body is an access token object
                 if (typeof body === 'object' && body !== null && 'access_token' in body) {
-                    console.log('received new token');
                     this.setToken(body);
                     return true;
                 }
@@ -121,17 +119,17 @@ export class AuthStore {
             })
         );
     }
-// 
-//     logout(): Observable<boolean> {
-//         const url = 'http://localhost:9025/api/auth/logout';
-//         return this.http.post<boolean>(url, [], { observe: 'response' as const}).pipe(
-//             map(() => {
-//                 this.resetToken();
-//                 this.apiHandlerService.showSuccess('You are logged out.');
-//                 return true;
-//             })
-//         );
-//     }
+
+    logout(): Observable<boolean> {
+        const url = 'http://localhost:9025/api/auth/logout';
+        return this.http.post<boolean>(url, [], { observe: 'response' as const}).pipe(
+            map(() => {
+                this.resetToken();
+                // this.apiHandlerService.showSuccess('You are logged out.');
+                return true;
+            })
+        );
+    }
 // 
 //     private setLocalStorage(key: string, value: string | number | null): void {
 //         if (value !== null && value !== undefined) {
