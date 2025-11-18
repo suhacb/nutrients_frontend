@@ -1,7 +1,7 @@
 import { HttpInterceptorFn } from "@angular/common/http";
 import { inject } from "@angular/core";
-import { APP_CONFIG } from "../../config/app-config";
 import { AuthStore } from "../store/auth.store";
+import { APP_CONFIG } from "../../../config/app-config";
 
 export const appHeadersInterceptor: HttpInterceptorFn = (req, next) => {
     const cfg = inject(APP_CONFIG);
