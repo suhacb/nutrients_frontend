@@ -18,20 +18,25 @@ import { MatMenuModule } from '@angular/material/menu';
 import { ConfirmCancelDialog } from './core/ConfirmCancelDialog/confirm-cancel-dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SnackBarComponent } from './core/SnackBarComponent/snack-bar-component';
+import { SpinnerInterceptor } from './core/Spinner/spinner.interceptor';
+import { MatProgressSpinner, MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { Spinner } from './core/Spinner/spinner';
 
 /** Material 3 components and modules */
 
 
 @NgModule({
   declarations: [
+    AuthLayout,
     App,
     Test,
     CallbackPage,
     HomePage,
-    AuthLayout,
+    Spinner,
     Welcome,
     ConfirmCancelDialog,
-    SnackBarComponent
+    SnackBarComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,12 +48,15 @@ import { SnackBarComponent } from './core/SnackBarComponent/snack-bar-component'
     MatSidenavModule,
     MatMenuModule,
     MatDialogModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideHttpClient(
       withInterceptors([
-        appHeadersInterceptor
+        appHeadersInterceptor,
+        SpinnerInterceptor
       ])
     )
   ],
