@@ -31,17 +31,32 @@ export class AccessTokenMapper extends ResourceMapper<AccessToken, AccessTokenAp
         }
     }
 
-    public make(): AccessToken {
-return {
-        accessToken: '',
-        tokenType: '',
-        expiresIn: 0,
-        refreshToken: '',
-        refreshExpiresIn: 0,
-        scope: '',
-        idToken: '',
-        notBeforePolicy: '',
-        sessionState: ''
+    public make(overrides: Partial<AccessToken> = {}): AccessToken {
+        const defaults: AccessToken = {
+            accessToken: '',
+            tokenType: '',
+            expiresIn: 0,
+            refreshToken: '',
+            refreshExpiresIn: 0,
+            scope: '',
+            idToken: '',
+            notBeforePolicy: '',
+            sessionState: ''
         };
+        return {...defaults, ...overrides};
+    }
+
+    public definition(): string[] {
+        return [
+            'accessToken',
+            'tokenType',
+            'expiresIn',
+            'refreshToken',
+            'refreshExpiresIn',
+            'scope',
+            'idToken',
+            'notBeforePolicy',
+            'sessionState'
+        ];
     }
 }

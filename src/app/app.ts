@@ -1,5 +1,6 @@
 import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Component, signal, OnInit } from '@angular/core';
+import { AuthStore } from './core/Auth/store/auth.store';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import { Component, signal, OnInit } from '@angular/core';
 export class App {
   protected readonly title = signal('nutrients');
   private return_uri: string | null = null;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, public store: AuthStore) { }
 
 
   login():void  {
