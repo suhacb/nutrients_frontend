@@ -132,13 +132,4 @@ export class AuthStore {
             })
         );
     }
-// 
-//     private setLocalStorage(key: string, value: string | number | null): void {
-//         if (value !== null && value !== undefined) {
-//             const stringValue = typeof value === 'number' ? value.toString() : value;
-//             localStorage.setItem(key, stringValue);
-//         } else {
-//             localStorage.removeItem(key);
-//         }
-//     }
 }
