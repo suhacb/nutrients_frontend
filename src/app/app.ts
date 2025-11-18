@@ -1,4 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
+import { Component, signal, OnInit } from '@angular/core';
+import { AuthStore } from './core/Auth/store/auth.store';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +9,5 @@ import { Component, signal } from '@angular/core';
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('nutrients');
+
 }

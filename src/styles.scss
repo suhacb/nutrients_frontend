@@ -1,37 +1,38 @@
-@use '@angular/material' as mat;
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
-:root {
-  --mat-sys-body-large-font: 'Roboto', "Helvetica Neue", sans-serif;
-  --mat-sys-body-medium-font: 'Roboto', "Helvetica Neue", sans-serif;
-  --mat-sys-body-small-font: 'Roboto', "Helvetica Neue", sans-serif;
-
-  --mat-sys-title-large-font: 'Roboto', "Helvetica Neue", sans-serif;
-  --mat-sys-title-medium-font: 'Roboto', "Helvetica Neue", sans-serif;
-  --mat-sys-title-small-font: 'Roboto', "Helvetica Neue", sans-serif;
-}
-
-// Define your theme using the MDC `mat.theme()` mixin
-// This exposes CSS variables for primary, secondary, background, etc.
-
-html {
-  @include mat.theme((
-    color: (
-      primary: mat.$azure-palette,
-      secondary: mat.$blue-palette,
-      // optional: tertiary / error / surface
-    ),
-    // typography: mat.define-typography-config(), // optional
-    density: 0,
-  ));
-}
-
-// Example body styles using Material 3 system variables
-body {
-  font-family: var(--mat-toolbar-title-text-font, var(--mat-sys-title-large-font));
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
-  font: var(--mat-sys-body-medium);
+html, body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
   margin: 0;
-  height: 100%;
+  padding: 0;
+}
+
+/* Remove MDC default padding and dark background for all snackbars */
+.mat-mdc-snack-bar-container {
+  padding: 0 !important;
+}
+
+/* Flatten label wrapper */
+.mat-mdc-snack-bar-container .mat-mdc-snack-bar-label {
+  padding: 0 !important;
+  min-height: 0 !important;
+}
+
+/* Slim, colored snackbar surface for success */
+.snackbar-success.mat-mdc-snack-bar-container .mat-mdc-snack-bar-surface {
+  background-color: #4caf50 !important;
+  color: #fff !important;
+  min-height: 40px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  border-radius: 4px;
+}
+
+/* Slim, colored snackbar surface for error */
+.snackbar-error.mat-mdc-snack-bar-container .mat-mdc-snack-bar-surface {
+  background-color: #f44336 !important;
+  color: #fff !important;
+  min-height: 40px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  border-radius: 4px;
 }
