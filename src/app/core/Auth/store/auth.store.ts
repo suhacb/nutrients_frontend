@@ -121,7 +121,7 @@ export class AuthStore {
     }
 
     logout(): Observable<boolean> {
-        const url = 'http://localhost:9025/api/auth/logout';
+        const url = 'http://localhost:9015/api/auth/logout';
         return this.http.post<boolean>(url, [], { observe: 'response' as const}).pipe(
             map(() => {
                 this.resetToken();

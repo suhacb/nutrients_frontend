@@ -37,7 +37,7 @@ export class AuthLayout {
     this.store.logout().subscribe({
       next: () => {
         dialogRef.close();
-        this.router.navigate(['/login']);
+        this.router.navigate(['/welcome']);
       },
       error: (error) => {
         console.log(error);
