@@ -2,7 +2,17 @@ import { Injectable, signal } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, EMPTY, map, Observable, tap, throwError } from 'rxjs';
 import { ApiHandlerService } from '../../../core/ApiHandlerService/api-handler-service';
-import { Paginator } from '../../../core/Paginator/paginator';
+import { Nutrient } from '../contracts/Nutrient';
+import { NutrientApiResource } from '../contracts/NutrientApiResource';
+import { NutrientsMapper } from '../mappers/NutrientsMapper';
+import { PaginatorMapper } from '../../../core/Paginator/PaginatorMapper';
+import { Paginator } from '../../../core/Paginator/Paginator';
+import { PaginatorApiResource } from '../../../core/Paginator/PaginatorApiResource';
+
+type NutrientIndexApiResource = {
+    data: NutrientApiResource[]
+} & PaginatorApiResource
+
 
 @Injectable({ providedIn: 'root' })
 
@@ -12,7 +22,7 @@ export class NutrientsStore {
         private apiHandlerService: ApiHandlerService
     ) {}
 
-    private _nutrients = signal<any[] | null>(null);
+    private _nutrients = signal<Nutrient[]>([]);
     private _paginator = signal<Paginator | null>(null);
 
     // expose readonly signals
@@ -20,7 +30,7 @@ export class NutrientsStore {
     readonly paginator = this._paginator.asReadonly();
 
     // setters
-    setNutrients(index: any | null = null): void {
+    setNutrients(index: Nutrient[] = []): void {
         this._nutrients.set(index);
     }
 
@@ -28,34 +38,32 @@ export class NutrientsStore {
         this._paginator.set(paginator);
     }
 
-    index (page: number | null = null, url: string = 'http://localhost:9015/api/nutrients'): Observable<any> {
+    index (page: number | null = null, url: string = 'http://localhost:9015/api/nutrients'): Observable<void> {
         let finalUrl: string = url;
         if (page) {
             finalUrl+= "?page=" + page;
         }
 
-        return this.http.get<any>(finalUrl, { observe: 'response' as const}).pipe(
+        return this.http.get<NutrientIndexApiResource>(finalUrl, { observe: 'response' as const}).pipe(
             tap(response => {
                 this.apiHandlerService.showSuccess('Nutrients index loaded.');
             }),
             map((response) => {
-                console.log(response.body);
-                this.setNutrients(response.body.data);
-                this.setPaginator({
-                    currentPage: response.body.current_page,
-                    firstPageUrl: response.body.first_page_url,
-                    from: response.body.from,
-                    lastPage: response.body.last_page,
-                    lastPageUrl: response.body.last_page_url,
-                    links: response.body.links,
-                    nextPageUrl: response.body.next_page_url,
-                    path: response.body.path,
-                    perPage: response.body.per_page,
-                    prevPageUrl: response.body.prev_page_url,
-                    to: response.body.to,
-                    total: response.body.total
-                } as Paginator);
-                return response.body.data;
+                const body = response.body;
+
+                if (!body) {
+                    // handle the case when body is null
+                    this.setNutrients([]);
+                    this.setPaginator(null);
+                    return;
+                }
+
+                const { data, ...paginator } = body;
+
+                const nutrients: Nutrient[] = data.map(d => new NutrientsMapper().toApp(d));
+                this.setNutrients(nutrients);
+
+                this.setPaginator(new PaginatorMapper().toApp(paginator as PaginatorApiResource));
             }),
             catchError((error: HttpErrorResponse) => {
                 this.apiHandlerService.showError(error);
