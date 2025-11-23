@@ -8,6 +8,7 @@ import { AuthLayout } from './modules/auth-layout/auth-layout';
 import { GuestGuard } from './core/guards/guest-guard';
 import { Welcome } from './modules/welcome/welcome';
 import { NutrientsIndexPage } from './modules/nutrients/pages/index';
+import { NutrientsIndexResolver } from './modules/nutrients/resolvers/NutrientsIndexResolver';
 
 const routes: Routes = [
   {
@@ -32,6 +33,9 @@ const routes: Routes = [
         component: NutrientsIndexPage,
         canActivate: [AuthGuard],
         pathMatch: 'full',
+        resolve: {
+          data: NutrientsIndexResolver
+        }
       },
     ]
   },

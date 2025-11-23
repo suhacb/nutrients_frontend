@@ -26,6 +26,7 @@ import { MainMenu } from './modules/auth-layout/main-menu/main-menu';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { NutrientsIndexPage } from './modules/nutrients/pages/index/index';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 /** Material 3 components and modules */
 
@@ -57,7 +58,8 @@ import { NutrientsIndexPage } from './modules/nutrients/pages/index/index';
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatListModule,
-    MatDividerModule
+    MatDividerModule,
+    MatPaginatorModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
