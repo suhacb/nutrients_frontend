@@ -27,6 +27,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { NutrientsIndexPage } from './modules/nutrients/pages/index/index';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { NutrientShowPage } from './modules/nutrients/pages/show/show';
 
 /** Material 3 components and modules */
 
@@ -44,6 +45,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     SnackBarComponent,
     MainMenu,
     NutrientsIndexPage,
+    NutrientShowPage,
   ],
   imports: [
     BrowserModule,

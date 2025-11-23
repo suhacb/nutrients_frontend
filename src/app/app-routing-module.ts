@@ -9,6 +9,8 @@ import { GuestGuard } from './core/guards/guest-guard';
 import { Welcome } from './modules/welcome/welcome';
 import { NutrientsIndexPage } from './modules/nutrients/pages/index';
 import { NutrientsIndexResolver } from './modules/nutrients/resolvers/NutrientsIndexResolver';
+import { NutrientShowPage } from './modules/nutrients/pages/show/show';
+import { NutrientsShowResolver } from './modules/nutrients/resolvers/NutrientsShowResolver';
 
 const routes: Routes = [
   {
@@ -30,12 +32,24 @@ const routes: Routes = [
       },
       {
         path: 'nutrients',
-        component: NutrientsIndexPage,
         canActivate: [AuthGuard],
-        pathMatch: 'full',
-        resolve: {
-          data: NutrientsIndexResolver
-        }
+        children: [
+          {
+            path: '',
+            component: NutrientsIndexPage,
+            resolve: {
+              data: NutrientsIndexResolver
+            }
+          },
+          {
+            path: ':id',
+            component: NutrientShowPage,
+            resolve: {
+              data: NutrientsShowResolver
+            }
+          }
+
+        ]
       },
     ]
   },

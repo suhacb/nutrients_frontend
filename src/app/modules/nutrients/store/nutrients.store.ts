@@ -23,15 +23,21 @@ export class NutrientsStore {
     ) {}
 
     private _nutrients = signal<Nutrient[]>([]);
+    private _nutrient = signal<Nutrient | null>(null);
     private _paginator = signal<Paginator | null>(null);
 
     // expose readonly signals
     readonly nutrients = this._nutrients.asReadonly();
+    readonly nutrient = this._nutrient.asReadonly();
     readonly paginator = this._paginator.asReadonly();
 
     // setters
     setNutrients(index: Nutrient[] = []): void {
         this._nutrients.set(index);
+    }
+
+    setNutrient(show: Nutrient | null): void {
+        this._nutrient.set(show);
     }
 
     setPaginator(paginator: Paginator | null = null): void {
@@ -45,14 +51,13 @@ export class NutrientsStore {
         }
 
         return this.http.get<NutrientIndexApiResource>(finalUrl, { observe: 'response' as const}).pipe(
-            tap(response => {
+            tap(() => {
                 this.apiHandlerService.showSuccess('Nutrients index loaded.');
             }),
             map((response) => {
                 const body = response.body;
 
                 if (!body) {
-                    // handle the case when body is null
                     this.setNutrients([]);
                     this.setPaginator(null);
                     return;
@@ -69,6 +74,23 @@ export class NutrientsStore {
                 this.apiHandlerService.showError(error);
                 if (error.status === 401 || error.status === 422) return throwError(() => error);
                 return EMPTY;
+            })
+        );
+    }
+
+    show(id: number): Observable<void> {
+        const url: string = 'http://localhost:9015/api/nutrients/' + id;
+        return this.http.get<NutrientApiResource>(url, { observe: 'response' as const}).pipe(
+            tap(() => {
+                this.apiHandlerService.showSuccess('Nutrient loaded successfully.');
+            }),
+            map((response) => {
+                const body = response.body;
+                if (!body) {
+                    this.setNutrient(null);
+                    return;
+                }
+                this.setNutrient(new NutrientsMapper().toApp(body));
             })
         );
     }

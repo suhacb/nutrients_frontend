@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NutrientsStore } from '../../store/nutrients.store';
 import { PageEvent } from '@angular/material/paginator';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-index',
@@ -9,7 +10,7 @@ import { PageEvent } from '@angular/material/paginator';
   styleUrl: './index.scss'
 })
 export class NutrientsIndexPage {
-  constructor(public store: NutrientsStore) {}
+  constructor(public store: NutrientsStore, private router: Router) {}
 
   onPageEvent(event: PageEvent): void
   {
@@ -18,6 +19,10 @@ export class NutrientsIndexPage {
     } else {
       this.store.index(event.pageIndex + 1).subscribe();
     }
+  }
+
+  onShowClick(id: number): void {
+    this.router.navigate(['nutrients/' + id]);
   }
 
 }
