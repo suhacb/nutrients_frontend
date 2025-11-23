@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NutrientsStore } from '../../store/nutrients.store';
 import { PageEvent } from '@angular/material/paginator';
-import { Nutrient } from '../../contracts/Nutrient';
 
 @Component({
   selector: 'app-index',
