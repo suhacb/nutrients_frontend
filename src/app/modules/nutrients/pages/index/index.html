@@ -6,7 +6,7 @@
 }
 <div>
 <mat-list>
-  @for (nutrient of store.nutrients(); track nutrient) {
+  @for (nutrient of store.nutrients(); track nutrient.id) {
     <mat-list-item>
         <mat-icon matListItemIcon>eco</mat-icon>
         <div matListItemTitle>{{nutrient.name}}</div>

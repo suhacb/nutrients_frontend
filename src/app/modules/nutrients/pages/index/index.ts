@@ -21,7 +21,4 @@ export class NutrientsIndexPage {
     }
   }
 
-  trackById(index: number, item: Nutrient): number {
-    return item.id;
-  }
 }
