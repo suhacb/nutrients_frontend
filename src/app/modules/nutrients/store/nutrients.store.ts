@@ -42,16 +42,16 @@ export class NutrientsStore {
                 console.log(response.body);
                 this.setNutrients(response.body.data);
                 this.setPaginator({
-                    current_page: response.body.current_page,
-                    first_page_url: response.body.first_page_url,
+                    currentPage: response.body.current_page,
+                    firstPageUrl: response.body.first_page_url,
                     from: response.body.from,
-                    last_page: response.body.last_page,
-                    last_page_url: response.body.last_page_url,
+                    lastPage: response.body.last_page,
+                    lastPageUrl: response.body.last_page_url,
                     links: response.body.links,
-                    next_page_url: response.body.next_page_url,
+                    nextPageUrl: response.body.next_page_url,
                     path: response.body.path,
-                    per_page: response.body.per_page,
-                    prev_page_url: response.body.prev_page_url,
+                    perPage: response.body.per_page,
+                    prevPageUrl: response.body.prev_page_url,
                     to: response.body.to,
                     total: response.body.total
                 } as Paginator);

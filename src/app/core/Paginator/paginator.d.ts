@@ -1,19 +1,19 @@
 export type Paginator = {
-    current_page: number,
-    first_page_url: string,
+    currentPage: number,
+    firstPageUrl: string,
     from: number,
-    last_page: number,
-    last_page_url: string,
+    lastPage: number,
+    lastPageUrl: string,
     links: {
         url: string | null,
         label: string,
         page: number | null,
         active: boolean
     }[],
-    next_page_url: string,
+    nextPageUrl: string,
     path: string,
-    per_page: number,
-    prev_page_url: string,
+    perPage: number,
+    prevPageUrl: string,
     to: number,
     total: number
 }
