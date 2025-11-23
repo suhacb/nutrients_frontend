@@ -5,7 +5,15 @@
     </div>
 }
 <div>
-    {{ store.nutrients() | json }}
+<mat-list>
+  @for (nutrient of store.nutrients(); track nutrient) {
+    <mat-list-item>
+        <mat-icon matListItemIcon>eco</mat-icon>
+        <div matListItemTitle>{{nutrient.name}}</div>
+        <div matListItemLine>Source: {{nutrient.source}}</div>
+    </mat-list-item>
+  }
+</mat-list>
 </div>
 @if(store.paginator()) {
     <div>
