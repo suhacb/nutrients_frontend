@@ -5,11 +5,16 @@
       <div matListItemTitle>Home</div>
     </a>
     
+    <a mat-list-item (click)="onItemClick()" routerLink="/nutrients" routerLinkActive="active">
+      <mat-icon matListItemIcon>eco</mat-icon>
+      <div matListItemTitle>Nutrients</div>
+    </a>
+
     <a mat-list-item (click)="onItemClick()" routerLink="/test" routerLinkActive="active">
       <mat-icon matListItemIcon>science</mat-icon>
       <div matListItemTitle>Test</div>
     </a>
-    
+
     <mat-divider></mat-divider>
     <a mat-list-item (click)="triggerLogout()" (click)="onItemClick()">
       <mat-icon matListItemIcon>logout</mat-icon>

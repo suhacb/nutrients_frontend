@@ -25,6 +25,7 @@ import { Spinner } from './core/Spinner/spinner';
 import { MainMenu } from './modules/auth-layout/main-menu/main-menu';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
+import { NutrientsIndexPage } from './modules/nutrients/pages/index/index';
 
 /** Material 3 components and modules */
 
@@ -41,6 +42,7 @@ import { MatDividerModule } from '@angular/material/divider';
     ConfirmCancelDialog,
     SnackBarComponent,
     MainMenu,
+    NutrientsIndexPage,
   ],
   imports: [
     BrowserModule,

@@ -7,6 +7,7 @@ import { AuthGuard } from './core/guards/auth-guard';
 import { AuthLayout } from './modules/auth-layout/auth-layout';
 import { GuestGuard } from './core/guards/guest-guard';
 import { Welcome } from './modules/welcome/welcome';
+import { NutrientsIndexPage } from './modules/nutrients/pages/index';
 
 const routes: Routes = [
   {
@@ -23,6 +24,12 @@ const routes: Routes = [
       {
         path: 'test',
         component: Test,
+        canActivate: [AuthGuard],
+        pathMatch: 'full',
+      },
+      {
+        path: 'nutrients',
+        component: NutrientsIndexPage,
         canActivate: [AuthGuard],
         pathMatch: 'full',
       },
