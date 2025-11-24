@@ -1,3 +1,5 @@
+<app-breadcrumb-component [links]="store.breadcrumb()"></app-breadcrumb-component>
+
 @if(store.paginator()) {
     <div>
         <!-- <mat-paginator [length]="store.paginator()?.total" [pageSize]="store.paginator()?.per_page" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page"></mat-paginator> -->

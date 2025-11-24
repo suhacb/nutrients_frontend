@@ -28,6 +28,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { NutrientsIndexPage } from './modules/nutrients/pages/index/index';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NutrientShowPage } from './modules/nutrients/pages/show/show';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { BreadcrumbComponent } from './core/Breadcrumb/breadcrumb';
 
 /** Material 3 components and modules */
 
@@ -46,6 +49,7 @@ import { NutrientShowPage } from './modules/nutrients/pages/show/show';
     MainMenu,
     NutrientsIndexPage,
     NutrientShowPage,
+    BreadcrumbComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,7 +65,9 @@ import { NutrientShowPage } from './modules/nutrients/pages/show/show';
     MatSnackBarModule,
     MatListModule,
     MatDividerModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatCardModule,
+    MatChipsModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),

@@ -8,11 +8,11 @@ import { NutrientsMapper } from '../mappers/NutrientsMapper';
 import { PaginatorMapper } from '../../../core/Paginator/PaginatorMapper';
 import { Paginator } from '../../../core/Paginator/Paginator';
 import { PaginatorApiResource } from '../../../core/Paginator/PaginatorApiResource';
+import { Breadcrumb } from '../../../core/Breadcrumb/breadcrumb.d';
 
 type NutrientIndexApiResource = {
     data: NutrientApiResource[]
 } & PaginatorApiResource
-
 
 @Injectable({ providedIn: 'root' })
 
@@ -25,11 +25,13 @@ export class NutrientsStore {
     private _nutrients = signal<Nutrient[]>([]);
     private _nutrient = signal<Nutrient | null>(null);
     private _paginator = signal<Paginator | null>(null);
+    private _breadcrumb = signal<Breadcrumb[]>([]);
 
     // expose readonly signals
     readonly nutrients = this._nutrients.asReadonly();
     readonly nutrient = this._nutrient.asReadonly();
     readonly paginator = this._paginator.asReadonly();
+    readonly breadcrumb = this._breadcrumb.asReadonly();
 
     // setters
     setNutrients(index: Nutrient[] = []): void {
@@ -42,6 +44,10 @@ export class NutrientsStore {
 
     setPaginator(paginator: Paginator | null = null): void {
         this._paginator.set(paginator);
+    }
+
+    setBreadcrumb(links: Breadcrumb[]): void {
+        this._breadcrumb.set(links);
     }
 
     index (page: number | null = null, url: string = 'http://localhost:9015/api/nutrients'): Observable<void> {
@@ -69,6 +75,16 @@ export class NutrientsStore {
                 this.setNutrients(nutrients);
 
                 this.setPaginator(new PaginatorMapper().toApp(paginator as PaginatorApiResource));
+
+                this.setBreadcrumb([
+                    {
+                        icon: 'home',
+                        link: '/'
+                    },
+                    {
+                        title: 'Nutrients',
+                    }
+                ] as Breadcrumb[]);
             }),
             catchError((error: HttpErrorResponse) => {
                 this.apiHandlerService.showError(error);
@@ -90,7 +106,13 @@ export class NutrientsStore {
                     this.setNutrient(null);
                     return;
                 }
-                this.setNutrient(new NutrientsMapper().toApp(body));
+                const nutrient = new NutrientsMapper().toApp(body);
+                this.setNutrient(nutrient);
+                this.setBreadcrumb([
+                    { icon: 'home', link: '/' },
+                    { title: 'Nutrients', link: '/nutrients' },
+                    { title: nutrient.name }
+                ] as Breadcrumb[]);
             })
         );
     }

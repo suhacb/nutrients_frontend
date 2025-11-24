@@ -1,0 +1,30 @@
+.breadcrumb {
+  display: flex;
+  align-items: center;   /* vertically centers flex items */
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.6);
+  gap: 4px;              /* adds spacing between items instead of margin */
+  margin-bottom: 16px;
+}
+
+.breadcrumb mat-icon {
+  font-size: 18px;
+  line-height: 1;        /* ensures icon is vertically aligned */
+  vertical-align: middle;
+  display: inline-flex;  /* ensures proper alignment inside flex row */
+}
+
+.breadcrumb a {
+  text-decoration: none;
+  color: inherit;
+  display: inline-flex;  /* ensures icon + text inside <a> are centered */
+  align-items: center;
+  gap: 2px;              /* space between icon and text inside <a> */
+}
+
+.breadcrumb span {
+  color: rgba(0, 0, 0, 0.87);
+  font-weight: 500;
+  display: inline-flex;  /* ensures chevrons and text line up */
+  align-items: center;
+}

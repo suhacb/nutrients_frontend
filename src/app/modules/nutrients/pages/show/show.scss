@@ -1,0 +1,7 @@
+.chip-row {
+  display: flex;
+  flex-wrap: nowrap;       /* keep them in one line */
+  overflow-x: auto;        /* scroll horizontally if too many */
+  gap: 8px;                /* spacing between chips (like px-2) */
+  padding-bottom: 4px;     /* optional – gives breathing space for scroll bar */
+}
