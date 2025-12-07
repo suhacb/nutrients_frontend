@@ -1,31 +1,50 @@
 <app-breadcrumb-component [links]="store.breadcrumb()"></app-breadcrumb-component>
-
 <div class="row">
   <div class="col-8">
-    <mat-card appearance="outlined">
-      <mat-card-header>
-        <div mat-card-avatar><mat-icon>opacity</mat-icon></div>
-        <mat-card-title color="primary">{{ store.ingredient()?.name }}</mat-card-title>
-        <mat-card-subtitle>...</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="chip-row" *ngIf="store.ingredient()?.categories?.length">
-            @for(category of store.ingredient()?.categories ?? []; track category.id) {
-              <mat-chip>{{category.name}}</mat-chip>
-            }
-        </div>
-        <div><h2>Description</h2></div>
-        <div>
-            <h3>Some description...</h3>
-        </div>
-        <div>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Id veniam dolores velit recusandae quisquam placeat ab et reiciendis consectetur quas beatae vel eum adipisci, quia sapiente aliquam, neque quis laboriosam!</p>
-        </div>
-      </mat-card-content>
-      <mat-card-actions>
-    
-      </mat-card-actions>
-    </mat-card>
+    <div class="row">
+      <div class="col-12">
+        <mat-card appearance="outlined">
+          <mat-card-header>
+            <div mat-card-avatar><mat-icon>opacity</mat-icon></div>
+            <mat-card-title color="primary">{{ store.ingredient()?.name }}</mat-card-title>
+            <mat-card-subtitle>...</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="chip-row" *ngIf="store.ingredient()?.categories?.length">
+                @for(category of store.ingredient()?.categories ?? []; track category.id) {
+                  <mat-chip>{{category.name}}</mat-chip>
+                }
+            </div>
+            <div><h2>Description</h2></div>
+            <div>
+                <h3>Some description...</h3>
+            </div>
+            <div>
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Id veniam dolores velit recusandae quisquam placeat ab et reiciendis consectetur quas beatae vel eum adipisci, quia sapiente aliquam, neque quis laboriosam!</p>
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+        
+          </mat-card-actions>
+        </mat-card>
+      </div>
+      <div class="col-12">
+        <mat-card appearance="outlined">
+          <mat-card-header color="primary">
+            <mat-card-title color="primary">Nutrients in {{ store.ingredient()?.name }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-list role="list">
+              @for(nutrient of store.ingredient()?.nutrients || []; track nutrient.id) {
+                <mat-list-item role="listItem">
+                  {{ nutrient.name }}
+                </mat-list-item>
+              }
+            </mat-list>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
   </div>
   <div class="col-4">
     <mat-card appearance="outlined">
@@ -50,5 +69,4 @@
       </mat-card-content>
     </mat-card>
   </div>
-
 </div>
