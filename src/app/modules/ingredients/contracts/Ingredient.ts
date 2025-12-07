@@ -1,4 +1,5 @@
 import { Nutrient } from "../../nutrients/contracts/Nutrient";
+import { IngredientCategory } from "./IngredientCategory";
 import { NutritionFact } from "./NutritionFact";
 import { Unit } from "./Unit";
 
@@ -14,6 +15,7 @@ export type Ingredient = {
     defaultAmountUnitId: number,
     nutrients: Nutrient[],
     nutritionFacts: NutritionFact[],
+    categories: IngredientCategory[],
     createdAt: Date;
     updatedAt: Date | null;
     deletedAt: Date | null;
