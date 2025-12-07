@@ -19,7 +19,7 @@ import { ConfirmCancelDialog } from './core/ConfirmCancelDialog/confirm-cancel-d
 import { MatDialogModule } from '@angular/material/dialog';
 import { SnackBarComponent } from './core/SnackBarComponent/snack-bar-component';
 import { SpinnerInterceptor } from './core/Spinner/spinner.interceptor';
-import { MatProgressSpinner, MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Spinner } from './core/Spinner/spinner';
 import { MainMenu } from './modules/auth-layout/main-menu/main-menu';
@@ -31,6 +31,9 @@ import { NutrientShowPage } from './modules/nutrients/pages/show/show';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { BreadcrumbComponent } from './core/Breadcrumb/breadcrumb';
+import { IngredientsIndexPage } from './modules/ingredients/pages/index/index';
+import { IngredientShowPage } from './modules/ingredients/pages/show/show';
+import { MatTableModule } from '@angular/material/table';
 
 /** Material 3 components and modules */
 
@@ -50,6 +53,8 @@ import { BreadcrumbComponent } from './core/Breadcrumb/breadcrumb';
     NutrientsIndexPage,
     NutrientShowPage,
     BreadcrumbComponent,
+    IngredientsIndexPage,
+    IngredientShowPage,
   ],
   imports: [
     BrowserModule,
@@ -67,7 +72,8 @@ import { BreadcrumbComponent } from './core/Breadcrumb/breadcrumb';
     MatDividerModule,
     MatPaginatorModule,
     MatCardModule,
-    MatChipsModule
+    MatChipsModule,
+    MatTableModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),

@@ -1,5 +1,5 @@
 import { ResourceMapper } from "../ResourceMapper/ResourceMapper"
-import { Paginator } from "./Paginator"
+import { Paginator } from "./paginator.d"
 import { PaginatorApiResource } from "./PaginatorApiResource"
 
 export class PaginatorMapper extends ResourceMapper<Paginator, PaginatorApiResource, PaginatorApiResource> {

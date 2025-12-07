@@ -6,7 +6,7 @@ import { Nutrient } from '../contracts/Nutrient';
 import { NutrientApiResource } from '../contracts/NutrientApiResource';
 import { NutrientsMapper } from '../mappers/NutrientsMapper';
 import { PaginatorMapper } from '../../../core/Paginator/PaginatorMapper';
-import { Paginator } from '../../../core/Paginator/Paginator';
+import { Paginator } from '../../../core/Paginator/paginator.d';
 import { PaginatorApiResource } from '../../../core/Paginator/PaginatorApiResource';
 import { Breadcrumb } from '../../../core/Breadcrumb/breadcrumb.d';
 import { ApiFetcherService } from '../../../core/http/ApiFetcherService';
@@ -52,10 +52,10 @@ export class NutrientsStore {
     }
 
     index (page: number | null = null, url: string = 'http://localhost:9015/api/nutrients'): Observable<void> {
-        const finalUrl = page ? `http://localhost:9015/api/nutrients?page=${page}` : 'http://localhost:9015/api/nutrients';
+        const finalUrl = page ? `${url}?page=${page}` : url;
 
         return this.fetcher.fetchAndProcess<NutrientIndexApiResource>(
-            url,
+            finalUrl,
             'Nutrients index loaded.',
             body => {
                 if (!body) {
@@ -82,23 +82,23 @@ export class NutrientsStore {
         const url = `http://localhost:9015/api/nutrients/${id}`;
 
         return this.fetcher.fetchAndProcess<NutrientApiResource>(
-        url,
-        'Nutrient loaded successfully.',
-        body => {
-            if (!body) {
-                this.setNutrient(null);
-                return;
+            url,
+            'Nutrient loaded successfully.',
+            body => {
+                if (!body) {
+                    this.setNutrient(null);
+                    return;
+                }
+
+                const nutrient = new NutrientsMapper().toApp(body);
+                this.setNutrient(nutrient);
+
+                this.setBreadcrumb([
+                    { icon: 'home', link: '/' },
+                    { title: 'Nutrients', link: '/nutrients' },
+                    { title: nutrient.name }
+                ]);
             }
-
-            const nutrient = new NutrientsMapper().toApp(body);
-            this.setNutrient(nutrient);
-
-            this.setBreadcrumb([
-                { icon: 'home', link: '/' },
-                { title: 'Nutrients', link: '/nutrients' },
-                { title: nutrient.name }
-            ]);
-        }
         );
     }
 }

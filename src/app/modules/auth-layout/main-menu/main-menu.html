@@ -10,6 +10,11 @@
       <div matListItemTitle>Nutrients</div>
     </a>
 
+    <a mat-list-item (click)="onItemClick()" routerLink="/ingredients" routerLinkActive="active">
+      <mat-icon matListItemIcon>opacity</mat-icon>
+      <div matListItemTitle>Ingredients</div>
+    </a>
+
     <a mat-list-item (click)="onItemClick()" routerLink="/test" routerLinkActive="active">
       <mat-icon matListItemIcon>science</mat-icon>
       <div matListItemTitle>Test</div>
