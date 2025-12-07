@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
 
 @Component({
-  selector: 'app-index',
+  selector: 'app-ingredients-index-page',
   standalone: false,
   templateUrl: './index.html',
   styleUrl: './index.scss'

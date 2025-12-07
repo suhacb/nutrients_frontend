@@ -4,7 +4,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-index',
+  selector: 'app-nutrients-index-page',
   standalone: false,
   templateUrl: './index.html',
   styleUrl: './index.scss'
