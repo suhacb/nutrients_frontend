@@ -1,3 +1,10 @@
+
+@if(store.paginator()) {
+    <div>
+        <mat-paginator [length]="store.paginator()?.total" [pageSize]="store.paginator()?.perPage" (page)="onPageEvent($event)"></mat-paginator>
+    </div>
+}
+
 <div>
     @for(ingredient of store.ingredients(); track $index) {
         <div>
@@ -5,3 +12,9 @@
         </div>
     }
 </div>
+
+@if(store.paginator()) {
+    <div>
+        <mat-paginator [length]="store.paginator()?.total" [pageSize]="store.paginator()?.perPage" (page)="onPageEvent($event)"></mat-paginator>
+    </div>
+}

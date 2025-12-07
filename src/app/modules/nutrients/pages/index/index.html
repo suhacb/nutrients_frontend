@@ -2,7 +2,6 @@
 
 @if(store.paginator()) {
     <div>
-        <!-- <mat-paginator [length]="store.paginator()?.total" [pageSize]="store.paginator()?.per_page" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page"></mat-paginator> -->
         <mat-paginator [length]="store.paginator()?.total" [pageSize]="store.paginator()?.perPage" (page)="onPageEvent($event)"></mat-paginator>
     </div>
 }
