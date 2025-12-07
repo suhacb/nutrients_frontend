@@ -52,7 +52,7 @@ export class NutrientsStore {
     }
 
     index (page: number | null = null, url: string = 'http://localhost:9015/api/nutrients'): Observable<void> {
-        const finalUrl = page ? `http://localhost:9015/api/nutrients?page=${page}` : 'http://localhost:9015/api/nutrients';
+        const finalUrl = page ? `${url}?page=${page}` : url;
 
         return this.fetcher.fetchAndProcess<NutrientIndexApiResource>(
             url,

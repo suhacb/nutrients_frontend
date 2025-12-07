@@ -12,6 +12,7 @@ import { NutrientsIndexResolver } from './modules/nutrients/resolvers/NutrientsI
 import { NutrientShowPage } from './modules/nutrients/pages/show/show';
 import { NutrientsShowResolver } from './modules/nutrients/resolvers/NutrientsShowResolver';
 import { IngredientsIndexPage } from './modules/ingredients/pages/index';
+import { IngredientsIndexResolver } from './modules/ingredients/resolvers/IngredientsIndexResolver';
 
 const routes: Routes = [
   {
@@ -59,7 +60,7 @@ const routes: Routes = [
             path: '',
             component: IngredientsIndexPage,
             resolve: {
-              // data: NutrientsIndexResolver
+              data: IngredientsIndexResolver
             }
           },
           // {
