@@ -55,7 +55,7 @@ export class NutrientsStore {
         const finalUrl = page ? `${url}?page=${page}` : url;
 
         return this.fetcher.fetchAndProcess<NutrientIndexApiResource>(
-            url,
+            finalUrl,
             'Nutrients index loaded.',
             body => {
                 if (!body) {

@@ -1,1 +1,7 @@
-<div>index works</div>
+<div>
+    @for(ingredient of store.ingredients(); track $index) {
+        <div>
+            {{ ingredient | json }}
+        </div>
+    }
+</div>
