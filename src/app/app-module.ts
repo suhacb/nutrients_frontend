@@ -33,6 +33,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { BreadcrumbComponent } from './core/Breadcrumb/breadcrumb';
 import { IngredientsIndexPage } from './modules/ingredients/pages/index/index';
 import { IngredientShowPage } from './modules/ingredients/pages/show/show';
+import { MatTableModule } from '@angular/material/table';
 
 /** Material 3 components and modules */
 
@@ -71,7 +72,8 @@ import { IngredientShowPage } from './modules/ingredients/pages/show/show';
     MatDividerModule,
     MatPaginatorModule,
     MatCardModule,
-    MatChipsModule
+    MatChipsModule,
+    MatTableModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),

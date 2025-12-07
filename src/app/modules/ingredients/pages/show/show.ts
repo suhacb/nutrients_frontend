@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { IngredientsStore } from '../../store/ingredients.store';
+import { MatTableDataSource } from '@angular/material/table';
+import { NutritionFact } from '../../contracts/NutritionFact';
 
 @Component({
   selector: 'app-ingredient-show-page',
@@ -8,5 +10,15 @@ import { IngredientsStore } from '../../store/ingredients.store';
   styleUrl: './show.scss'
 })
 export class IngredientShowPage {
-  constructor(public store: IngredientsStore) {}
+  public displayedColumns: string[];
+  public dataSource = new MatTableDataSource<NutritionFact>([]);
+
+  constructor(public store: IngredientsStore) {
+    this.displayedColumns = ['name', 'amount'];
+    effect(() => {
+      const facts = this.store.ingredient()?.nutritionFacts ?? [];
+      this.dataSource.data = facts;
+    });
+  }
+
 }
