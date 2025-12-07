@@ -7,11 +7,26 @@
 }
 
 <div>
-    @for(ingredient of store.ingredients(); track $index) {
-        <div>
-            {{ ingredient | json }}
-        </div>
+    <mat-list>
+    @for (ingredient of store.ingredients(); track ingredient.id) {
+        <mat-list-item>
+            <div class="record-container">
+                <div class="left-section">               
+                    <div matListItemTitle>{{ingredient.name}}</div>
+                    <div matListItemLine>Source: {{ingredient.source}}</div>
+                </div>
+                <div class="center-section">
+
+                </div>
+                <div class="right-section">
+                    <button mat-icon-button (click)="onShowClick(ingredient.id); $event.stopPropagation()"  aria-label="Show">
+                        <mat-icon>visibility</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </mat-list-item>
     }
+    </mat-list>
 </div>
 
 @if(store.paginator()) {
