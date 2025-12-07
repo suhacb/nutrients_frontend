@@ -7,10 +7,13 @@ export class IngredientsMapper extends ResourceMapper<Ingredient, IngredientApiR
     public toApp (api: IngredientApiResource): Ingredient {
         return {
             id: api.id,
-            source: api.source,
             externalId: api.external_id,
+            source: api.source,
+            class: api.class,
             name: api.name,
             description: api.description,
+            defaultAmount: api.default_amount,
+            defaultAmountUnitId: api.default_amount_unit_id,
             createdAt: new Date(api.created_at),
             updatedAt: new Date(api.updated_at),
             deletedAt: api.deleted_at ? new Date(api.deleted_at) : null
@@ -19,10 +22,13 @@ export class IngredientsMapper extends ResourceMapper<Ingredient, IngredientApiR
 
     public toApi (app: Ingredient): IngredientApiPaylod {
         return {
-            source: app.source,
             external_id: app.externalId,
+            source: app.source,
+            class: app.class,
             name: app.name,
-            description: app.description
+            description: app.description,
+            default_amount: app.defaultAmount,
+            default_amount_unit_id: app.defaultAmountUnitId
         }
     }
 
@@ -31,8 +37,11 @@ export class IngredientsMapper extends ResourceMapper<Ingredient, IngredientApiR
             id: 0,
             externalId: null,
             source: '',
+            class: '',
             name: '',
             description: null,
+            defaultAmount: 100,
+            defaultAmountUnitId: 0,
             createdAt: new Date(),
             updatedAt: new Date(),
             deletedAt: null
