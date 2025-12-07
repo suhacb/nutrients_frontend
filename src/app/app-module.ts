@@ -31,6 +31,7 @@ import { NutrientShowPage } from './modules/nutrients/pages/show/show';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { BreadcrumbComponent } from './core/Breadcrumb/breadcrumb';
+import { IngredientsIndexPage } from './modules/ingredients/pages/index/index';
 
 /** Material 3 components and modules */
 
@@ -50,6 +51,7 @@ import { BreadcrumbComponent } from './core/Breadcrumb/breadcrumb';
     NutrientsIndexPage,
     NutrientShowPage,
     BreadcrumbComponent,
+    IngredientsIndexPage,
   ],
   imports: [
     BrowserModule,

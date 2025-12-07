@@ -11,6 +11,7 @@ import { NutrientsIndexPage } from './modules/nutrients/pages/index';
 import { NutrientsIndexResolver } from './modules/nutrients/resolvers/NutrientsIndexResolver';
 import { NutrientShowPage } from './modules/nutrients/pages/show/show';
 import { NutrientsShowResolver } from './modules/nutrients/resolvers/NutrientsShowResolver';
+import { IngredientsIndexPage } from './modules/ingredients/pages/index';
 
 const routes: Routes = [
   {
@@ -48,7 +49,26 @@ const routes: Routes = [
               data: NutrientsShowResolver
             }
           }
-
+        ]
+      },
+      {
+        path: 'ingredients',
+        canActivate: [AuthGuard],
+        children: [
+          {
+            path: '',
+            component: IngredientsIndexPage,
+            resolve: {
+              // data: NutrientsIndexResolver
+            }
+          },
+          // {
+          //   path: ':id',
+          //   component: NutrientShowPage,
+          //   resolve: {
+          //     data: NutrientsShowResolver
+          //   }
+          // }
         ]
       },
     ]
