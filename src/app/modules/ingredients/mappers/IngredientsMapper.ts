@@ -17,11 +17,19 @@ export class IngredientsMapper extends ResourceMapper<Ingredient, IngredientApiR
             name: api.name,
             description: api.description,
             defaultAmount: api.default_amount,
-            defaultAmountUnit: new UnitsMapper().toApp(api.default_amount_unit),
+            ...(api.default_amount_unit !== undefined && {
+                defaultAmountUnit: new UnitsMapper().toApp(api.default_amount_unit),
+            }),
             defaultAmountUnitId: api.default_amount_unit_id,
-            nutrients: api.nutrients.map(nutrient => new NutrientsMapper().toApp(nutrient)),
-            nutritionFacts: api.nutrition_facts.map(nutrition_fact => new NutritionFactMapper().toApp(nutrition_fact)),
-            categories: api.categories.map(category => new IngredientCategoryMapper().toApp(category)),
+            ...(api.nutrients !== undefined && {
+                nutrients: api.nutrients.map(nutrient => new NutrientsMapper().toApp(nutrient))
+            }),
+            ...(api.nutrition_facts !== undefined && {
+                nutritionFacts: api.nutrition_facts.map(nutrition_fact => new NutritionFactMapper().toApp(nutrition_fact))
+            }),
+            ...(api.categories !== undefined && {
+                categories: api.categories.map(category => new IngredientCategoryMapper().toApp(category)),
+            }),
             createdAt: new Date(api.created_at),
             updatedAt: new Date(api.updated_at),
             deletedAt: api.deleted_at ? new Date(api.deleted_at) : null

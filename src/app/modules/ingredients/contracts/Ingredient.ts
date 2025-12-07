@@ -11,11 +11,11 @@ export type Ingredient = {
     name: string,
     description: string | null,
     defaultAmount: number,
-    defaultAmountUnit: Unit,
     defaultAmountUnitId: number,
-    nutrients: Nutrient[],
-    nutritionFacts: NutritionFact[],
-    categories: IngredientCategory[],
+    defaultAmountUnit?: Unit,
+    nutrients?: Nutrient[],
+    nutritionFacts?: NutritionFact[],
+    categories?: IngredientCategory[],
     createdAt: Date;
     updatedAt: Date | null;
     deletedAt: Date | null;
