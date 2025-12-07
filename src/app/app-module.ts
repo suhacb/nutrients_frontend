@@ -25,6 +25,12 @@ import { Spinner } from './core/Spinner/spinner';
 import { MainMenu } from './modules/auth-layout/main-menu/main-menu';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
+import { NutrientsIndexPage } from './modules/nutrients/pages/index/index';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { NutrientShowPage } from './modules/nutrients/pages/show/show';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { BreadcrumbComponent } from './core/Breadcrumb/breadcrumb';
 
 /** Material 3 components and modules */
 
@@ -41,6 +47,9 @@ import { MatDividerModule } from '@angular/material/divider';
     ConfirmCancelDialog,
     SnackBarComponent,
     MainMenu,
+    NutrientsIndexPage,
+    NutrientShowPage,
+    BreadcrumbComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,7 +64,10 @@ import { MatDividerModule } from '@angular/material/divider';
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatListModule,
-    MatDividerModule
+    MatDividerModule,
+    MatPaginatorModule,
+    MatCardModule,
+    MatChipsModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),

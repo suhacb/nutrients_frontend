@@ -1,0 +1,44 @@
+<app-breadcrumb-component [links]="store.breadcrumb()"></app-breadcrumb-component>
+
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <div mat-card-avatar><mat-icon>eco</mat-icon></div>
+    <mat-card-title color="primary">{{ store.nutrient()?.name }}</mat-card-title>
+    <mat-card-subtitle>Vitamin D₄ (22-dihydroergocalciferol)</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="chip-row">
+        <mat-chip>Micronutrient</mat-chip>
+        <mat-chip>Vitamin</mat-chip>
+    </div>
+    <div><h2>Description</h2></div>
+    <div>
+        <h3>Purpose / Role in the Human Body</h3>
+    </div>
+    <div>
+        <p>Vitamin D₄ is a less-common form of the vitamin D family. It is also named 22‑dihydroergocalciferol.</p>
+        <p>The more familiar forms — Vitamin D₃ (cholecalciferol) and Vitamin D₂ (ergocalciferol) — are well-studied: they help the body absorb calcium and phosphate, support bone mineralisation and general musculoskeletal and immune health.</p>
+        <p>For vitamin D₄: It is documented as a “vitamin D” compound present in some fungi/mushrooms, but its specific physiological role in humans is not well defined. The body of research on D₄ is much smaller compared to D₂ or D₃.</p>
+        <p>Because it is structurally similar to other calciferols, it could contribute to vitamin D activity (i.e., calcium/phosphate regulation, bone health) but whether it’s absorbed or metabolised to the same degree or has the same potency is still unclear.</p>
+        <p><strong>Bottom line:</strong> If you see Vitamin D₄, treat it as a member of the vitamin D family, but understand that the evidence for it in humans is limited. Most guidelines refer to D₂/D₃.</p>  
+    </div>
+    <div>
+        <h3>Recommended Daily Amount for a Healthy Adult</h3>
+        <p>Since most guidelines refer to vitamin D in general (D₂ + D₃) and not specifically D₄, there is no standard recommended daily allowance (RDA) for vitamin D₄ alone.</p>
+        <p>For vitamin D generally: The U.S. Institute of Medicine/NIH points to about 600 IU (15 µg) per day for adults up to ~70 years, and 800 IU (20 µg) for older adults. </p>
+        <p>Therefore for Vitamin D₄, one cannot confidently assign a separate value: you'd follow the general vitamin D intake guidelines unless a specialist provides different advice.</p>
+    </div>
+    <div>
+        <h3>Main Ingredient Sources (Where D₄ Comes From)</h3>
+        <p>Vitamin D₄ is found in certain mushrooms: it’s produced from a precursor called ergosta-5,7-dienol (22,23-dihydroergosterol) rather than the typical ergosterol → D₂ pathway.</p>
+        <p>Because D₄ is relatively rare (and less documented in many common foods), most of the “vitamin D” in your diet/sun-exposure will be D₂ or D₃ rather than D₄.</p>
+        <p>Common sources for vitamin D overall (mostly D₂/D₃) include: fatty fish (salmon, mackerel, sardines), egg yolks, fortified milks/cereals, and sunlight exposure. </p>
+        <p>For mushrooms specifically: Some types when exposed to UV light can produce D₂ and possibly D₄, but data is limited.</p>
+    </div>
+    <div><h2>Similar nutrients</h2></div>
+    <div><h2>Major sources</h2></div>
+  </mat-card-content>
+  <mat-card-actions>
+
+  </mat-card-actions>
+</mat-card>

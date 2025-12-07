@@ -7,6 +7,10 @@ import { AuthGuard } from './core/guards/auth-guard';
 import { AuthLayout } from './modules/auth-layout/auth-layout';
 import { GuestGuard } from './core/guards/guest-guard';
 import { Welcome } from './modules/welcome/welcome';
+import { NutrientsIndexPage } from './modules/nutrients/pages/index';
+import { NutrientsIndexResolver } from './modules/nutrients/resolvers/NutrientsIndexResolver';
+import { NutrientShowPage } from './modules/nutrients/pages/show/show';
+import { NutrientsShowResolver } from './modules/nutrients/resolvers/NutrientsShowResolver';
 
 const routes: Routes = [
   {
@@ -25,6 +29,27 @@ const routes: Routes = [
         component: Test,
         canActivate: [AuthGuard],
         pathMatch: 'full',
+      },
+      {
+        path: 'nutrients',
+        canActivate: [AuthGuard],
+        children: [
+          {
+            path: '',
+            component: NutrientsIndexPage,
+            resolve: {
+              data: NutrientsIndexResolver
+            }
+          },
+          {
+            path: ':id',
+            component: NutrientShowPage,
+            resolve: {
+              data: NutrientsShowResolver
+            }
+          }
+
+        ]
       },
     ]
   },

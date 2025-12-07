@@ -1,6 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { AuthStore } from '../../core/Auth/store/auth.store';
+import { APP_CONFIG } from '../../config/app-config';
 
 @Component({
   selector: 'app-welcome',
@@ -13,6 +14,7 @@ export class Welcome {
   private return_uri: string | null = null;
   constructor(private http: HttpClient, public store: AuthStore) { }
 
+  public cfg = inject(APP_CONFIG);
 
   login():void  {
     this.http.post('http://localhost:9015/api/auth/login', {}, {observe: 'response'}).subscribe({

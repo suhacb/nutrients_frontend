@@ -1,0 +1,20 @@
+<nav class="breadcrumb" aria-label="breadcrumb">
+  <span *ngFor="let crumb of links; let last = last">
+    <!-- If there is a link, wrap in <a mat-button> -->
+    <ng-container *ngIf="crumb.link; else noLink">
+      <a mat-button [routerLink]="crumb.link">
+        <mat-icon *ngIf="crumb.icon">{{ crumb.icon }}</mat-icon>
+        <span *ngIf="crumb.title">{{ crumb.title }}</span>
+      </a>
+    </ng-container>
+
+    <!-- If no link, just show icon/title -->
+    <ng-template #noLink>
+      <mat-icon *ngIf="crumb.icon">{{ crumb.icon }}</mat-icon>
+      <span *ngIf="crumb.title">{{ crumb.title }}</span>
+    </ng-template>
+
+    <!-- Separator, only if not last -->
+    <mat-icon *ngIf="!last">chevron_right</mat-icon>
+  </span>
+</nav>

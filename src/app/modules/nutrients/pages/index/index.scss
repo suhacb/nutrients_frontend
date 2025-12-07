@@ -1,0 +1,44 @@
+.record-container {
+  display: flex;
+  width: 100%;
+  height: 100%;           /* allow it to fill the mat-list-item height */
+  align-items: center;    /* vertically center left/center/right sections */
+  justify-content: space-between;
+  // padding: 8px 0;
+  box-sizing: border-box;
+}
+
+.left-section {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  justify-content: center;/* vertically center title+subtitle inside column */
+  gap: 2px;
+}
+
+.center-section {
+  flex: 2;
+  // padding: 0 16px;
+  display: flex;
+  align-items: center;    /* vertically center the <p matLine> */
+}
+
+.right-section {
+  display: flex;
+  gap: 8px;
+  align-items: center;    /* vertically center icon-buttons */
+  justify-content: flex-end;
+}
+
+.mat-mdc-list-item {
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.08);
+  margin-bottom: 8px;
+  padding: 0 12px;
+  transition: background-color 0.2s ease;
+}
+
+.mat-mdc-list-item:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
