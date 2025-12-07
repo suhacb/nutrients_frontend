@@ -2,6 +2,7 @@ import { ResourceMapper } from "../../../core/ResourceMapper/ResourceMapper";
 import { NutritionFact } from "../contracts/NutritionFact";
 import { NutritionFactApiPayload } from "../contracts/NutritionFactApiPayload";
 import { NutritionFactApiResource } from "../contracts/NutritionFactApiResource";
+import { UnitsMapper } from "./UnitsMapper";
 
 export class NutritionFactMapper extends ResourceMapper<NutritionFact, NutritionFactApiResource, NutritionFactApiPayload> {
     public toApp (api: NutritionFactApiResource): NutritionFact {
@@ -11,7 +12,10 @@ export class NutritionFactMapper extends ResourceMapper<NutritionFact, Nutrition
             category: api.category,
             name: api.name,
             amount: api.amount, 
-            amountUnitId: api.amount_unit_id, 
+            amountUnitId: api.amount_unit_id,
+            ...(api.unit !== undefined && {
+                unit: new UnitsMapper().toApp(api.unit) 
+            }),
             createdAt: new Date(api.created_at),
             updatedAt: new Date(api.updated_at),
         }

@@ -8,7 +8,7 @@ export class UnitsMapper extends ResourceMapper<Unit, UnitApiResource, UnitApiPa
         return {
             id: api.id,
             name: api.name,
-            abbreviation: api.name,
+            abbreviation: api.abbreviation,
             type: api.type,
             createdAt: new Date(api.created_at),
             updatedAt: new Date(api.updated_at),
