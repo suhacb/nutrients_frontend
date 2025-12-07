@@ -13,6 +13,8 @@ import { NutrientShowPage } from './modules/nutrients/pages/show/show';
 import { NutrientsShowResolver } from './modules/nutrients/resolvers/NutrientsShowResolver';
 import { IngredientsIndexPage } from './modules/ingredients/pages/index';
 import { IngredientsIndexResolver } from './modules/ingredients/resolvers/IngredientsIndexResolver';
+import { IngredientShowPage } from './modules/ingredients/pages/show/show';
+import { IngredientsShowResolver } from './modules/ingredients/resolvers/IngredientsShowResolver';
 
 const routes: Routes = [
   {
@@ -20,72 +22,22 @@ const routes: Routes = [
     component: AuthLayout,
     canActivate: [AuthGuard],
     children: [
-      {
-        path: '',
-        component: HomePage,
-        canActivate: [AuthGuard],
-        pathMatch: 'full',
-      },
-      {
-        path: 'test',
-        component: Test,
-        canActivate: [AuthGuard],
-        pathMatch: 'full',
-      },
-      {
-        path: 'nutrients',
-        canActivate: [AuthGuard],
-        children: [
-          {
-            path: '',
-            component: NutrientsIndexPage,
-            resolve: {
-              data: NutrientsIndexResolver
-            }
-          },
-          {
-            path: ':id',
-            component: NutrientShowPage,
-            resolve: {
-              data: NutrientsShowResolver
-            }
-          }
+      { path: '', component: HomePage, canActivate: [AuthGuard], pathMatch: 'full' },
+      { path: 'test', component: Test, canActivate: [AuthGuard], pathMatch: 'full' },
+      { path: 'nutrients', canActivate: [AuthGuard], children: [
+          { path: '', component: NutrientsIndexPage, resolve: { data: NutrientsIndexResolver }, pathMatch: 'full'  },
+          { path: ':id', component: NutrientShowPage, resolve: { data: NutrientsShowResolver } }
         ]
       },
-      {
-        path: 'ingredients',
-        canActivate: [AuthGuard],
-        children: [
-          {
-            path: '',
-            component: IngredientsIndexPage,
-            resolve: {
-              data: IngredientsIndexResolver
-            }
-          },
-          // {
-          //   path: ':id',
-          //   component: NutrientShowPage,
-          //   resolve: {
-          //     data: NutrientsShowResolver
-          //   }
-          // }
+      { path: 'ingredients', canActivate: [AuthGuard], children: [
+          { path: '', component: IngredientsIndexPage, resolve: { data: IngredientsIndexResolver }, pathMatch: 'full'  },
+          { path: ':id', component: IngredientShowPage, resolve: { data: IngredientsShowResolver }}
         ]
       },
     ]
   },
-  {
-    path: 'callback',
-    component: CallbackPage,
-    pathMatch: 'full',
-    canActivate: [GuestGuard],
-  },
-  {
-    path: 'welcome',
-    component: Welcome,
-    pathMatch: 'full',
-    canActivate: [GuestGuard],
-  }
+  { path: 'callback', component: CallbackPage, pathMatch: 'full', canActivate: [GuestGuard], },
+  { path: 'welcome', component: Welcome, pathMatch: 'full', canActivate: [GuestGuard] }
 ];
 
 @NgModule({

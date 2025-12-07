@@ -22,17 +22,23 @@ export class IngredientsStore {
     ) {}
 
     private _ingredients = signal<Ingredient[]>([]);
+    private _ingredient = signal<Ingredient | null>(null);
     private _paginator = signal<Paginator | null>(null);
     private _breadcrumb = signal<Breadcrumb[]>([]);
 
     // expose readony signals
     readonly ingredients = this._ingredients.asReadonly();
+    readonly ingredient = this._ingredient.asReadonly();
     readonly paginator = this._paginator.asReadonly();
     readonly breadcrumb = this._breadcrumb.asReadonly();
 
     // setters
     setIngredients(index: Ingredient[]): void {
         this._ingredients.set(index);
+    }
+
+    setIngredient(show: Ingredient | null): void {
+        this._ingredient.set(show);
     }
 
     setPaginator(paginator: Paginator | null = null): void {
@@ -64,6 +70,32 @@ export class IngredientsStore {
                 this.setBreadcrumb([
                     { icon: 'home', link: '/' },
                     { title: 'Ingredients' }
+                ]);
+            }
+        );
+    }
+
+    show(id: number): Observable<void> {
+        const url = `http://localhost:9015/api/ingredients/${id}`;
+
+        return this.fetcher.fetchAndProcess<IngredientApiResource>(
+            url,
+            'Nutrient loaded successfully.',
+            body => {
+                if(!body) {
+                    this.setIngredient(null);
+                    return;
+                }
+
+                console.log(Object.keys(body));
+                
+                const ingredient = new IngredientsMapper().toApp(body);
+                this.setIngredient(ingredient);
+
+                this.setBreadcrumb([
+                    { icon: 'home', link: '/' },
+                    { title: 'Ingredients', link: '/ingredients' },
+                    { title: ingredient.name }
                 ]);
             }
         );

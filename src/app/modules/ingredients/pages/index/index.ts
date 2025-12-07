@@ -23,7 +23,7 @@ export class IngredientsIndexPage {
   }
 
   onShowClick(id: number): void {
-    this.router.navigate(['ingredients/' + id]);
+    this.router.navigate(['/ingredients', id]);
   }
 
 }

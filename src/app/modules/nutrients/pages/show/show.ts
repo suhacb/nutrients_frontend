@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NutrientsStore } from '../../store/nutrients.store';
 
 @Component({
-  selector: 'app-show',
+  selector: 'app-nutrient-show-page',
   standalone: false,
   templateUrl: './show.html',
   styleUrl: './show.scss'

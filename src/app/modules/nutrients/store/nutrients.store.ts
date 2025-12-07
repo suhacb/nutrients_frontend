@@ -82,23 +82,23 @@ export class NutrientsStore {
         const url = `http://localhost:9015/api/nutrients/${id}`;
 
         return this.fetcher.fetchAndProcess<NutrientApiResource>(
-        url,
-        'Nutrient loaded successfully.',
-        body => {
-            if (!body) {
-                this.setNutrient(null);
-                return;
+            url,
+            'Nutrient loaded successfully.',
+            body => {
+                if (!body) {
+                    this.setNutrient(null);
+                    return;
+                }
+
+                const nutrient = new NutrientsMapper().toApp(body);
+                this.setNutrient(nutrient);
+
+                this.setBreadcrumb([
+                    { icon: 'home', link: '/' },
+                    { title: 'Nutrients', link: '/nutrients' },
+                    { title: nutrient.name }
+                ]);
             }
-
-            const nutrient = new NutrientsMapper().toApp(body);
-            this.setNutrient(nutrient);
-
-            this.setBreadcrumb([
-                { icon: 'home', link: '/' },
-                { title: 'Nutrients', link: '/nutrients' },
-                { title: nutrient.name }
-            ]);
-        }
         );
     }
 }
