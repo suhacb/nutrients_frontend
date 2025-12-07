@@ -7,6 +7,7 @@ export type IngredientApiResource = {
     description: string | null,
     default_amount: number,
     default_amount_unit_id: number,
+    default_amount_unit: any,
     created_at: string,
     updated_at: string,
     deleted_at: string | null

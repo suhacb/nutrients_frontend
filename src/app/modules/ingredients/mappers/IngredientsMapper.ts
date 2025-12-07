@@ -2,6 +2,7 @@ import { ResourceMapper } from "../../../core/ResourceMapper/ResourceMapper";
 import { Ingredient } from "../contracts/Ingredient";
 import { IngredientApiPaylod } from "../contracts/IngredientApiPayload";
 import { IngredientApiResource } from "../contracts/IngredientApiResource";
+import { UnitsMapper } from "./UnitsMapper";
 
 export class IngredientsMapper extends ResourceMapper<Ingredient, IngredientApiResource, IngredientApiPaylod> {
     public toApp (api: IngredientApiResource): Ingredient {
@@ -13,6 +14,7 @@ export class IngredientsMapper extends ResourceMapper<Ingredient, IngredientApiR
             name: api.name,
             description: api.description,
             defaultAmount: api.default_amount,
+            defaultAmountUnit: new UnitsMapper().toApp(api.default_amount_unit),
             defaultAmountUnitId: api.default_amount_unit_id,
             createdAt: new Date(api.created_at),
             updatedAt: new Date(api.updated_at),
@@ -41,6 +43,7 @@ export class IngredientsMapper extends ResourceMapper<Ingredient, IngredientApiR
             name: '',
             description: null,
             defaultAmount: 100,
+            defaultAmountUnit: new UnitsMapper().make(),
             defaultAmountUnitId: 0,
             createdAt: new Date(),
             updatedAt: new Date(),

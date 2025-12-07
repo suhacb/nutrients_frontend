@@ -1,3 +1,5 @@
+import { Unit } from "./Unit";
+
 export type Ingredient = {
     id: number,
     externalId: string | null,
@@ -6,12 +8,12 @@ export type Ingredient = {
     name: string,
     description: string | null,
     defaultAmount: number,
+    defaultAmountUnit: Unit,
     defaultAmountUnitId: number,
     createdAt: Date;
     updatedAt: Date | null;
     deletedAt: Date | null;
     /*
-    "default_amount_unit"
     "nutrients"
     "nutrition_facts"
     */
