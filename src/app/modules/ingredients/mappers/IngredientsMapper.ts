@@ -3,6 +3,7 @@ import { NutrientsMapper } from "../../nutrients/mappers/NutrientsMapper";
 import { Ingredient } from "../contracts/Ingredient";
 import { IngredientApiPaylod } from "../contracts/IngredientApiPayload";
 import { IngredientApiResource } from "../contracts/IngredientApiResource";
+import { NutritionFactMapper } from "./NutritionFactMapper";
 import { UnitsMapper } from "./UnitsMapper";
 
 export class IngredientsMapper extends ResourceMapper<Ingredient, IngredientApiResource, IngredientApiPaylod> {
@@ -18,6 +19,7 @@ export class IngredientsMapper extends ResourceMapper<Ingredient, IngredientApiR
             defaultAmountUnit: new UnitsMapper().toApp(api.default_amount_unit),
             defaultAmountUnitId: api.default_amount_unit_id,
             nutrients: api.nutrients.map(nutrient => new NutrientsMapper().toApp(nutrient)),
+            nutritionFacts: api.nutrition_facts.map(nutrition_fact => new NutritionFactMapper().toApp(nutrition_fact)),
             createdAt: new Date(api.created_at),
             updatedAt: new Date(api.updated_at),
             deletedAt: api.deleted_at ? new Date(api.deleted_at) : null
@@ -48,6 +50,7 @@ export class IngredientsMapper extends ResourceMapper<Ingredient, IngredientApiR
             defaultAmountUnit: new UnitsMapper().make(),
             defaultAmountUnitId: 0,
             nutrients: [],
+            nutritionFacts: [],
             createdAt: new Date(),
             updatedAt: new Date(),
             deletedAt: null

@@ -1,4 +1,5 @@
 import { Nutrient } from "../../nutrients/contracts/Nutrient";
+import { NutritionFact } from "./NutritionFact";
 import { Unit } from "./Unit";
 
 export type Ingredient = {
@@ -12,10 +13,8 @@ export type Ingredient = {
     defaultAmountUnit: Unit,
     defaultAmountUnitId: number,
     nutrients: Nutrient[],
+    nutritionFacts: NutritionFact[],
     createdAt: Date;
     updatedAt: Date | null;
     deletedAt: Date | null;
-    /*
-    "nutrition_facts"
-    */
 }

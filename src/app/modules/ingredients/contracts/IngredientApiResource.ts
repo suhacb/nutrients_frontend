@@ -1,4 +1,5 @@
 import { NutrientApiResource } from "../../nutrients/contracts/NutrientApiResource"
+import { NutritionFactApiResource } from "./NutritionFactApiResource"
 
 export type IngredientApiResource = {
     id: number,
@@ -11,10 +12,8 @@ export type IngredientApiResource = {
     default_amount_unit_id: number,
     default_amount_unit: any,
     nutrients: NutrientApiResource[],
+    nutrition_facts: NutritionFactApiResource[],
     created_at: string,
     updated_at: string,
     deleted_at: string | null
-    /*
-    "nutrition_facts"
-    */
 }

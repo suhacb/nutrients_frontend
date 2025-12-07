@@ -87,7 +87,7 @@ export class IngredientsStore {
                     return;
                 }
 
-                console.log(body.default_amount_unit);
+                console.log(Object.keys(body.nutrition_facts[0]));
                 
                 const ingredient = new IngredientsMapper().toApp(body);
                 this.setIngredient(ingredient);
