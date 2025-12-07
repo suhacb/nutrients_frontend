@@ -6,7 +6,7 @@ import { Nutrient } from '../contracts/Nutrient';
 import { NutrientApiResource } from '../contracts/NutrientApiResource';
 import { NutrientsMapper } from '../mappers/NutrientsMapper';
 import { PaginatorMapper } from '../../../core/Paginator/PaginatorMapper';
-import { Paginator } from '../../../core/Paginator/Paginator';
+import { Paginator } from '../../../core/Paginator/paginator.d';
 import { PaginatorApiResource } from '../../../core/Paginator/PaginatorApiResource';
 import { Breadcrumb } from '../../../core/Breadcrumb/breadcrumb.d';
 import { ApiFetcherService } from '../../../core/http/ApiFetcherService';
