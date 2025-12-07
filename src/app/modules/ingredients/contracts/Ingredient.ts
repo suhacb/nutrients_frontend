@@ -1,3 +1,4 @@
+import { Nutrient } from "../../nutrients/contracts/Nutrient";
 import { Unit } from "./Unit";
 
 export type Ingredient = {
@@ -10,11 +11,11 @@ export type Ingredient = {
     defaultAmount: number,
     defaultAmountUnit: Unit,
     defaultAmountUnitId: number,
+    nutrients: Nutrient[],
     createdAt: Date;
     updatedAt: Date | null;
     deletedAt: Date | null;
     /*
-    "nutrients"
     "nutrition_facts"
     */
 }
