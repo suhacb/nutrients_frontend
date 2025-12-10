@@ -10,6 +10,8 @@ import { Paginator } from '../../../core/Paginator/paginator.d';
 import { PaginatorApiResource } from '../../../core/Paginator/PaginatorApiResource';
 import { Breadcrumb } from '../../../core/Breadcrumb/breadcrumb.d';
 import { ApiFetcherService } from '../../../core/http/ApiFetcherService';
+import { SearchApiRequest } from '../../../core/Search/contracts/SearchApiRequest';
+import { SearchApiResponse } from '../../../core/Search/contracts/SearchApiResponse';
 
 type NutrientIndexApiResource = {
     data: NutrientApiResource[]
@@ -74,6 +76,30 @@ export class NutrientsStore {
                     { title: 'Nutrients', link: '/nutrients' },
                     { title: nutrient.name }
                 ]);
+            }
+        );
+    }
+
+    search(searchQuery: string): Observable<void> {
+        console.log(searchQuery);
+        const payload = {
+            index: 'nutrients',
+            query: searchQuery,
+            page: 1
+        };
+
+        const url = `http://localhost:9015/api/search`;
+        return this.fetcher.postAndProcess<SearchApiRequest, SearchApiResponse<NutrientApiResource>>(
+            url,
+            payload,
+            "Here's what we found for you",
+            body => {
+                if (!body) {
+                    return;
+                }
+                let nutrients: Nutrient[] = [];
+                body.results.forEach(result => nutrients.push(new NutrientsMapper().toApp(result)));
+                this.setNutrients(nutrients);
             }
         );
     }

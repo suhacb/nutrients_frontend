@@ -1,4 +1,4 @@
-export type Paginator = {
+export interface Paginator {
     currentPage: number,
     firstPageUrl: string,
     from: number,

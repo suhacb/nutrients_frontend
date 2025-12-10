@@ -28,11 +28,29 @@ export class ApiFetcherService {
         const body = response.body;
         process(body!); // assume body is not null
       }),
-      catchError((error: HttpErrorResponse) => {
-        this.apiHandlerService.showError(error);
-        if (error.status === 401 || error.status === 422) return throwError(() => error);
-        return EMPTY;
-      })
+      catchError((error: HttpErrorResponse) => this.handleError(error))
     );
+  }
+
+  postAndProcess<TRequest, TResponse>(
+    url: string,
+    payload: TRequest,
+    successMessage: string,
+    process: (body: TResponse) => void
+  ): Observable<void> {
+    return this.http.post<TResponse>(url, payload, { observe: 'response' as const }).pipe(
+      tap(() => this.apiHandlerService.showSuccess(successMessage)),
+      map(response => process(response.body!)),
+      catchError((error: HttpErrorResponse) => this.handleError(error))
+    );
+  }
+
+  /**
+   * Centralized error handling
+   */
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    this.apiHandlerService.showError(error);
+    if (error.status === 401 || error.status === 422) return throwError(() => error);
+    return EMPTY;
   }
 }

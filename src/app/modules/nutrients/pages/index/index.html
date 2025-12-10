@@ -10,7 +10,6 @@
           type="text"
           name="query"
           [(ngModel)]="searchQuery"
-          (keydown.enter)="onSearch()"
           placeholder="Type your query"
         />
       </mat-form-field>
@@ -19,6 +18,17 @@
         <mat-icon>search</mat-icon>
       </button>
     </form>
+</div>
+
+<div class="results-container" *ngIf="store.nutrients().length > 0">
+    <mat-card *ngFor="let nutrient of store.nutrients(); trackBy: trackByIndex" class="result-card" appearance="outlined">
+        <mat-card-title>
+            <a href="#" (click)="showNutrient(nutrient, $event)">{{ nutrient.name }}</a>
+        </mat-card-title>
+        <mat-card-content>
+        {{ nutrient.description ?? "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis eius harum deserunt? Temporibus debitis, explicabo delectus neque placeat voluptate error deleniti recusandae voluptatem. Distinctio repellendus consectetur aliquam rerum, dolores dolor?" }}
+        </mat-card-content>
+    </mat-card>
 </div>
 
 <!--

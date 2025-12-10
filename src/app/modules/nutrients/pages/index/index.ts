@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NutrientsStore } from '../../store/nutrients.store';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
+import { Nutrient } from '../../contracts/Nutrient';
 
 @Component({
   selector: 'app-nutrients-index-page',
@@ -28,9 +29,16 @@ export class NutrientsIndexPage {
 
   onSearch(): void {
     if (this.searchQuery.trim()) {
-      console.log('Searching for:', this.searchQuery);
-      // Add your search logic here (API call, filtering, etc.)
+      this.store.search(this.searchQuery).subscribe({});
     }
   }
 
+  trackByIndex(index: number, item: any): number {
+    return index;
+  }
+
+  showNutrient(nutrient: Nutrient, event: Event): void {
+    event.preventDefault();
+    this.router.navigate(['/nutrients', nutrient.id]);
+  }
 }
