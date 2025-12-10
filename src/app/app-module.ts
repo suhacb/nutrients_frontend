@@ -34,6 +34,9 @@ import { BreadcrumbComponent } from './core/Breadcrumb/breadcrumb';
 import { IngredientsIndexPage } from './modules/ingredients/pages/index/index';
 import { IngredientShowPage } from './modules/ingredients/pages/show/show';
 import { MatTableModule } from '@angular/material/table';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 /** Material 3 components and modules */
 
@@ -73,7 +76,10 @@ import { MatTableModule } from '@angular/material/table';
     MatPaginatorModule,
     MatCardModule,
     MatChipsModule,
-    MatTableModule
+    MatTableModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),

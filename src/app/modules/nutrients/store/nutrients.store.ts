@@ -26,7 +26,10 @@ export class NutrientsStore {
     private _nutrients = signal<Nutrient[]>([]);
     private _nutrient = signal<Nutrient | null>(null);
     private _paginator = signal<Paginator | null>(null);
-    private _breadcrumb = signal<Breadcrumb[]>([]);
+    private _breadcrumb = signal<Breadcrumb[]>([
+        { icon: 'home', link: '/' },
+        { title: 'Nutrients' },
+    ]);
 
     // expose readonly signals
     readonly nutrients = this._nutrients.asReadonly();
@@ -49,33 +52,6 @@ export class NutrientsStore {
 
     setBreadcrumb(links: Breadcrumb[]): void {
         this._breadcrumb.set(links);
-    }
-
-    index (page: number | null = null, url: string = 'http://localhost:9015/api/nutrients'): Observable<void> {
-        const finalUrl = page ? `${url}?page=${page}` : url;
-
-        return this.fetcher.fetchAndProcess<NutrientIndexApiResource>(
-            finalUrl,
-            'Nutrients index loaded.',
-            body => {
-                if (!body) {
-                    this.setNutrients([]);
-                    this.setPaginator(null);
-                    return;
-                }
-
-                const { data, ...paginator } = body;
-                const nutrients: Nutrient[] = data.map(d => new NutrientsMapper().toApp(d));
-                this.setNutrients(nutrients);
-
-                this.setPaginator(new PaginatorMapper().toApp(paginator as PaginatorApiResource));
-
-                this.setBreadcrumb([
-                    { icon: 'home', link: '/' },
-                    { title: 'Nutrients' }
-                ]);
-            }
-        );
     }
 
     show(id: number): Observable<void> {

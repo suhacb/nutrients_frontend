@@ -10,19 +10,27 @@ import { Router } from '@angular/router';
   styleUrl: './index.scss'
 })
 export class NutrientsIndexPage {
-  constructor(public store: NutrientsStore, private router: Router) {}
-
-  onPageEvent(event: PageEvent): void
+  constructor(public store: NutrientsStore, private router: Router) {
+  }
+  searchQuery: string  = '';
+  /*onPageEvent(event: PageEvent): void
   {
     if (event.pageIndex === event.previousPageIndex) {
       console.log('user wants to change page items');
     } else {
       this.store.index(event.pageIndex + 1).subscribe();
     }
-  }
+  }*/
 
   onShowClick(id: number): void {
     this.router.navigate(['/nutrients', id]);
+  }
+
+  onSearch(): void {
+    if (this.searchQuery.trim()) {
+      console.log('Searching for:', this.searchQuery);
+      // Add your search logic here (API call, filtering, etc.)
+    }
   }
 
 }

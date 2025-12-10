@@ -8,7 +8,6 @@ import { AuthLayout } from './modules/auth-layout/auth-layout';
 import { GuestGuard } from './core/guards/guest-guard';
 import { Welcome } from './modules/welcome/welcome';
 import { NutrientsIndexPage } from './modules/nutrients/pages/index';
-import { NutrientsIndexResolver } from './modules/nutrients/resolvers/NutrientsIndexResolver';
 import { NutrientShowPage } from './modules/nutrients/pages/show/show';
 import { NutrientsShowResolver } from './modules/nutrients/resolvers/NutrientsShowResolver';
 import { IngredientsIndexPage } from './modules/ingredients/pages/index';
@@ -25,7 +24,7 @@ const routes: Routes = [
       { path: '', component: HomePage, canActivate: [AuthGuard], pathMatch: 'full' },
       { path: 'test', component: Test, canActivate: [AuthGuard], pathMatch: 'full' },
       { path: 'nutrients', canActivate: [AuthGuard], children: [
-          { path: '', component: NutrientsIndexPage, resolve: { data: NutrientsIndexResolver }, pathMatch: 'full'  },
+          { path: '', component: NutrientsIndexPage, pathMatch: 'full'  },
           { path: ':id', component: NutrientShowPage, resolve: { data: NutrientsShowResolver } }
         ]
       },

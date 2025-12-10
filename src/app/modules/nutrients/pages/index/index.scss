@@ -1,3 +1,43 @@
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.search-form {
+  display: flex;
+  width: 80%;
+  max-width: 800px;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.search-field {
+  flex: 1;
+}
+
+.mat-form-field-wrapper {
+  padding-bottom: 0 !important;
+}
+
+.search-button {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center; /* horizontally center content */
+  align-items: center;     /* vertically center content */
+  min-width: 56px;
+  height: 56px;
+  padding: 0;              /* remove default button padding */
+}
+
+/* Fix mat-icon spacing */
+.search-button mat-icon {
+  display: block;        /* remove inline spacing */
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+}
+
 .record-container {
   display: flex;
   width: 100%;

@@ -1,10 +1,33 @@
 <app-breadcrumb-component [links]="store.breadcrumb()"></app-breadcrumb-component>
 
+<div class="search-container">
+    <form (ngSubmit)="onSearch()" #searchForm="ngForm" class="search-form">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-icon matPrefix>eco</mat-icon>
+        <mat-label>Search nutrients</mat-label>
+        <input
+          matInput
+          type="text"
+          name="query"
+          [(ngModel)]="searchQuery"
+          (keydown.enter)="onSearch()"
+          placeholder="Type your query"
+        />
+      </mat-form-field>
+    
+      <button mat-flat-button color="primary" type="submit" class="search-button">
+        <mat-icon>search</mat-icon>
+      </button>
+    </form>
+</div>
+
+<!--
 @if(store.paginator()) {
     <div>
         <mat-paginator [length]="store.paginator()?.total" [pageSize]="store.paginator()?.perPage" (page)="onPageEvent($event)"></mat-paginator>
     </div>
 }
+
 <div>
     <mat-list>
     @for (nutrient of store.nutrients(); track nutrient.id) {
@@ -30,7 +53,7 @@
 </div>
 @if(store.paginator()) {
     <div>
-        <!-- <mat-paginator [length]="store.paginator()?.total" [pageSize]="store.paginator()?.per_page" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page"></mat-paginator> -->
         <mat-paginator [length]="store.paginator()?.total" [pageSize]="store.paginator()?.perPage" (page)="onPageEvent($event)"></mat-paginator>
     </div>
 }
+    -->
