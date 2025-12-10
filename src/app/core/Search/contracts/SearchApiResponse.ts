@@ -1,5 +1,5 @@
-import { Paginator } from '../../Paginator/paginator.d';
+import { PaginatorApiResource } from '../../Paginator/PaginatorApiResource';
 
-export interface SearchApiResponse<TItem> extends Paginator {
+export interface SearchApiResponse<TItem> extends PaginatorApiResource {
     results: TItem[];
 }

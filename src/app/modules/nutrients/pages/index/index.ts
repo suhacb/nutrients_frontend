@@ -14,14 +14,14 @@ export class NutrientsIndexPage {
   constructor(public store: NutrientsStore, private router: Router) {
   }
   searchQuery: string  = '';
-  /*onPageEvent(event: PageEvent): void
+
+  onPageEvent(event: PageEvent): void
   {
     if (event.pageIndex === event.previousPageIndex) {
-      console.log('user wants to change page items');
     } else {
-      this.store.index(event.pageIndex + 1).subscribe();
+      this.store.search('').subscribe();
     }
-  }*/
+  }
 
   onShowClick(id: number): void {
     this.router.navigate(['/nutrients', id]);

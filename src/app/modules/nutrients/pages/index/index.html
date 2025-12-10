@@ -31,39 +31,12 @@
     </mat-card>
 </div>
 
-<!--
 @if(store.paginator()) {
-    <div>
+    <!-- <div>
         <mat-paginator [length]="store.paginator()?.total" [pageSize]="store.paginator()?.perPage" (page)="onPageEvent($event)"></mat-paginator>
     </div>
-}
-
-<div>
-    <mat-list>
-    @for (nutrient of store.nutrients(); track nutrient.id) {
-        <mat-list-item>
-            <div class="record-container">
-                <div class="left-section">
-                    
-                    <div matListItemTitle>{{nutrient.name}}</div>
-                    <div matListItemLine>Source: {{nutrient.source}}</div>
-                </div>
-                <div class="center-section">
-
-                </div>
-                <div class="right-section">
-                    <button mat-icon-button (click)="onShowClick(nutrient.id); $event.stopPropagation()"  aria-label="Show">
-                        <mat-icon>visibility</mat-icon>
-                    </button>
-                </div>
-            </div>
-        </mat-list-item>
-    }
-    </mat-list>
-</div>
-@if(store.paginator()) {
-    <div>
-        <mat-paginator [length]="store.paginator()?.total" [pageSize]="store.paginator()?.perPage" (page)="onPageEvent($event)"></mat-paginator>
-    </div>
-}
     -->
+    <div class="paginator-info">
+        {{ store.paginator() | json }}
+    </div>
+}

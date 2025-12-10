@@ -1,7 +1,5 @@
-import { Injectable, signal } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, EMPTY, map, Observable, tap, throwError } from 'rxjs';
-import { ApiHandlerService } from '../../../core/ApiHandlerService/api-handler-service';
+import { Injectable, signal, inject } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Nutrient } from '../contracts/Nutrient';
 import { NutrientApiResource } from '../contracts/NutrientApiResource';
 import { NutrientsMapper } from '../mappers/NutrientsMapper';
@@ -12,6 +10,7 @@ import { Breadcrumb } from '../../../core/Breadcrumb/breadcrumb.d';
 import { ApiFetcherService } from '../../../core/http/ApiFetcherService';
 import { SearchApiRequest } from '../../../core/Search/contracts/SearchApiRequest';
 import { SearchApiResponse } from '../../../core/Search/contracts/SearchApiResponse';
+import { APP_CONFIG } from '../../../config/app-config';
 
 type NutrientIndexApiResource = {
     data: NutrientApiResource[]
@@ -21,9 +20,10 @@ type NutrientIndexApiResource = {
 
 export class NutrientsStore {
     constructor(
-        private http: HttpClient,
-        private fetcher: ApiFetcherService
+        private fetcher: ApiFetcherService,
     ) {}
+
+    private cfg = inject(APP_CONFIG);
 
     private _nutrients = signal<Nutrient[]>([]);
     private _nutrient = signal<Nutrient | null>(null);
@@ -57,7 +57,7 @@ export class NutrientsStore {
     }
 
     show(id: number): Observable<void> {
-        const url = `http://localhost:9015/api/nutrients/${id}`;
+        const url = `${this.cfg.appBackendUrl}/api/nutrients/${id}`;
 
         return this.fetcher.fetchAndProcess<NutrientApiResource>(
             url,
@@ -81,14 +81,13 @@ export class NutrientsStore {
     }
 
     search(searchQuery: string): Observable<void> {
-        console.log(searchQuery);
         const payload = {
             index: 'nutrients',
             query: searchQuery,
             page: 1
         };
 
-        const url = `http://localhost:9015/api/search`;
+        const url = `${this.cfg.appBackendUrl}/api/search`;
         return this.fetcher.postAndProcess<SearchApiRequest, SearchApiResponse<NutrientApiResource>>(
             url,
             payload,
@@ -99,7 +98,10 @@ export class NutrientsStore {
                 }
                 let nutrients: Nutrient[] = [];
                 body.results.forEach(result => nutrients.push(new NutrientsMapper().toApp(result)));
+                const paginatorResponse =  (({ results, ...paginator }) => paginator)(body);
+                const paginator: Paginator = new PaginatorMapper().toApp(paginatorResponse as PaginatorApiResource);
                 this.setNutrients(nutrients);
+                this.setPaginator(paginator);
             }
         );
     }
