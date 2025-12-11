@@ -27,9 +27,9 @@ export class NutrientsIndexPage {
     this.router.navigate(['/nutrients', id]);
   }
 
-  onSearch(): void {
-    if (this.searchQuery.trim()) {
-      this.store.search(this.searchQuery).subscribe({});
+  onSearch(searchQuery: string): void {
+    if (searchQuery.trim()) {
+      this.store.search(searchQuery).subscribe({});
     }
   }
 

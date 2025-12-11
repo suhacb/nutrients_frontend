@@ -1,0 +1,10 @@
+<mat-card class="result-card" appearance="outlined">
+    <mat-card-title>
+        <a href="#" (click)="onClickShow($event)">
+            <ng-content select="[title]"></ng-content>
+        </a>
+    </mat-card-title>
+    <mat-card-content>
+        <ng-content select="[description]"></ng-content>
+    </mat-card-content>
+</mat-card>

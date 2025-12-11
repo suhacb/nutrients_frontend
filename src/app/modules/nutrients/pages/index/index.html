@@ -1,35 +1,13 @@
 <app-breadcrumb-component [links]="store.breadcrumb()"></app-breadcrumb-component>
 
-<div class="search-container">
-    <form (ngSubmit)="onSearch()" #searchForm="ngForm" class="search-form">
-      <mat-form-field appearance="outline" class="search-field">
-        <mat-icon matPrefix>eco</mat-icon>
-        <mat-label>Search nutrients</mat-label>
-        <input
-          matInput
-          type="text"
-          name="query"
-          [(ngModel)]="searchQuery"
-          placeholder="Type your query"
-        />
-      </mat-form-field>
-    
-      <button mat-flat-button color="primary" type="submit" class="search-button">
-        <mat-icon>search</mat-icon>
-      </button>
-    </form>
-</div>
+<app-search-bar-component [icon]="'eco'" [label]="'Search nutriens'" (search)="onSearch($event)"></app-search-bar-component>
 
-<div class="results-container" *ngIf="store.nutrients().length > 0">
-    <mat-card *ngFor="let nutrient of store.nutrients(); trackBy: trackByIndex" class="result-card" appearance="outlined">
-        <mat-card-title>
-            <a href="#" (click)="showNutrient(nutrient, $event)">{{ nutrient.name }}</a>
-        </mat-card-title>
-        <mat-card-content>
-        {{ nutrient.description ?? "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis eius harum deserunt? Temporibus debitis, explicabo delectus neque placeat voluptate error deleniti recusandae voluptatem. Distinctio repellendus consectetur aliquam rerum, dolores dolor?" }}
-        </mat-card-content>
-    </mat-card>
-</div>
+<app-search-container-item-component *ngIf="store.nutrients().length > 0">
+    <app-search-results-item-component *ngFor="let nutrient of store.nutrients(); trackBy: trackByIndex" [url]="`/nutrients/${nutrient.id}`">
+      <span title>{{ nutrient.name }}</span>
+      <p description>{{ nutrient.description ?? "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis eius harum deserunt? Temporibus debitis, explicabo delectus neque placeat voluptate error deleniti recusandae voluptatem. Distinctio repellendus consectetur aliquam rerum, dolores dolor?" }}</p>
+    </app-search-results-item-component>
+</app-search-container-item-component>
 
 @if(store.paginator()) {
     <!-- <div>
