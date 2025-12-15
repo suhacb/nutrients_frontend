@@ -41,6 +41,7 @@ import { SearchBarComponent } from './modules/search/components/search-bar-compo
 import { SearchContainerItemComponent } from './modules/search/components/search-container-item-component/search-container-item-component';
 import { SearchResultsItemComponent } from './modules/search/components/search-results-item-component/search-results-item-component';
 import { SearchPaginationComponent } from './modules/search/components/search-pagination-component/search-pagination-component';
+import { DecimalPipe } from './core/pipes/DecimalPipe';
 
 /** Material 3 components and modules */
 
@@ -88,6 +89,7 @@ import { SearchPaginationComponent } from './modules/search/components/search-pa
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
+    DecimalPipe
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -97,6 +99,9 @@ import { SearchPaginationComponent } from './modules/search/components/search-pa
         SpinnerInterceptor
       ])
     )
+  ],
+  exports: [
+    DecimalPipe
   ],
   bootstrap: [App]
 })
