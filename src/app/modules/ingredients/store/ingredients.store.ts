@@ -102,8 +102,8 @@ export class IngredientsStore {
         );
     }
 
-    search(searchQuery: string): void {
-       this.searchService.search<IngredientApiResource>(searchQuery, 'ingredients').subscribe({
+    search(searchQuery: string, page: number = 1): void {
+       this.searchService.search<IngredientApiResource>(searchQuery, 'ingredients', page).subscribe({
             next: ((response: SearchApiResponse<IngredientApiResource>) => {
                 if (!response) {
                     return;
@@ -114,7 +114,6 @@ export class IngredientsStore {
                 const paginator: SearchResultsPaginator = new SearchResultsPaginatorMapper().toApp(paginatorResponse as SearchResultsPaginatorApiResource);
                 this.setIngredients(ingredients);
                 this.setPaginator(paginator);
-                console.log(this.paginator());
             }),
             error: ((error: any) => {
                 console.log(error);

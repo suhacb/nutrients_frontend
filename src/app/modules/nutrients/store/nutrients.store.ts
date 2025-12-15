@@ -81,8 +81,8 @@ export class NutrientsStore {
         );
     }
 
-    search(searchQuery: string): void {
-        this.searchService.search<NutrientApiResource>(searchQuery, 'nutrients').subscribe({
+    search(searchQuery: string, page: number = 1): void {
+        this.searchService.search<NutrientApiResource>(searchQuery, 'nutrients', page).subscribe({
             next: ((response: SearchApiResponse<NutrientApiResource>) => {
                 if (!response) {
                     return;

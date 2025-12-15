@@ -3,36 +3,17 @@
 <app-search-bar-component [icon]="'opacity'" [label]="'Search ingredients'" (search)="onSearch($event)"></app-search-bar-component>
 
 @if(store.paginator()) {
-    <div>
-        <mat-paginator [length]="store.paginator()?.total" [pageSize]="store.paginator()?.perPage" (page)="onPageEvent($event)"></mat-paginator>
-    </div>
+    <app-search-info-component [paginator]="store.paginator()!"></app-search-info-component>
+    <app-search-pagination-component [paginator]="store.paginator()!" (pageChange)="onPageChange($event)"></app-search-pagination-component>
 }
 
-<div>
-    <mat-list>
-    @for (ingredient of store.ingredients(); track ingredient.id) {
-        <mat-list-item>
-            <div class="record-container">
-                <div class="left-section">               
-                    <div matListItemTitle>{{ingredient.name}}</div>
-                    <div matListItemLine>Source: {{ingredient.source}}</div>
-                </div>
-                <div class="center-section">
-
-                </div>
-                <div class="right-section">
-                    <button mat-icon-button (click)="onShowClick(ingredient.id); $event.stopPropagation()"  aria-label="Show">
-                        <mat-icon>visibility</mat-icon>
-                    </button>
-                </div>
-            </div>
-        </mat-list-item>
-    }
-    </mat-list>
-</div>
+<app-search-container-item-component *ngIf="store.ingredients().length > 0">
+    <app-search-results-item-component *ngFor="let ingredient of store.ingredients(); trackBy: trackByIndex" [url]="`/ingredients/${ingredient.id}`">
+      <span title>{{ ingredient.name }}</span>
+      <p description>{{ ingredient.description ?? "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis eius harum deserunt? Temporibus debitis, explicabo delectus neque placeat voluptate error deleniti recusandae voluptatem. Distinctio repellendus consectetur aliquam rerum, dolores dolor?" }}</p>
+    </app-search-results-item-component>
+</app-search-container-item-component>
 
 @if(store.paginator()) {
-    <div>
-        <mat-paginator [length]="store.paginator()?.total" [pageSize]="store.paginator()?.perPage" (page)="onPageEvent($event)"></mat-paginator>
-    </div>
+    <app-search-pagination-component [paginator]="store.paginator()!"></app-search-pagination-component>
 }

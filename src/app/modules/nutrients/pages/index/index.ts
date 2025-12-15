@@ -41,4 +41,11 @@ export class NutrientsIndexPage {
     event.preventDefault();
     this.router.navigate(['/nutrients', nutrient.id]);
   }
+
+  onPageChange(page: number): void {
+    const paginator = this.store.paginator();
+    if (paginator) {
+      this.store.search(paginator.query, page);
+    }
+  }
 }

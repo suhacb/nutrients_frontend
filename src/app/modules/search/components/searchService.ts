@@ -15,11 +15,11 @@ export class SearchService {
     private fetcher: ApiFetcherService
   ) {}
   
-    search<T>(searchQuery: string, index: 'nutrients' | 'ingredients'): Observable<SearchApiResponse<T>> {
+    search<T>(searchQuery: string, index: 'nutrients' | 'ingredients', page: number = 1): Observable<SearchApiResponse<T>> {
         const payload = {
             index: index,
             query: searchQuery,
-            page: 1
+            page: page
         };
 
         const url = `${this.cfg.appBackendUrl}/api/search`;
