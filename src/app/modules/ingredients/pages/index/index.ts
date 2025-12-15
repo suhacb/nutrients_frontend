@@ -26,4 +26,10 @@ export class IngredientsIndexPage {
     this.router.navigate(['/ingredients', id]);
   }
 
+  onSearch(searchQuery: string): void {
+    if (searchQuery.trim()) {
+      this.store.search(searchQuery);
+    }
+  }
+
 }

@@ -19,7 +19,7 @@ export class NutrientsIndexPage {
   {
     if (event.pageIndex === event.previousPageIndex) {
     } else {
-      this.store.search('').subscribe();
+      this.store.search('');
     }
   }
 
@@ -29,7 +29,7 @@ export class NutrientsIndexPage {
 
   onSearch(searchQuery: string): void {
     if (searchQuery.trim()) {
-      this.store.search(searchQuery).subscribe({});
+      this.store.search(searchQuery);
     }
   }
 

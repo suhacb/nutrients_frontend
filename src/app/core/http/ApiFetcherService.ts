@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable, EMPTY, throwError } from 'rxjs';
 import { tap, map, catchError } from 'rxjs/operators';
 import { ApiHandlerService } from '../ApiHandlerService/api-handler-service';
@@ -24,7 +24,7 @@ export class ApiFetcherService {
   ): Observable<void> {
     return this.http.get<TResponse>(url, { observe: 'response' as const }).pipe(
       tap(() => this.apiHandlerService.showSuccess(successMessage)),
-      map(response => {
+       map((response: HttpResponse<TResponse>) => {
         const body = response.body;
         process(body!); // assume body is not null
       }),
@@ -36,11 +36,14 @@ export class ApiFetcherService {
     url: string,
     payload: TRequest,
     successMessage: string,
-    process: (body: TResponse) => void
-  ): Observable<void> {
+    process?: (body: TResponse) => TResponse
+  ): Observable<TResponse> {
     return this.http.post<TResponse>(url, payload, { observe: 'response' as const }).pipe(
       tap(() => this.apiHandlerService.showSuccess(successMessage)),
-      map(response => process(response.body!)),
+      map((response: HttpResponse<TResponse>) => {
+        const body = response.body!;
+        return process ? process(body) : body;
+      }),
       catchError((error: HttpErrorResponse) => this.handleError(error))
     );
   }

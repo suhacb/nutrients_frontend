@@ -9,6 +9,8 @@ import { IngredientsMapper } from '../mappers/IngredientsMapper';
 import { PaginatorMapper } from '../../../core/Paginator/PaginatorMapper';
 import { PaginatorApiResource } from '../../../core/Paginator/PaginatorApiResource';
 import { Breadcrumb } from '../../../core/Breadcrumb/breadcrumb.d';
+import { SearchService } from '../../search/components/searchService';
+import { SearchApiResponse } from '../../../core/Search/contracts/SearchApiResponse';
 
 type IngredientIndexApiResource = {
     data: IngredientApiResource[]
@@ -18,7 +20,8 @@ type IngredientIndexApiResource = {
 export class IngredientsStore {
     constructor(
         private http: HttpClient,
-        private fetcher: ApiFetcherService
+        private fetcher: ApiFetcherService,
+        private searchService: SearchService
     ) {}
 
     private _ingredients = signal<Ingredient[]>([]);
@@ -97,5 +100,24 @@ export class IngredientsStore {
                 ]);
             }
         );
+    }
+
+    search(searchQuery: string): void {
+       this.searchService.search<IngredientApiResource>(searchQuery, 'ingredients').subscribe({
+            next: ((response: SearchApiResponse<IngredientApiResource>) => {
+                if (!response) {
+                    return;
+                }
+                let ingredients: Ingredient[] = [];
+                response.results.forEach(result => ingredients.push(new IngredientsMapper().toApp(result)));
+                const paginatorResponse =  (({ results, ...paginator }) => paginator)(response);
+                const paginator: Paginator = new PaginatorMapper().toApp(paginatorResponse as PaginatorApiResource);
+                this.setIngredients(ingredients);
+                this.setPaginator(paginator);
+            }),
+            error: ((error: any) => {
+                console.log(error);
+            })
+        });
     }
 }

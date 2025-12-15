@@ -11,6 +11,7 @@ import { ApiFetcherService } from '../../../core/http/ApiFetcherService';
 import { SearchApiRequest } from '../../../core/Search/contracts/SearchApiRequest';
 import { SearchApiResponse } from '../../../core/Search/contracts/SearchApiResponse';
 import { APP_CONFIG } from '../../../config/app-config';
+import { SearchService } from '../../search/components/searchService';
 
 type NutrientIndexApiResource = {
     data: NutrientApiResource[]
@@ -21,6 +22,7 @@ type NutrientIndexApiResource = {
 export class NutrientsStore {
     constructor(
         private fetcher: ApiFetcherService,
+        private searchService: SearchService
     ) {}
 
     private cfg = inject(APP_CONFIG);
@@ -80,29 +82,48 @@ export class NutrientsStore {
         );
     }
 
-    search(searchQuery: string): Observable<void> {
-        const payload = {
-            index: 'nutrients',
-            query: searchQuery,
-            page: 1
-        };
+    // search(searchQuery: string): Observable<void> {
+    //     const payload = {
+    //         index: 'nutrients',
+    //         query: searchQuery,
+    //         page: 1
+    //     };
+// 
+    //     const url = `${this.cfg.appBackendUrl}/api/search`;
+    //     return this.fetcher.postAndProcess<SearchApiRequest, SearchApiResponse<NutrientApiResource>>(
+    //         url,
+    //         payload,
+    //         "Here's what we found for you",
+    //         body => {
+    //             if (!body) {
+    //                 return;
+    //             }
+    //             let nutrients: Nutrient[] = [];
+    //             body.results.forEach(result => nutrients.push(new NutrientsMapper().toApp(result)));
+    //             const paginatorResponse =  (({ results, ...paginator }) => paginator)(body);
+    //             const paginator: Paginator = new PaginatorMapper().toApp(paginatorResponse as PaginatorApiResource);
+    //             this.setNutrients(nutrients);
+    //             this.setPaginator(paginator);
+    //         }
+    //     );
+    // }
 
-        const url = `${this.cfg.appBackendUrl}/api/search`;
-        return this.fetcher.postAndProcess<SearchApiRequest, SearchApiResponse<NutrientApiResource>>(
-            url,
-            payload,
-            "Here's what we found for you",
-            body => {
-                if (!body) {
+    search(searchQuery: string): void {
+        this.searchService.search<NutrientApiResource>(searchQuery, 'nutrients').subscribe({
+            next: ((response: SearchApiResponse<NutrientApiResource>) => {
+                if (!response) {
                     return;
                 }
                 let nutrients: Nutrient[] = [];
-                body.results.forEach(result => nutrients.push(new NutrientsMapper().toApp(result)));
-                const paginatorResponse =  (({ results, ...paginator }) => paginator)(body);
+                response.results.forEach(result => nutrients.push(new NutrientsMapper().toApp(result)));
+                const paginatorResponse =  (({ results, ...paginator }) => paginator)(response);
                 const paginator: Paginator = new PaginatorMapper().toApp(paginatorResponse as PaginatorApiResource);
                 this.setNutrients(nutrients);
                 this.setPaginator(paginator);
-            }
-        );
+            }),
+            error: ((error: any) => {
+                console.log(error);
+            })
+        });
     }
 }

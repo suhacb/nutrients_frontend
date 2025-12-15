@@ -1,5 +1,7 @@
 <app-breadcrumb-component [links]="store.breadcrumb()"></app-breadcrumb-component>
 
+<app-search-bar-component [icon]="'opacity'" [label]="'Search ingredients'" (search)="onSearch($event)"></app-search-bar-component>
+
 @if(store.paginator()) {
     <div>
         <mat-paginator [length]="store.paginator()?.total" [pageSize]="store.paginator()?.perPage" (page)="onPageEvent($event)"></mat-paginator>
