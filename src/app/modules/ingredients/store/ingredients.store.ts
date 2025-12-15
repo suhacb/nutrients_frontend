@@ -52,38 +52,12 @@ export class IngredientsStore {
         this._breadcrumb.set(links);
     }
 
-    index(page: number | null = null, url: string = 'http://localhost:9015/api/ingredients'): Observable<void> {
-        const finalUrl = page ? `${url}?page=${page}` : url;
-
-        return this.fetcher.fetchAndProcess<IngredientIndexApiResource>(
-            finalUrl,
-            'Ingredients index loaded.',
-            body => {
-                if (!body) {
-                    this.setIngredients([]);
-                    this.setPaginator(null);
-                    return;
-                }
-                const { data, ...paginator } = body;
-                const ingredients: Ingredient[] = data.map(d => new IngredientsMapper().toApp(d));
-                this.setIngredients(ingredients);
-
-                // this.setPaginator(new PaginatorMapper().toApp(paginator as PaginatorApiResource));
-
-                this.setBreadcrumb([
-                    { icon: 'home', link: '/' },
-                    { title: 'Ingredients' }
-                ]);
-            }
-        );
-    }
-
     show(id: number): Observable<void> {
         const url = `http://localhost:9015/api/ingredients/${id}`;
 
         return this.fetcher.fetchAndProcess<IngredientApiResource>(
             url,
-            'Nutrient loaded successfully.',
+            'Ingredient loaded successfully.',
             body => {
                 if(!body) {
                     this.setIngredient(null);
