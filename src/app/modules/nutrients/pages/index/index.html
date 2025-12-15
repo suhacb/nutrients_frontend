@@ -2,6 +2,10 @@
 
 <app-search-bar-component [icon]="'eco'" [label]="'Search nutriens'" (search)="onSearch($event)"></app-search-bar-component>
 
+@if(store.paginator()) {
+    <app-search-info-component [paginator]="store.paginator()!"></app-search-info-component>
+    <app-search-pagination-component [paginator]="store.paginator()!"></app-search-pagination-component>
+}
 <app-search-container-item-component *ngIf="store.nutrients().length > 0">
     <app-search-results-item-component *ngFor="let nutrient of store.nutrients(); trackBy: trackByIndex" [url]="`/nutrients/${nutrient.id}`">
       <span title>{{ nutrient.name }}</span>
@@ -10,11 +14,5 @@
 </app-search-container-item-component>
 
 @if(store.paginator()) {
-    <!-- <div>
-        <mat-paginator [length]="store.paginator()?.total" [pageSize]="store.paginator()?.perPage" (page)="onPageEvent($event)"></mat-paginator>
-    </div>
-    -->
-    <div class="paginator-info">
-        {{ store.paginator() | json }}
-    </div>
+    <app-search-pagination-component [paginator]="store.paginator()!"></app-search-pagination-component>
 }

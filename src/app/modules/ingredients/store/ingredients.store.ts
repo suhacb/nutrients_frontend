@@ -4,17 +4,17 @@ import { ApiFetcherService } from '../../../core/http/ApiFetcherService';
 import { Observable } from 'rxjs';
 import { Ingredient } from '../contracts/Ingredient';
 import { IngredientApiResource } from '../contracts/IngredientApiResource';
-import { Paginator } from '../../../core/Paginator/paginator';
 import { IngredientsMapper } from '../mappers/IngredientsMapper';
-import { PaginatorMapper } from '../../../core/Paginator/PaginatorMapper';
 import { PaginatorApiResource } from '../../../core/Paginator/PaginatorApiResource';
 import { Breadcrumb } from '../../../core/Breadcrumb/breadcrumb.d';
 import { SearchService } from '../../search/components/searchService';
 import { SearchApiResponse } from '../../../core/Search/contracts/SearchApiResponse';
+import { SearchResultsPaginator, SearchResultsPaginatorApiResource } from '../../search/contracts/SearchResultsPaginator';
+import { SearchResultsPaginatorMapper } from '../../search/mappers/SearchResultsPaginatorMapper';
 
 type IngredientIndexApiResource = {
     data: IngredientApiResource[]
-} & PaginatorApiResource
+} & SearchResultsPaginatorApiResource
 
 @Injectable({ providedIn: 'root' })
 export class IngredientsStore {
@@ -26,7 +26,7 @@ export class IngredientsStore {
 
     private _ingredients = signal<Ingredient[]>([]);
     private _ingredient = signal<Ingredient | null>(null);
-    private _paginator = signal<Paginator | null>(null);
+    private _paginator = signal<SearchResultsPaginator | null>(null);
     private _breadcrumb = signal<Breadcrumb[]>([]);
 
     // expose readony signals
@@ -44,7 +44,7 @@ export class IngredientsStore {
         this._ingredient.set(show);
     }
 
-    setPaginator(paginator: Paginator | null = null): void {
+    setPaginator(paginator: SearchResultsPaginator | null = null): void {
         this._paginator.set(paginator);
     }
 
@@ -68,7 +68,7 @@ export class IngredientsStore {
                 const ingredients: Ingredient[] = data.map(d => new IngredientsMapper().toApp(d));
                 this.setIngredients(ingredients);
 
-                this.setPaginator(new PaginatorMapper().toApp(paginator as PaginatorApiResource));
+                // this.setPaginator(new PaginatorMapper().toApp(paginator as PaginatorApiResource));
 
                 this.setBreadcrumb([
                     { icon: 'home', link: '/' },
@@ -111,9 +111,10 @@ export class IngredientsStore {
                 let ingredients: Ingredient[] = [];
                 response.results.forEach(result => ingredients.push(new IngredientsMapper().toApp(result)));
                 const paginatorResponse =  (({ results, ...paginator }) => paginator)(response);
-                const paginator: Paginator = new PaginatorMapper().toApp(paginatorResponse as PaginatorApiResource);
+                const paginator: SearchResultsPaginator = new SearchResultsPaginatorMapper().toApp(paginatorResponse as SearchResultsPaginatorApiResource);
                 this.setIngredients(ingredients);
                 this.setPaginator(paginator);
+                console.log(this.paginator());
             }),
             error: ((error: any) => {
                 console.log(error);

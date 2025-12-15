@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './search-container-item-component.scss'
 })
 export class SearchContainerItemComponent {
-
+  
 }
