@@ -1,0 +1,212 @@
+<div class="pedia-shell">
+
+  <div class="pedia-left">
+    <div class="pedia-category-tabs">
+      <button class="category-tab" [class.active]="category === 'nutrients'" (click)="onCategoryChange('nutrients')">
+        <mat-icon>eco</mat-icon>
+        Nutrients
+      </button>
+      <button class="category-tab" [class.active]="category === 'ingredients'" (click)="onCategoryChange('ingredients')">
+        <mat-icon>opacity</mat-icon>
+        Ingredients
+      </button>
+    </div>
+
+    <div class="pedia-search">
+      <app-search-bar-component
+        [icon]="category === 'nutrients' ? 'eco' : 'opacity'"
+        [label]="'Search ' + category"
+        (search)="onSearch($event)">
+      </app-search-bar-component>
+    </div>
+
+    <div class="pedia-results">
+      @if (category === 'nutrients') {
+        @for (nutrient of nutrientsStore.nutrients(); track nutrient.id) {
+          <div class="pedia-entry" [class.active]="activeId === nutrient.id" (click)="onEntrySelect(nutrient.id)">
+            <span class="entry-name">{{ nutrient.name }}</span>
+          </div>
+        }
+      } @else {
+        @for (ingredient of ingredientsStore.ingredients(); track ingredient.id) {
+          <div class="pedia-entry" [class.active]="activeId === ingredient.id" (click)="onEntrySelect(ingredient.id)">
+            <span class="entry-name">{{ ingredient.name }}</span>
+          </div>
+        }
+      }
+    </div>
+  </div>
+
+  <div class="pedia-right">
+    @if (!activeId) {
+      <div class="pedia-empty">
+        <mat-icon>menu_book</mat-icon>
+        <p>Select an entry to begin reading</p>
+      </div>
+    } @else if (category === 'nutrients') {
+      @if (nutrientsStore.nutrient(); as nutrient) {
+        <div class="pedia-detail">
+          <div class="detail-header">
+            <h1 class="detail-title">{{ nutrient.name }}</h1>
+            <span class="detail-subtitle">{{ nutrient.slug }}</span>
+          </div>
+
+          @if (nutrient.tags?.length) {
+            <div class="chip-row">
+              @for (tag of nutrient.tags ?? []; track tag.id) {
+                <mat-chip>{{ tag.name }}</mat-chip>
+              }
+            </div>
+          }
+
+          @if (nutrient.description) {
+            <div class="detail-card">
+              <h2 class="detail-card-title">Description</h2>
+              <div class="description" [innerHTML]="nutrient.description | markdown"></div>
+            </div>
+          }
+
+          <div class="detail-card">
+            <h2 class="detail-card-title">Details</h2>
+            <div class="detail-rows">
+              @if (nutrient.source) {
+                <div class="detail-row">
+                  <span class="detail-label">Source</span>
+                  <span class="detail-value">{{ nutrient.source.name }}</span>
+                </div>
+              }
+              @if (nutrient.canonicalUnit) {
+                <div class="detail-row">
+                  <span class="detail-label">Canonical unit</span>
+                  <span class="detail-value">{{ nutrient.canonicalUnit.name }} ({{ nutrient.canonicalUnit.abbreviation }})</span>
+                </div>
+              }
+              @if (nutrient.isLabelStandard) {
+                <div class="detail-row">
+                  <span class="detail-label">Nutrition label</span>
+                  <span class="detail-value">Standard nutrition label nutrient</span>
+                </div>
+              }
+            </div>
+          </div>
+
+          @if (nutrient.parent) {
+            <div class="detail-card">
+              <h2 class="detail-card-title">Parent nutrient</h2>
+              <a class="related-link" [routerLink]="['/nutripedia/nutrients', nutrient.parent.id]">
+                <mat-icon>eco</mat-icon>
+                {{ nutrient.parent.name }}
+                <mat-icon class="link-arrow">chevron_right</mat-icon>
+              </a>
+            </div>
+          }
+
+          @if (nutrient.children?.length) {
+            <div class="detail-card">
+              <h2 class="detail-card-title">Sub-nutrients</h2>
+              <div class="related-list">
+                @for (child of nutrient.children ?? []; track child.id) {
+                  <a class="related-link" [routerLink]="['/nutripedia/nutrients', child.id]">
+                    <mat-icon>eco</mat-icon>
+                    {{ child.name }}
+                    <mat-icon class="link-arrow">chevron_right</mat-icon>
+                  </a>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      }
+    } @else {
+      @if (ingredientsStore.ingredient(); as ingredient) {
+        <div class="pedia-detail">
+          <div class="detail-header">
+            <h1 class="detail-title">{{ ingredient.name }}</h1>
+            <span class="detail-subtitle">{{ ingredient.slug }}</span>
+          </div>
+
+          @if (ingredient.categories?.length) {
+            <div class="chip-row">
+              @for (category of ingredient.categories ?? []; track category.id) {
+                <mat-chip>{{ category.name }}</mat-chip>
+              }
+            </div>
+          }
+
+          @if (ingredient.description) {
+            <div class="detail-card">
+              <h2 class="detail-card-title">Description</h2>
+              <div class="description" [innerHTML]="ingredient.description | markdown"></div>
+            </div>
+          }
+
+          <div class="ingredient-layout">
+            <div class="ingredient-main">
+              <div class="detail-card">
+                <h2 class="detail-card-title">Details</h2>
+                <div class="detail-rows">
+                  @if (ingredient.brand) {
+                    <div class="detail-row">
+                      <span class="detail-label">Brand</span>
+                      <span class="detail-value">{{ ingredient.brand.name }}</span>
+                    </div>
+                  }
+                  @if (ingredient.source) {
+                    <div class="detail-row">
+                      <span class="detail-label">Source</span>
+                      <span class="detail-value">{{ ingredient.source }}</span>
+                    </div>
+                  }
+                  @if (ingredient.class) {
+                    <div class="detail-row">
+                      <span class="detail-label">Class</span>
+                      <span class="detail-value">{{ ingredient.class }}</span>
+                    </div>
+                  }
+                </div>
+              </div>
+
+              @if (ingredient.nutrients?.length) {
+                <div class="detail-card">
+                  <h2 class="detail-card-title">Nutrients</h2>
+                  <div class="related-list">
+                    @for (nutrient of ingredient.nutrients ?? []; track nutrient.id) {
+                      <div class="related-item">
+                        <mat-icon>eco</mat-icon>
+                        {{ nutrient.name }}
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+
+            <div class="ingredient-aside">
+              <div class="detail-card nutrition-card">
+                <h2 class="detail-card-title">Nutrition facts</h2>
+                <p class="nutrition-serving">
+                  Per <strong>{{ ingredient.defaultAmount }} {{ ingredient.defaultAmountUnit?.abbreviation ?? '' }}</strong>
+                </p>
+                <table mat-table [dataSource]="dataSource" class="nutrition-table">
+                  <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>Nutrient</th>
+                    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="amount">
+                    <th mat-header-cell *matHeaderCellDef>Amount</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{ element.amount | decimal }} {{ element.unit?.abbreviation ?? '' }}
+                    </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    }
+  </div>
+
+</div>

@@ -40,6 +40,8 @@ import { SearchBarComponent } from './modules/search/components/search-bar-compo
 import { SearchContainerItemComponent } from './modules/search/components/search-container-item-component/search-container-item-component';
 import { SearchResultsItemComponent } from './modules/search/components/search-results-item-component/search-results-item-component';
 import { SearchPaginationComponent } from './modules/search/components/search-pagination-component/search-pagination-component';
+import { NutripediaPage } from './modules/nutripedia/nutripedia';
+import { BreadcrumbComponent } from './core/Breadcrumb/breadcrumb';
 import { DecimalPipe } from './core/pipes/DecimalPipe';
 import { MarkdownPipe } from './core/pipes/MarkdownPipe';
 
@@ -66,6 +68,8 @@ import { MarkdownPipe } from './core/pipes/MarkdownPipe';
     SearchContainerItemComponent,
     SearchResultsItemComponent,
     SearchPaginationComponent,
+    NutripediaPage,
+    BreadcrumbComponent,
   ],
   imports: [
     BrowserModule,

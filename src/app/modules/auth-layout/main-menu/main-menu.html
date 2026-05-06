@@ -7,16 +7,10 @@
       @if (!collapsed) { <span class="nav-label">Home</span> }
     </a>
 
-    <a class="nav-item" routerLink="/nutrients" routerLinkActive="active"
-       [matTooltip]="collapsed ? 'Nutrients' : ''" matTooltipPosition="right">
-      <mat-icon class="nav-icon">eco</mat-icon>
-      @if (!collapsed) { <span class="nav-label">Nutrients</span> }
-    </a>
-
-    <a class="nav-item" routerLink="/ingredients" routerLinkActive="active"
-       [matTooltip]="collapsed ? 'Ingredients' : ''" matTooltipPosition="right">
-      <mat-icon class="nav-icon">opacity</mat-icon>
-      @if (!collapsed) { <span class="nav-label">Ingredients</span> }
+    <a class="nav-item" routerLink="/nutripedia" routerLinkActive="active"
+       [matTooltip]="collapsed ? 'Nutripedia' : ''" matTooltipPosition="right">
+      <mat-icon class="nav-icon">menu_book</mat-icon>
+      @if (!collapsed) { <span class="nav-label">Nutripedia</span> }
     </a>
 
     <button class="nav-item nav-item-button" (click)="triggerAiClick()"
