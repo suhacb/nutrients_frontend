@@ -189,7 +189,13 @@
                     @for (nutrient of ingredient.nutrients ?? []; track nutrient.id) {
                       <div class="related-item">
                         <mat-icon>eco</mat-icon>
-                        {{ nutrient.name }}
+                        <span class="related-item-name">{{ nutrient.name }}</span>
+                        @if (nutrient.pivot?.amount != null) {
+                          <span class="related-item-amount">
+                            {{ nutrient.pivot!.amount! | decimal }}
+                            {{ nutrient.pivot!.amountUnit?.abbreviation ?? '' }}
+                          </span>
+                        }
                       </div>
                     }
                   </div>

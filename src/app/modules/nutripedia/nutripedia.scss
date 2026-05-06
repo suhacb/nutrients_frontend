@@ -309,7 +309,22 @@
     width: 16px;
     height: 16px;
     color: rgba(0, 0, 0, 0.3);
+    flex-shrink: 0;
   }
+}
+
+.related-item-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.related-item-amount {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.5);
+  flex-shrink: 0;
 }
 
 // ── Ingredient two-column layout ──────────────────────────────────────────────
