@@ -1,36 +1,12 @@
 export interface SearchResultsPaginator {
-  currentPage: number,
-  from: number,
-  index: string,
-  lastPage: number,
-  page: number,
-  perPage: number,
-  query: string,
-  to: number
-  total: number,
-  pages: number[]
-}
-
-export interface SearchResultsPaginatorApiResource {
-  current_page: number,
-  from: number,
-  index: string,
-  last_page: number,
-  page: number,
-  per_page: number,
-  query: string,
-  to: number
-  total: number
-}
-
-export interface SearchResultsPaginatorApiPayload {
-  current_page: number,
-  from: number,
-  index: string,
-  last_page: number,
-  page: number,
-  per_page: number,
-  query: string,
-  to: number
-  total: number
+  query: string;
+  index: string;
+  total: number;
+  perPage: number;
+  currentPage: number;
+  lastPage: number;
+  from: number | null;
+  to: number | null;
+  page: number;
+  pages: number[];
 }

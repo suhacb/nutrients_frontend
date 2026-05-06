@@ -1,13 +1,3 @@
-import { UnitApiResource } from "./UnitApiResource"
+import type { components } from '../../../core/api/generated';
 
-export type NutritionFactApiResource = {
-    id: number,
-    ingredient_id: number,
-    category: string,
-    name: string,
-    amount: number, 
-    amount_unit_id: number,
-    unit?: UnitApiResource,
-    created_at: string,
-    updated_at: string
-}
+export type NutritionFactApiResource = components['schemas']['IngredientNutritionFact'];

@@ -1,13 +1,11 @@
-import { Unit } from "./Unit"
+import { Unit } from './Unit';
 
 export type NutritionFact = {
-    id: number,
-    ingredientId: number,
-    category: string,
-    name: string,
-    amount: number, 
-    amountUnitId: number,
-    unit?: Unit,
-    createdAt: Date,
-    updatedAt: Date
-}
+  id: number;
+  category: string | null;
+  name: string;
+  amount: number | null;
+  unit: Unit | null;
+  createdAt: Date;
+  updatedAt: Date;
+};

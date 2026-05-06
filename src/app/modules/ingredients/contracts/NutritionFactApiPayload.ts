@@ -1,6 +1,6 @@
 export type NutritionFactApiPayload = {
-    category: string,
+    category: string | null,
     name: string,
-    amount: number, 
-    amount_unit_id: number, 
+    amount: number | null,
+    amount_unit_id: number,
 }

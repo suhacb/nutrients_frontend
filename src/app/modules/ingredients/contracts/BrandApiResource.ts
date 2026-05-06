@@ -1,3 +1,3 @@
 import type { components } from '../../../core/api/generated';
 
-export type UnitApiResource = components['schemas']['Unit'];
+export type BrandApiResource = components['schemas']['Brand'];
