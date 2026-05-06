@@ -17,7 +17,7 @@ export class Welcome {
   public cfg = inject(APP_CONFIG);
 
   login():void  {
-    this.http.post('http://localhost:9015/api/auth/login', {}, {observe: 'response'}).subscribe({
+    this.http.post(`${this.cfg.appBackendUrl}/api/auth/login`, {}, {observe: 'response'}).subscribe({
       next: (response: HttpResponse<any>) => {
         const url = new URL(response.body.redirect_uri);
         window.location.href = url.toString();

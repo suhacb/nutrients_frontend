@@ -1,3 +1,108 @@
-.spacer {
-  flex: 1 1 auto;
+:host {
+  display: block;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.welcome-shell {
+  display: flex;
+  height: 100%;
+}
+
+// ── Brand panel ───────────────────────────────────────────────────────────────
+
+.brand-panel {
+  flex: 1;
+  background: #1e2a3a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+}
+
+.brand-content {
+  max-width: 400px;
+  color: #e8edf2;
+}
+
+.brand-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: rgba(232, 237, 242, 0.7);
+  display: block;
+  margin-bottom: 24px;
+}
+
+.brand-title {
+  margin: 0 0 16px;
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #e8edf2;
+}
+
+.brand-tagline {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(232, 237, 242, 0.55);
+}
+
+// ── Auth panel ────────────────────────────────────────────────────────────────
+
+.auth-panel {
+  width: 420px;
+  flex-shrink: 0;
+  background: #f6f7f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 300px;
+}
+
+.auth-heading {
+  margin: 0 0 8px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #1e2a3a;
+}
+
+.auth-subtext {
+  margin: 0 0 32px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.sign-in-btn {
+  width: 100%;
+  height: 44px;
+  font-size: 14px;
+  font-weight: 500;
+  background: #1e2a3a;
+  color: #e8edf2;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    margin-right: 4px;
+  }
+}
+
+// ── Responsive ────────────────────────────────────────────────────────────────
+
+@media (max-width: 640px) {
+  .brand-panel {
+    display: none;
+  }
+
+  .auth-panel {
+    width: 100%;
+  }
 }

@@ -1,12 +1,22 @@
-<mat-toolbar color="primary">
-  <button mat-icon-button disableRipple>
-    <mat-icon>restaurant</mat-icon>
-  </button>
-  <span>{{cfg.appTitle}}</span>
-  <span class="spacer"></span>
-  <button mat-button (click)="login()">
-  <!-- <button mat-button> -->
-    <mat-icon>login</mat-icon>
-    Sign In
-  </button>
-</mat-toolbar>
+<div class="welcome-shell">
+
+  <div class="brand-panel">
+    <div class="brand-content">
+      <mat-icon class="brand-icon">eco</mat-icon>
+      <h1 class="brand-title">{{ cfg.appTitle }}</h1>
+      <p class="brand-tagline">Track nutrition, manage ingredients,<br>and explore your diet with precision.</p>
+    </div>
+  </div>
+
+  <div class="auth-panel">
+    <div class="auth-card">
+      <h2 class="auth-heading">Welcome back</h2>
+      <p class="auth-subtext">Sign in to continue to {{ cfg.appName }}</p>
+      <button mat-flat-button class="sign-in-btn" (click)="login()">
+        <mat-icon>login</mat-icon>
+        Sign in
+      </button>
+    </div>
+  </div>
+
+</div>
