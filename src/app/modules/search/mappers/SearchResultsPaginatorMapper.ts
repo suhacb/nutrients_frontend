@@ -1,48 +1,34 @@
-import { ResourceMapper } from "../../../core/ResourceMapper/ResourceMapper";
-import { SearchResultsPaginator, SearchResultsPaginatorApiPayload, SearchResultsPaginatorApiResource } from "../contracts/SearchResultsPaginator.d";
+import { SearchApiResponse } from '../../../core/Search/contracts/SearchApiResponse';
+import { SearchResultsPaginator } from '../contracts/SearchResultsPaginator.d';
 
-export class SearchResultsPaginatorMapper extends ResourceMapper<SearchResultsPaginator, SearchResultsPaginatorApiResource, SearchResultsPaginatorApiPayload> {
-    public toApp(api: SearchResultsPaginatorApiResource): SearchResultsPaginator {
-        return {
-            currentPage: api.current_page,
-            from: api.from,
-            index: api.index,
-            lastPage: api.last_page,
-            page: api.page,
-            perPage: api.per_page,
-            query: api.query,
-            to: api.to,
-            total: api.total,
-            pages: Array.from({ length: api.last_page }, (_, i) => i + 1)
-        }
-    }
+export class SearchResultsPaginatorMapper {
+  toApp(api: SearchApiResponse): SearchResultsPaginator {
+    return {
+      query: api.query,
+      index: api.index,
+      total: api.total,
+      perPage: api.per_page,
+      currentPage: api.current_page,
+      lastPage: api.last_page,
+      from: api.from,
+      to: api.to,
+      page: api.page,
+      pages: Array.from({ length: api.last_page }, (_, i) => i + 1),
+    };
+  }
 
-    public toApi(app: SearchResultsPaginator): SearchResultsPaginatorApiPayload {
-        return {
-            current_page: app.currentPage,
-            from: app.from,
-            index: app.index,
-            last_page: app.lastPage,
-            page: app.page,
-            per_page: app.perPage,
-            query: app.query,
-            to: app.to,
-            total: app.total,
-        }
-    }
-
-    public make(): SearchResultsPaginator {
-        return {
-            currentPage: 0,
-            from: 0,
-            index: '',
-            lastPage: 0,
-            page: 0,
-            perPage: 0,
-            query: '',
-            to: 0,
-            total: 0,
-            pages: []
-        }
-    }
+  make(): SearchResultsPaginator {
+    return {
+      query: '',
+      index: '',
+      total: 0,
+      perPage: 25,
+      currentPage: 1,
+      lastPage: 1,
+      from: null,
+      to: null,
+      page: 1,
+      pages: [],
+    };
+  }
 }

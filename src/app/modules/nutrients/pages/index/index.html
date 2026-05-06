@@ -1,18 +1,18 @@
 <app-breadcrumb-component [links]="store.breadcrumb()"></app-breadcrumb-component>
 
-<app-search-bar-component [icon]="'eco'" [label]="'Search nutriens'" (search)="onSearch($event)"></app-search-bar-component>
+<app-search-bar-component [icon]="'eco'" [label]="'Search nutrients'" (search)="onSearch($event)"></app-search-bar-component>
 
 @if(store.paginator()) {
     <app-search-info-component [paginator]="store.paginator()!"></app-search-info-component>
-    <app-search-pagination-component [paginator]="store.paginator()!"></app-search-pagination-component>
+    <app-search-pagination-component [paginator]="store.paginator()!" (pageChange)="onPageChange($event)"></app-search-pagination-component>
 }
 <app-search-container-item-component *ngIf="store.nutrients().length > 0">
     <app-search-results-item-component *ngFor="let nutrient of store.nutrients(); trackBy: trackByIndex" [url]="`/nutrients/${nutrient.id}`">
       <span title>{{ nutrient.name }}</span>
-      <p description>{{ nutrient.description ?? "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis eius harum deserunt? Temporibus debitis, explicabo delectus neque placeat voluptate error deleniti recusandae voluptatem. Distinctio repellendus consectetur aliquam rerum, dolores dolor?" }}</p>
+      <p description>{{ nutrient.description }}</p>
     </app-search-results-item-component>
 </app-search-container-item-component>
 
 @if(store.paginator()) {
-    <app-search-pagination-component [paginator]="store.paginator()!"></app-search-pagination-component>
+    <app-search-pagination-component [paginator]="store.paginator()!" (pageChange)="onPageChange($event)"></app-search-pagination-component>
 }

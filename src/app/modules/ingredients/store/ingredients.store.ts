@@ -1,97 +1,67 @@
-import { Injectable, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, signal, inject } from '@angular/core';
 import { ApiFetcherService } from '../../../core/http/ApiFetcherService';
 import { Observable } from 'rxjs';
 import { Ingredient } from '../contracts/Ingredient';
 import { IngredientApiResource } from '../contracts/IngredientApiResource';
 import { IngredientsMapper } from '../mappers/IngredientsMapper';
-import { PaginatorApiResource } from '../../../core/Paginator/PaginatorApiResource';
 import { Breadcrumb } from '../../../core/Breadcrumb/breadcrumb.d';
 import { SearchService } from '../../search/components/searchService';
-import { SearchApiResponse } from '../../../core/Search/contracts/SearchApiResponse';
-import { SearchResultsPaginator, SearchResultsPaginatorApiResource } from '../../search/contracts/SearchResultsPaginator';
+import { SearchResultsPaginator } from '../../search/contracts/SearchResultsPaginator';
 import { SearchResultsPaginatorMapper } from '../../search/mappers/SearchResultsPaginatorMapper';
-
-type IngredientIndexApiResource = {
-    data: IngredientApiResource[]
-} & SearchResultsPaginatorApiResource
+import { APP_CONFIG } from '../../../config/app-config';
 
 @Injectable({ providedIn: 'root' })
 export class IngredientsStore {
-    constructor(
-        private http: HttpClient,
-        private fetcher: ApiFetcherService,
-        private searchService: SearchService
-    ) {}
+  constructor(
+    private fetcher: ApiFetcherService,
+    private searchService: SearchService,
+  ) {}
 
-    private _ingredients = signal<Ingredient[]>([]);
-    private _ingredient = signal<Ingredient | null>(null);
-    private _paginator = signal<SearchResultsPaginator | null>(null);
-    private _breadcrumb = signal<Breadcrumb[]>([]);
+  private cfg = inject(APP_CONFIG);
 
-    // expose readony signals
-    readonly ingredients = this._ingredients.asReadonly();
-    readonly ingredient = this._ingredient.asReadonly();
-    readonly paginator = this._paginator.asReadonly();
-    readonly breadcrumb = this._breadcrumb.asReadonly();
+  private _ingredients = signal<Ingredient[]>([]);
+  private _ingredient = signal<Ingredient | null>(null);
+  private _paginator = signal<SearchResultsPaginator | null>(null);
+  private _breadcrumb = signal<Breadcrumb[]>([]);
 
-    // setters
-    setIngredients(index: Ingredient[]): void {
-        this._ingredients.set(index);
-    }
+  readonly ingredients = this._ingredients.asReadonly();
+  readonly ingredient = this._ingredient.asReadonly();
+  readonly paginator = this._paginator.asReadonly();
+  readonly breadcrumb = this._breadcrumb.asReadonly();
 
-    setIngredient(show: Ingredient | null): void {
-        this._ingredient.set(show);
-    }
+  setIngredients(index: Ingredient[]): void { this._ingredients.set(index); }
+  setIngredient(show: Ingredient | null): void { this._ingredient.set(show); }
+  setPaginator(paginator: SearchResultsPaginator | null = null): void { this._paginator.set(paginator); }
+  setBreadcrumb(links: Breadcrumb[]): void { this._breadcrumb.set(links); }
 
-    setPaginator(paginator: SearchResultsPaginator | null = null): void {
-        this._paginator.set(paginator);
-    }
+  show(id: number): Observable<void> {
+    const url = `${this.cfg.appBackendUrl}/api/ingredients/${id}`;
+    return this.fetcher.fetchAndProcess<IngredientApiResource>(url, 'Ingredient loaded successfully.', body => {
+      if (!body) { this.setIngredient(null); return; }
+      const ingredient = new IngredientsMapper().toApp(body);
+      this.setIngredient(ingredient);
+      this.setBreadcrumb([
+        { icon: 'home', link: '/' },
+        { title: 'Ingredients', link: '/ingredients' },
+        { title: ingredient.name },
+      ]);
+    });
+  }
 
-    setBreadcrumb(links: Breadcrumb[]): void {
-        this._breadcrumb.set(links);
-    }
-
-    show(id: number): Observable<void> {
-        const url = `http://localhost:9015/api/ingredients/${id}`;
-
-        return this.fetcher.fetchAndProcess<IngredientApiResource>(
-            url,
-            'Ingredient loaded successfully.',
-            body => {
-                if(!body) {
-                    this.setIngredient(null);
-                    return;
-                }
-                
-                const ingredient = new IngredientsMapper().toApp(body);
-                this.setIngredient(ingredient);
-
-                this.setBreadcrumb([
-                    { icon: 'home', link: '/' },
-                    { title: 'Ingredients', link: '/ingredients' },
-                    { title: ingredient.name }
-                ]);
-            }
-        );
-    }
-
-    search(searchQuery: string, page: number = 1): void {
-       this.searchService.search<IngredientApiResource>(searchQuery, 'ingredients', page).subscribe({
-            next: ((response: SearchApiResponse<IngredientApiResource>) => {
-                if (!response) {
-                    return;
-                }
-                let ingredients: Ingredient[] = [];
-                response.results.forEach(result => ingredients.push(new IngredientsMapper().toApp(result)));
-                const paginatorResponse =  (({ results, ...paginator }) => paginator)(response);
-                const paginator: SearchResultsPaginator = new SearchResultsPaginatorMapper().toApp(paginatorResponse as SearchResultsPaginatorApiResource);
-                this.setIngredients(ingredients);
-                this.setPaginator(paginator);
-            }),
-            error: ((error: any) => {
-                console.log(error);
-            })
-        });
-    }
+  search(query: string, page: number = 1): void {
+    this.searchService.search(query, 'ingredients', page).subscribe({
+      next: response => {
+        const mapper = new IngredientsMapper();
+        const ingredients: Ingredient[] = (response.results ?? []).map(hit => ({
+          ...mapper.make(),
+          id: hit.id,
+          name: hit.name ?? '',
+          description: hit.description ?? null,
+        }));
+        this.setIngredients(ingredients);
+        this.setPaginator(new SearchResultsPaginatorMapper().toApp(response));
+      },
+      error: err => console.error(err),
+    });
+  }
 }

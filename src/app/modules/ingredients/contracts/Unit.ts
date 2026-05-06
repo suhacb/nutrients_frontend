@@ -1,8 +1,10 @@
 export type Unit = {
-    id: number,
-    abbreviation: string,
-    name: string,
-    type: string,
-    createdAt: Date,
-    updatedAt: Date
-}
+  id: number;
+  name: string;
+  abbreviation: string;
+  type: string | null;
+  toBaseFactor: number | null;
+  baseUnitId: number | null;
+  createdAt: Date;
+  updatedAt: Date;
+};

@@ -29,7 +29,6 @@ export class SearchPaginationComponent {
     }
 
     const pages: (number | '...')[] = [1];
-
     if (range[0] > 2) pages.push('...');
     pages.push(...range);
     if (range[range.length - 1] < lastPage - 1) pages.push('...');

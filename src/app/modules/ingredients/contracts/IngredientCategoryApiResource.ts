@@ -1,6 +1,3 @@
-export type IngredientCategoryApiResource = {
-    id: number,
-    name: string,
-    created_at: string,
-    updated_at: string,
-}
+import type { components } from '../../../core/api/generated';
+
+export type IngredientCategoryApiResource = components['schemas']['IngredientCategory'];

@@ -6,10 +6,10 @@ import { IngredientCategoryApiResource } from "../contracts/IngredientCategoryAp
 export class IngredientCategoryMapper extends ResourceMapper<IngredientCategory, IngredientCategoryApiResource, IngredientCategoryApiPayload> {
     public toApp (api: IngredientCategoryApiResource): IngredientCategory {
         return {
-            id: api.id,
-            name: api.name,
-            createdAt: new Date(api.created_at),
-            updatedAt: new Date(api.updated_at),
+            id: api.id!,
+            name: api.name!,
+            createdAt: new Date(api.created_at!),
+            updatedAt: new Date(api.updated_at!),
         }
     }
 

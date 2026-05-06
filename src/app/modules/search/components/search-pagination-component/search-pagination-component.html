@@ -1,13 +1,11 @@
 <nav class="pagination-container" *ngIf="paginator">
   <div class="pagination">
-    <!-- Previous button -->
     <button class="page-btn"
             [disabled]="paginator.currentPage === 1"
             (click)="goToPage(paginator.currentPage - 1)">
       Prev
     </button>
 
-    <!-- Page links -->
     <ng-container *ngFor="let page of pagesToDisplay">
       <button *ngIf="page !== '...'; else dots"
               class="page-btn"
@@ -20,7 +18,6 @@
       </ng-template>
     </ng-container>
 
-    <!-- Next button -->
     <button class="page-btn"
             [disabled]="paginator.currentPage === paginator.lastPage"
             (click)="goToPage(paginator.currentPage + 1)">

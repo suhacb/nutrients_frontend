@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IngredientsStore } from '../../store/ingredients.store';
 import { Router } from '@angular/router';
-import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-ingredients-index-page',
@@ -10,20 +9,15 @@ import { PageEvent } from '@angular/material/paginator';
   styleUrl: './index.scss'
 })
 export class IngredientsIndexPage {
-
   constructor(public store: IngredientsStore, private router: Router) {}
 
-  trackByIndex(index: number, item: any): number {
+  trackByIndex(index: number): number {
     return index;
   }
 
-  onShowClick(id: number): void {
-    this.router.navigate(['/ingredients', id]);
-  }
-
-  onSearch(searchQuery: string): void {
-    if (searchQuery.trim()) {
-      this.store.search(searchQuery);
+  onSearch(query: string): void {
+    if (query.trim()) {
+      this.store.search(query);
     }
   }
 
