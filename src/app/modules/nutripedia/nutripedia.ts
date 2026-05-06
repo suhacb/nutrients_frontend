@@ -17,6 +17,7 @@ export type PediaCategory = 'nutrients' | 'ingredients';
 export class NutripediaPage implements OnInit, OnDestroy {
   category: PediaCategory = 'nutrients';
   activeId: number | null = null;
+  searchQuery = '';
   displayedColumns = ['name', 'amount'];
   dataSource = new MatTableDataSource<NutritionFact>([]);
 
@@ -64,10 +65,24 @@ export class NutripediaPage implements OnInit, OnDestroy {
   }
 
   onSearch(query: string): void {
+    this.searchQuery = query;
     if (this.category === 'nutrients') {
       this.nutrientsStore.search(query);
     } else {
       this.ingredientsStore.search(query);
+    }
+  }
+
+  onLoadMore(): void {
+    const paginator = this.category === 'nutrients'
+      ? this.nutrientsStore.paginator()
+      : this.ingredientsStore.paginator();
+    if (!paginator || paginator.currentPage >= paginator.lastPage) return;
+    const nextPage = paginator.currentPage + 1;
+    if (this.category === 'nutrients') {
+      this.nutrientsStore.search(this.searchQuery, nextPage, true);
+    } else {
+      this.ingredientsStore.search(this.searchQuery, nextPage, true);
     }
   }
 }

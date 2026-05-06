@@ -51,7 +51,7 @@ export class NutrientsStore {
     });
   }
 
-  search(query: string, page: number = 1): void {
+  search(query: string, page: number = 1, append: boolean = false): void {
     this.searchService.search(query, 'nutrients', page).subscribe({
       next: response => {
         const mapper = new NutrientsMapper();
@@ -61,7 +61,7 @@ export class NutrientsStore {
           name: hit.name ?? '',
           description: hit.description ?? null,
         }));
-        this.setNutrients(nutrients);
+        this.setNutrients(append ? [...this._nutrients(), ...nutrients] : nutrients);
         this.setPaginator(new SearchResultsPaginatorMapper().toApp(response));
       },
       error: err => console.error(err),

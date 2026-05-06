@@ -27,11 +27,27 @@
             <span class="entry-name">{{ nutrient.name }}</span>
           </div>
         }
+        @if (nutrientsStore.paginator(); as p) {
+          @if (p.currentPage < p.lastPage) {
+            <button class="load-more" (click)="onLoadMore()">
+              Load more
+              <span class="load-more-count">{{ nutrientsStore.nutrients().length }} / {{ p.total }}</span>
+            </button>
+          }
+        }
       } @else {
         @for (ingredient of ingredientsStore.ingredients(); track ingredient.id) {
           <div class="pedia-entry" [class.active]="activeId === ingredient.id" (click)="onEntrySelect(ingredient.id)">
             <span class="entry-name">{{ ingredient.name }}</span>
           </div>
+        }
+        @if (ingredientsStore.paginator(); as p) {
+          @if (p.currentPage < p.lastPage) {
+            <button class="load-more" (click)="onLoadMore()">
+              Load more
+              <span class="load-more-count">{{ ingredientsStore.ingredients().length }} / {{ p.total }}</span>
+            </button>
+          }
         }
       }
     </div>
