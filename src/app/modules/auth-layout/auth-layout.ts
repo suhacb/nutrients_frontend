@@ -1,9 +1,8 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AuthStore } from '../../core/Auth/store/auth.store';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmCancelDialog } from '../../core/ConfirmCancelDialog/confirm-cancel-dialog';
-import { MatSidenav } from '@angular/material/sidenav';
 import { APP_CONFIG } from '../../config/app-config';
 
 @Component({
@@ -13,46 +12,39 @@ import { APP_CONFIG } from '../../config/app-config';
   styleUrl: './auth-layout.scss'
 })
 export class AuthLayout {
+  public cfg = inject(APP_CONFIG);
+
+  sidebarCollapsed = false;
+  aiPanelOpen = false;
+
   constructor(public store: AuthStore, private router: Router, private dialog: MatDialog) {}
 
-  public cfg = inject(APP_CONFIG);
+  toggleSidebar(): void {
+    this.sidebarCollapsed = !this.sidebarCollapsed;
+  }
+
+  toggleAiPanel(): void {
+    this.aiPanelOpen = !this.aiPanelOpen;
+  }
 
   openLogoutModal(): void {
     const dialogRef = this.dialog.open(ConfirmCancelDialog, {
       width: '600px',
       disableClose: true,
-      data: {
-        title: 'Logout',
-        content: 'Do you want to logout?'
-      }
+      data: { title: 'Logout', content: 'Do you want to logout?' }
     });
 
-    const modalInstance = dialogRef.componentInstance;
-    modalInstance.confirm.subscribe(() => {
-      this.logout(dialogRef);
-    });
-
-    modalInstance.cancel.subscribe(() => {
-      dialogRef.close();
-    });
+    dialogRef.componentInstance.confirm.subscribe(() => this.logout(dialogRef));
+    dialogRef.componentInstance.cancel.subscribe(() => dialogRef.close());
   }
 
-  logout(dialogRef: MatDialogRef<ConfirmCancelDialog>) {
+  logout(dialogRef: MatDialogRef<ConfirmCancelDialog>): void {
     this.store.logout().subscribe({
       next: () => {
         dialogRef.close();
         this.router.navigate(['/welcome']);
       },
-      error: (error) => {
-        console.log(error);
-      }
+      error: (error) => console.log(error)
     });
-  };
-
-  @ViewChild('sidenav') sidenav!: MatSidenav;
-
-  toggleMainMenuSidebar() {
-    this.sidenav.toggle();
   }
-
 }

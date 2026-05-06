@@ -5,6 +5,7 @@ import { App } from './app';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { Test } from './test/test';
 import { CallbackPage } from './modules/callback/pages/callback-page/callback-page';
@@ -12,7 +13,6 @@ import { AppRoutingModule } from './app-routing-module';
 import { HomePage } from './modules/home/home';
 import { appHeadersInterceptor } from './core/Auth/interceptors/headers.interceptor';
 import { AuthLayout } from './modules/auth-layout/auth-layout';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { Welcome } from './modules/welcome/welcome';
 import { MatMenuModule } from '@angular/material/menu';
 import { ConfirmCancelDialog } from './core/ConfirmCancelDialog/confirm-cancel-dialog';
@@ -77,7 +77,7 @@ import { SearchInfoComponent } from './modules/search/components/search-info-com
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
-    MatSidenavModule,
+    MatTooltipModule,
     MatMenuModule,
     MatDialogModule,
     MatProgressSpinnerModule,

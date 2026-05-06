@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-main-menu',
@@ -8,19 +7,15 @@ import { MatSidenav } from '@angular/material/sidenav';
   styleUrl: './main-menu.scss'
 })
 export class MainMenu {
-  @ViewChild('sidenav') sidenav!: MatSidenav;
+  @Input() collapsed = false;
   @Output() logoutClicked = new EventEmitter<void>();
-  @Output() menuItemClicked = new EventEmitter<void>();
+  @Output() aiClicked = new EventEmitter<void>();
 
-  onItemClick() {
-    this.menuItemClicked.emit();
-  }
-
-  toggle() {
-    this.sidenav.toggle();
-  }
-
-  triggerLogout() {
+  triggerLogout(): void {
     this.logoutClicked.emit();
+  }
+
+  triggerAiClick(): void {
+    this.aiClicked.emit();
   }
 }

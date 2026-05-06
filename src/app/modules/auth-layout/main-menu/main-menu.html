@@ -1,29 +1,77 @@
-<mat-sidenav-content>
-  <mat-nav-list>
-    <a mat-list-item (click)="onItemClick()" routerLink="/" routerLinkActive="active">
-      <mat-icon matListItemIcon>home</mat-icon>
-      <div matListItemTitle>Home</div>
-    </a>
-    
-    <a mat-list-item (click)="onItemClick()" routerLink="/nutrients" routerLinkActive="active">
-      <mat-icon matListItemIcon>eco</mat-icon>
-      <div matListItemTitle>Nutrients</div>
+<nav class="nav">
+
+  <section class="nav-section">
+    <a class="nav-item" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+       [matTooltip]="collapsed ? 'Home' : ''" matTooltipPosition="right">
+      <mat-icon class="nav-icon">home</mat-icon>
+      @if (!collapsed) { <span class="nav-label">Home</span> }
     </a>
 
-    <a mat-list-item (click)="onItemClick()" routerLink="/ingredients" routerLinkActive="active">
-      <mat-icon matListItemIcon>opacity</mat-icon>
-      <div matListItemTitle>Ingredients</div>
+    <a class="nav-item" routerLink="/nutrients" routerLinkActive="active"
+       [matTooltip]="collapsed ? 'Nutrients' : ''" matTooltipPosition="right">
+      <mat-icon class="nav-icon">eco</mat-icon>
+      @if (!collapsed) { <span class="nav-label">Nutrients</span> }
     </a>
 
-    <a mat-list-item (click)="onItemClick()" routerLink="/test" routerLinkActive="active">
-      <mat-icon matListItemIcon>science</mat-icon>
-      <div matListItemTitle>Test</div>
+    <a class="nav-item" routerLink="/ingredients" routerLinkActive="active"
+       [matTooltip]="collapsed ? 'Ingredients' : ''" matTooltipPosition="right">
+      <mat-icon class="nav-icon">opacity</mat-icon>
+      @if (!collapsed) { <span class="nav-label">Ingredients</span> }
     </a>
 
-    <mat-divider></mat-divider>
-    <a mat-list-item (click)="triggerLogout()" (click)="onItemClick()">
-      <mat-icon matListItemIcon>logout</mat-icon>
-      <div matListItemTitle>Sign Out</div>
+    <button class="nav-item nav-item-button" (click)="triggerAiClick()"
+            [matTooltip]="collapsed ? 'AI Assistant' : ''" matTooltipPosition="right">
+      <mat-icon class="nav-icon">auto_awesome</mat-icon>
+      @if (!collapsed) { <span class="nav-label">AI Assistant</span> }
+    </button>
+  </section>
+
+  <mat-divider></mat-divider>
+
+  @if (!collapsed) {
+    <span class="nav-section-label">Admin</span>
+  }
+
+  <section class="nav-section">
+    <a class="nav-item" routerLink="/admin/nutrients" routerLinkActive="active"
+       [matTooltip]="collapsed ? 'Nutrients' : ''" matTooltipPosition="right">
+      <mat-icon class="nav-icon">eco</mat-icon>
+      @if (!collapsed) { <span class="nav-label">Nutrients</span> }
     </a>
-  </mat-nav-list>
-</mat-sidenav-content>
+
+    <a class="nav-item" routerLink="/admin/ingredients" routerLinkActive="active"
+       [matTooltip]="collapsed ? 'Ingredients' : ''" matTooltipPosition="right">
+      <mat-icon class="nav-icon">opacity</mat-icon>
+      @if (!collapsed) { <span class="nav-label">Ingredients</span> }
+    </a>
+
+    <a class="nav-item" routerLink="/admin/brands" routerLinkActive="active"
+       [matTooltip]="collapsed ? 'Brands' : ''" matTooltipPosition="right">
+      <mat-icon class="nav-icon">storefront</mat-icon>
+      @if (!collapsed) { <span class="nav-label">Brands</span> }
+    </a>
+
+    <a class="nav-item" routerLink="/admin/sources" routerLinkActive="active"
+       [matTooltip]="collapsed ? 'Sources' : ''" matTooltipPosition="right">
+      <mat-icon class="nav-icon">dataset</mat-icon>
+      @if (!collapsed) { <span class="nav-label">Sources</span> }
+    </a>
+
+    <a class="nav-item" routerLink="/admin/units" routerLinkActive="active"
+       [matTooltip]="collapsed ? 'Units' : ''" matTooltipPosition="right">
+      <mat-icon class="nav-icon">straighten</mat-icon>
+      @if (!collapsed) { <span class="nav-label">Units</span> }
+    </a>
+  </section>
+
+  <mat-divider></mat-divider>
+
+  <section class="nav-section">
+    <button class="nav-item nav-item-button" (click)="triggerLogout()"
+            [matTooltip]="collapsed ? 'Sign out' : ''" matTooltipPosition="right">
+      <mat-icon class="nav-icon">logout</mat-icon>
+      @if (!collapsed) { <span class="nav-label">Sign out</span> }
+    </button>
+  </section>
+
+</nav>
