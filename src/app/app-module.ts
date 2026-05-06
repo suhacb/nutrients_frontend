@@ -25,13 +25,8 @@ import { Spinner } from './core/Spinner/spinner';
 import { MainMenu } from './modules/auth-layout/main-menu/main-menu';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
-import { NutrientsIndexPage } from './modules/nutrients/pages/index/index';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { NutrientShowPage } from './modules/nutrients/pages/show/show';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
-import { IngredientsIndexPage } from './modules/ingredients/pages/index/index';
-import { IngredientShowPage } from './modules/ingredients/pages/show/show';
 import { MatTableModule } from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -40,6 +35,8 @@ import { SearchBarComponent } from './modules/search/components/search-bar-compo
 import { SearchContainerItemComponent } from './modules/search/components/search-container-item-component/search-container-item-component';
 import { SearchResultsItemComponent } from './modules/search/components/search-results-item-component/search-results-item-component';
 import { SearchPaginationComponent } from './modules/search/components/search-pagination-component/search-pagination-component';
+import { NutripediaPage } from './modules/nutripedia/nutripedia';
+import { BreadcrumbComponent } from './core/Breadcrumb/breadcrumb';
 import { DecimalPipe } from './core/pipes/DecimalPipe';
 import { MarkdownPipe } from './core/pipes/MarkdownPipe';
 
@@ -58,14 +55,12 @@ import { MarkdownPipe } from './core/pipes/MarkdownPipe';
     ConfirmCancelDialog,
     SnackBarComponent,
     MainMenu,
-    NutrientsIndexPage,
-    NutrientShowPage,
-    IngredientsIndexPage,
-    IngredientShowPage,
     SearchBarComponent,
     SearchContainerItemComponent,
     SearchResultsItemComponent,
     SearchPaginationComponent,
+    NutripediaPage,
+    BreadcrumbComponent,
   ],
   imports: [
     BrowserModule,
@@ -81,7 +76,6 @@ import { MarkdownPipe } from './core/pipes/MarkdownPipe';
     MatSnackBarModule,
     MatListModule,
     MatDividerModule,
-    MatPaginatorModule,
     MatCardModule,
     MatChipsModule,
     MatTableModule,

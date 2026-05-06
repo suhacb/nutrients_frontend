@@ -48,7 +48,7 @@ export class IngredientsStore {
     });
   }
 
-  search(query: string, page: number = 1): void {
+  search(query: string, page: number = 1, append: boolean = false): void {
     this.searchService.search(query, 'ingredients', page).subscribe({
       next: response => {
         const mapper = new IngredientsMapper();
@@ -58,7 +58,7 @@ export class IngredientsStore {
           name: hit.name ?? '',
           description: hit.description ?? null,
         }));
-        this.setIngredients(ingredients);
+        this.setIngredients(append ? [...this._ingredients(), ...ingredients] : ingredients);
         this.setPaginator(new SearchResultsPaginatorMapper().toApp(response));
       },
       error: err => console.error(err),
