@@ -1,5 +1,89 @@
-mat-sidenav-content {
+:host {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.nav-section {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 0;
+}
+
+.nav-section-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(232, 237, 242, 0.4);
+  padding: 12px 16px 4px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 12px;
+  height: 40px;
+  border-radius: 6px;
+  margin: 1px 8px;
+  color: rgba(232, 237, 242, 0.75);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background 150ms ease, color 150ms ease;
+  white-space: nowrap;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  width: calc(100% - 16px);
+  text-align: left;
+  font-family: inherit;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #e8edf2;
+  }
+
+  &.active {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+
+    .nav-icon {
+      color: #6ab0f5;
+    }
+  }
+}
+
+.nav-item-button {
+  // reset button styles already handled by .nav-item
+}
+
+.nav-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: rgba(232, 237, 242, 0.6);
+  transition: color 150ms ease;
+}
+
+.nav-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+mat-divider {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  margin: 4px 0;
 }

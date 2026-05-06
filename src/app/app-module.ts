@@ -5,6 +5,7 @@ import { App } from './app';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { Test } from './test/test';
 import { CallbackPage } from './modules/callback/pages/callback-page/callback-page';
@@ -12,7 +13,6 @@ import { AppRoutingModule } from './app-routing-module';
 import { HomePage } from './modules/home/home';
 import { appHeadersInterceptor } from './core/Auth/interceptors/headers.interceptor';
 import { AuthLayout } from './modules/auth-layout/auth-layout';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { Welcome } from './modules/welcome/welcome';
 import { MatMenuModule } from '@angular/material/menu';
 import { ConfirmCancelDialog } from './core/ConfirmCancelDialog/confirm-cancel-dialog';
@@ -30,7 +30,6 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { NutrientShowPage } from './modules/nutrients/pages/show/show';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
-import { BreadcrumbComponent } from './core/Breadcrumb/breadcrumb';
 import { IngredientsIndexPage } from './modules/ingredients/pages/index/index';
 import { IngredientShowPage } from './modules/ingredients/pages/show/show';
 import { MatTableModule } from '@angular/material/table';
@@ -42,7 +41,7 @@ import { SearchContainerItemComponent } from './modules/search/components/search
 import { SearchResultsItemComponent } from './modules/search/components/search-results-item-component/search-results-item-component';
 import { SearchPaginationComponent } from './modules/search/components/search-pagination-component/search-pagination-component';
 import { DecimalPipe } from './core/pipes/DecimalPipe';
-import { SearchInfoComponent } from './modules/search/components/search-info-component/search-info-component';
+import { MarkdownPipe } from './core/pipes/MarkdownPipe';
 
 /** Material 3 components and modules */
 
@@ -61,14 +60,12 @@ import { SearchInfoComponent } from './modules/search/components/search-info-com
     MainMenu,
     NutrientsIndexPage,
     NutrientShowPage,
-    BreadcrumbComponent,
     IngredientsIndexPage,
     IngredientShowPage,
     SearchBarComponent,
     SearchContainerItemComponent,
     SearchResultsItemComponent,
     SearchPaginationComponent,
-    SearchInfoComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,7 +74,7 @@ import { SearchInfoComponent } from './modules/search/components/search-info-com
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
-    MatSidenavModule,
+    MatTooltipModule,
     MatMenuModule,
     MatDialogModule,
     MatProgressSpinnerModule,
@@ -91,7 +88,8 @@ import { SearchInfoComponent } from './modules/search/components/search-info-com
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
-    DecimalPipe
+    DecimalPipe,
+    MarkdownPipe
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -103,7 +101,8 @@ import { SearchInfoComponent } from './modules/search/components/search-info-com
     )
   ],
   exports: [
-    DecimalPipe
+    DecimalPipe,
+    MarkdownPipe
   ],
   bootstrap: [App]
 })

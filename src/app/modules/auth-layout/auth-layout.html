@@ -1,35 +1,66 @@
-<mat-sidenav-container>
-  <mat-sidenav  #sidenav mode="over">
-    <app-main-menu (logoutClicked)="openLogoutModal()" (menuItemClicked)="sidenav.close()"></app-main-menu>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <button mat-icon-button (click)="toggleMainMenuSidebar()">
+<div class="shell">
+
+  <nav class="sidebar" [class.collapsed]="sidebarCollapsed">
+    <div class="sidebar-header">
+      <button mat-icon-button (click)="toggleSidebar()">
         <mat-icon>menu</mat-icon>
       </button>
-    
-      <!-- <span>{{cfg.appName}}</span> -->
-      <span>{{cfg.appTitle}}</span>
-      <span class="spacer"></span>
-    
-      <!-- Example nav items -->
-      <ng-container>
-        <button mat-button [matMenuTriggerFor]="userMenu" class="user-button">
+      @if (!sidebarCollapsed) {
+        <span class="app-title">{{ cfg.appTitle }}</span>
+      }
+    </div>
+
+    <app-main-menu
+      [collapsed]="sidebarCollapsed"
+      (logoutClicked)="openLogoutModal()"
+      (aiClicked)="toggleAiPanel()">
+    </app-main-menu>
+
+    <div class="sidebar-footer">
+      @if (!sidebarCollapsed) {
+        <div class="user-info">
           <mat-icon>account_circle</mat-icon>
-          <div class="user-text">
-            <div class="full-name">{{ store.user()?.name }} {{ store.user()?.familyName }}</div>
-          </div>
+          <span class="user-name">{{ store.user()?.name }} {{ store.user()?.familyName }}</span>
+        </div>
+      }
+      @if (sidebarCollapsed) {
+        <button mat-icon-button (click)="openLogoutModal()" matTooltip="Sign out" matTooltipPosition="right">
+          <mat-icon>logout</mat-icon>
         </button>
-        <mat-menu #userMenu="matMenu">
-          <button mat-menu-item (click)="openLogoutModal()">
-            <mat-icon>logout</mat-icon>
-            Logout
-          </button>
-        </mat-menu>
-      </ng-container>
-    </mat-toolbar>
-    <div class="content-container">
+      }
+    </div>
+  </nav>
+
+  <main class="canvas">
+    <div class="canvas-content">
       <router-outlet></router-outlet>
     </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  </main>
+
+  <aside class="ai-panel" [class.open]="aiPanelOpen">
+    <div class="ai-panel-header">
+      <span class="ai-panel-title">AI Assistant</span>
+      <button mat-icon-button (click)="toggleAiPanel()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="ai-panel-conversations">
+      <button mat-stroked-button class="new-conversation-btn">
+        <mat-icon>add</mat-icon>
+        New conversation
+      </button>
+    </div>
+    <div class="ai-panel-messages">
+      <p class="ai-placeholder">Ask about your nutrition, meals, or ingredients…</p>
+    </div>
+    <div class="ai-panel-input">
+      <mat-form-field appearance="outline" class="ai-input-field">
+        <textarea matInput placeholder="Ask something…" rows="2"></textarea>
+      </mat-form-field>
+      <button mat-icon-button color="primary">
+        <mat-icon>send</mat-icon>
+      </button>
+    </div>
+  </aside>
+
+</div>

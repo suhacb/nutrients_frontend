@@ -1,59 +1,80 @@
-<app-breadcrumb-component [links]="store.breadcrumb()"></app-breadcrumb-component>
-
 @if (store.nutrient(); as nutrient) {
-<mat-card appearance="outlined">
-  <mat-card-header>
-    <div mat-card-avatar><mat-icon>eco</mat-icon></div>
-    <mat-card-title>{{ nutrient.name }}</mat-card-title>
-    <mat-card-subtitle>{{ nutrient.slug }}</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
+<div class="show-page">
 
-    @if (nutrient.tags?.length) {
-      <div class="chip-row">
-        <mat-chip *ngFor="let tag of nutrient.tags">{{ tag.name }}</mat-chip>
-      </div>
-    }
+  <div class="page-header">
+    <a mat-icon-button routerLink="/nutrients">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <div class="page-header-text">
+      <h1 class="page-title">{{ nutrient.name }}</h1>
+      <span class="page-subtitle">{{ nutrient.slug }}</span>
+    </div>
+  </div>
 
-    @if (nutrient.description) {
-      <p>{{ nutrient.description }}</p>
-    }
+  @if (nutrient.tags?.length) {
+    <div class="chip-row">
+      @for (tag of nutrient.tags ?? []; track tag.id) {
+        <mat-chip>{{ tag.name }}</mat-chip>
+      }
+    </div>
+  }
 
-    <mat-list>
+  @if (nutrient.description) {
+    <div class="detail-card">
+      <h2 class="detail-card-title">Description</h2>
+      <div class="description" [innerHTML]="nutrient.description | markdown"></div>
+    </div>
+  }
+
+  <div class="detail-card">
+    <h2 class="detail-card-title">Details</h2>
+    <div class="detail-rows">
       @if (nutrient.source) {
-        <mat-list-item>
-          <span matListItemTitle>Source</span>
-          <span matListItemLine>{{ nutrient.source.name }}</span>
-        </mat-list-item>
+        <div class="detail-row">
+          <span class="detail-label">Source</span>
+          <span class="detail-value">{{ nutrient.source.name }}</span>
+        </div>
       }
       @if (nutrient.canonicalUnit) {
-        <mat-list-item>
-          <span matListItemTitle>Canonical unit</span>
-          <span matListItemLine>{{ nutrient.canonicalUnit.name }} ({{ nutrient.canonicalUnit.abbreviation }})</span>
-        </mat-list-item>
+        <div class="detail-row">
+          <span class="detail-label">Canonical unit</span>
+          <span class="detail-value">{{ nutrient.canonicalUnit.name }} ({{ nutrient.canonicalUnit.abbreviation }})</span>
+        </div>
       }
       @if (nutrient.isLabelStandard) {
-        <mat-list-item>
-          <span matListItemTitle>Nutrition label</span>
-          <span matListItemLine>Standard nutrition label nutrient</span>
-        </mat-list-item>
+        <div class="detail-row">
+          <span class="detail-label">Nutrition label</span>
+          <span class="detail-value">Standard nutrition label nutrient</span>
+        </div>
       }
-    </mat-list>
+    </div>
+  </div>
 
-    @if (nutrient.parent) {
-      <h3>Parent nutrient</h3>
-      <a [routerLink]="['/nutrients', nutrient.parent.id]">{{ nutrient.parent.name }}</a>
-    }
+  @if (nutrient.parent) {
+    <div class="detail-card">
+      <h2 class="detail-card-title">Parent nutrient</h2>
+      <a class="related-link" [routerLink]="['/nutrients', nutrient.parent.id]">
+        <mat-icon>eco</mat-icon>
+        {{ nutrient.parent.name }}
+        <mat-icon class="link-arrow">chevron_right</mat-icon>
+      </a>
+    </div>
+  }
 
-    @if (nutrient.children?.length) {
-      <h3>Sub-nutrients</h3>
-      <mat-list>
-        <mat-list-item *ngFor="let child of nutrient.children">
-          <a matListItemTitle [routerLink]="['/nutrients', child.id]">{{ child.name }}</a>
-        </mat-list-item>
-      </mat-list>
-    }
+  @if (nutrient.children?.length) {
+    <div class="detail-card">
+      <h2 class="detail-card-title">Sub-nutrients</h2>
+      <div class="related-list">
+        @for (child of nutrient.children ?? []; track child.id) {
+          <a class="related-link" [routerLink]="['/nutrients', child.id]">
+            <mat-icon>eco</mat-icon>
+            {{ child.name }}
+            <mat-icon class="link-arrow">chevron_right</mat-icon>
+          </a>
+        }
+      </div>
+    </div>
+  }
 
-  </mat-card-content>
-</mat-card>
+</div>
 }

@@ -1,27 +1,9 @@
-<nav class="pagination-container" *ngIf="paginator">
-  <div class="pagination">
-    <button class="page-btn"
-            [disabled]="paginator.currentPage === 1"
-            (click)="goToPage(paginator.currentPage - 1)">
-      Prev
-    </button>
-
-    <ng-container *ngFor="let page of pagesToDisplay">
-      <button *ngIf="page !== '...'; else dots"
-              class="page-btn"
-              [class.active]="page === paginator.currentPage"
-              (click)="goToPage(page)">
-        {{ page }}
-      </button>
-      <ng-template #dots>
-        <span class="ellipsis">…</span>
-      </ng-template>
-    </ng-container>
-
-    <button class="page-btn"
-            [disabled]="paginator.currentPage === paginator.lastPage"
-            (click)="goToPage(paginator.currentPage + 1)">
-      Next
-    </button>
-  </div>
-</nav>
+<mat-paginator
+  *ngIf="paginator"
+  [length]="paginator.total"
+  [pageSize]="paginator.perPage"
+  [pageIndex]="paginator.currentPage - 1"
+  [hidePageSize]="true"
+  [showFirstLastButtons]="true"
+  (page)="onPageEvent($event)">
+</mat-paginator>

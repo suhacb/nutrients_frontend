@@ -9,9 +9,10 @@ import { Router } from '@angular/router';
 })
 export class SearchResultsItemComponent {
   @Input() url!: string;
+  @Input() title!: string;
+  @Input() description?: string | null;
 
-  constructor (private router: Router) {}
-
+  constructor(private router: Router) {}
 
   onClickShow(event: Event): void {
     event.preventDefault();
