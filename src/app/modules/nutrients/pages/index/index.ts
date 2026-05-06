@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NutrientsStore } from '../../store/nutrients.store';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
+import { Nutrient } from '../../contracts/Nutrient';
 
 @Component({
   selector: 'app-nutrients-index-page',
@@ -10,14 +11,15 @@ import { Router } from '@angular/router';
   styleUrl: './index.scss'
 })
 export class NutrientsIndexPage {
-  constructor(public store: NutrientsStore, private router: Router) {}
+  constructor(public store: NutrientsStore, private router: Router) {
+  }
+  searchQuery: string  = '';
 
   onPageEvent(event: PageEvent): void
   {
     if (event.pageIndex === event.previousPageIndex) {
-      console.log('user wants to change page items');
     } else {
-      this.store.index(event.pageIndex + 1).subscribe();
+      this.store.search('');
     }
   }
 
@@ -25,4 +27,25 @@ export class NutrientsIndexPage {
     this.router.navigate(['/nutrients', id]);
   }
 
+  onSearch(searchQuery: string): void {
+    if (searchQuery.trim()) {
+      this.store.search(searchQuery);
+    }
+  }
+
+  trackByIndex(index: number, item: any): number {
+    return index;
+  }
+
+  showNutrient(nutrient: Nutrient, event: Event): void {
+    event.preventDefault();
+    this.router.navigate(['/nutrients', nutrient.id]);
+  }
+
+  onPageChange(page: number): void {
+    const paginator = this.store.paginator();
+    if (paginator) {
+      this.store.search(paginator.query, page);
+    }
+  }
 }

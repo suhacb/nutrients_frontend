@@ -1,36 +1,18 @@
 <app-breadcrumb-component [links]="store.breadcrumb()"></app-breadcrumb-component>
 
-@if(store.paginator()) {
-    <div>
-        <mat-paginator [length]="store.paginator()?.total" [pageSize]="store.paginator()?.perPage" (page)="onPageEvent($event)"></mat-paginator>
-    </div>
-}
-<div>
-    <mat-list>
-    @for (nutrient of store.nutrients(); track nutrient.id) {
-        <mat-list-item>
-            <div class="record-container">
-                <div class="left-section">
-                    
-                    <div matListItemTitle>{{nutrient.name}}</div>
-                    <div matListItemLine>Source: {{nutrient.source}}</div>
-                </div>
-                <div class="center-section">
+<app-search-bar-component [icon]="'eco'" [label]="'Search nutriens'" (search)="onSearch($event)"></app-search-bar-component>
 
-                </div>
-                <div class="right-section">
-                    <button mat-icon-button (click)="onShowClick(nutrient.id); $event.stopPropagation()"  aria-label="Show">
-                        <mat-icon>visibility</mat-icon>
-                    </button>
-                </div>
-            </div>
-        </mat-list-item>
-    }
-    </mat-list>
-</div>
 @if(store.paginator()) {
-    <div>
-        <!-- <mat-paginator [length]="store.paginator()?.total" [pageSize]="store.paginator()?.per_page" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page"></mat-paginator> -->
-        <mat-paginator [length]="store.paginator()?.total" [pageSize]="store.paginator()?.perPage" (page)="onPageEvent($event)"></mat-paginator>
-    </div>
+    <app-search-info-component [paginator]="store.paginator()!"></app-search-info-component>
+    <app-search-pagination-component [paginator]="store.paginator()!"></app-search-pagination-component>
+}
+<app-search-container-item-component *ngIf="store.nutrients().length > 0">
+    <app-search-results-item-component *ngFor="let nutrient of store.nutrients(); trackBy: trackByIndex" [url]="`/nutrients/${nutrient.id}`">
+      <span title>{{ nutrient.name }}</span>
+      <p description>{{ nutrient.description ?? "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis eius harum deserunt? Temporibus debitis, explicabo delectus neque placeat voluptate error deleniti recusandae voluptatem. Distinctio repellendus consectetur aliquam rerum, dolores dolor?" }}</p>
+    </app-search-results-item-component>
+</app-search-container-item-component>
+
+@if(store.paginator()) {
+    <app-search-pagination-component [paginator]="store.paginator()!"></app-search-pagination-component>
 }

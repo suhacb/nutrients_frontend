@@ -34,6 +34,15 @@ import { BreadcrumbComponent } from './core/Breadcrumb/breadcrumb';
 import { IngredientsIndexPage } from './modules/ingredients/pages/index/index';
 import { IngredientShowPage } from './modules/ingredients/pages/show/show';
 import { MatTableModule } from '@angular/material/table';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { SearchBarComponent } from './modules/search/components/search-bar-component/search-bar-component';
+import { SearchContainerItemComponent } from './modules/search/components/search-container-item-component/search-container-item-component';
+import { SearchResultsItemComponent } from './modules/search/components/search-results-item-component/search-results-item-component';
+import { SearchPaginationComponent } from './modules/search/components/search-pagination-component/search-pagination-component';
+import { DecimalPipe } from './core/pipes/DecimalPipe';
+import { SearchInfoComponent } from './modules/search/components/search-info-component/search-info-component';
 
 /** Material 3 components and modules */
 
@@ -55,6 +64,11 @@ import { MatTableModule } from '@angular/material/table';
     BreadcrumbComponent,
     IngredientsIndexPage,
     IngredientShowPage,
+    SearchBarComponent,
+    SearchContainerItemComponent,
+    SearchResultsItemComponent,
+    SearchPaginationComponent,
+    SearchInfoComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,7 +87,11 @@ import { MatTableModule } from '@angular/material/table';
     MatPaginatorModule,
     MatCardModule,
     MatChipsModule,
-    MatTableModule
+    MatTableModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    DecimalPipe
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -83,6 +101,9 @@ import { MatTableModule } from '@angular/material/table';
         SpinnerInterceptor
       ])
     )
+  ],
+  exports: [
+    DecimalPipe
   ],
   bootstrap: [App]
 })

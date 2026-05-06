@@ -1,0 +1,19 @@
+<div class="search-container">
+    <form (ngSubmit)="onSearch()" #searchForm="ngForm" class="search-form">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-icon matPrefix>{{icon}}</mat-icon>
+        <mat-label>{{label}}</mat-label>
+        <input
+          matInput
+          type="text"
+          name="query"
+          [(ngModel)]="searchQuery"
+          placeholder="Type your query"
+        />
+      </mat-form-field>
+    
+      <button mat-flat-button color="primary" type="submit" class="search-button">
+        <mat-icon>search</mat-icon>
+      </button>
+    </form>
+</div>

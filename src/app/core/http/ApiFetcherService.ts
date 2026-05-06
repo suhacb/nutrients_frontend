@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable, EMPTY, throwError } from 'rxjs';
 import { tap, map, catchError } from 'rxjs/operators';
 import { ApiHandlerService } from '../ApiHandlerService/api-handler-service';
@@ -24,15 +24,36 @@ export class ApiFetcherService {
   ): Observable<void> {
     return this.http.get<TResponse>(url, { observe: 'response' as const }).pipe(
       tap(() => this.apiHandlerService.showSuccess(successMessage)),
-      map(response => {
+       map((response: HttpResponse<TResponse>) => {
         const body = response.body;
         process(body!); // assume body is not null
       }),
-      catchError((error: HttpErrorResponse) => {
-        this.apiHandlerService.showError(error);
-        if (error.status === 401 || error.status === 422) return throwError(() => error);
-        return EMPTY;
-      })
+      catchError((error: HttpErrorResponse) => this.handleError(error))
     );
+  }
+
+  postAndProcess<TRequest, TResponse>(
+    url: string,
+    payload: TRequest,
+    successMessage: string,
+    process?: (body: TResponse) => TResponse
+  ): Observable<TResponse> {
+    return this.http.post<TResponse>(url, payload, { observe: 'response' as const }).pipe(
+      tap(() => this.apiHandlerService.showSuccess(successMessage)),
+      map((response: HttpResponse<TResponse>) => {
+        const body = response.body!;
+        return process ? process(body) : body;
+      }),
+      catchError((error: HttpErrorResponse) => this.handleError(error))
+    );
+  }
+
+  /**
+   * Centralized error handling
+   */
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    this.apiHandlerService.showError(error);
+    if (error.status === 401 || error.status === 422) return throwError(() => error);
+    return EMPTY;
   }
 }

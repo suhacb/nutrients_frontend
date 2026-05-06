@@ -1,32 +1,38 @@
-import { Injectable, signal } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, EMPTY, map, Observable, tap, throwError } from 'rxjs';
-import { ApiHandlerService } from '../../../core/ApiHandlerService/api-handler-service';
+import { Injectable, signal, inject } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Nutrient } from '../contracts/Nutrient';
 import { NutrientApiResource } from '../contracts/NutrientApiResource';
 import { NutrientsMapper } from '../mappers/NutrientsMapper';
 import { PaginatorMapper } from '../../../core/Paginator/PaginatorMapper';
-import { Paginator } from '../../../core/Paginator/paginator.d';
-import { PaginatorApiResource } from '../../../core/Paginator/PaginatorApiResource';
 import { Breadcrumb } from '../../../core/Breadcrumb/breadcrumb.d';
 import { ApiFetcherService } from '../../../core/http/ApiFetcherService';
+import { SearchApiResponse } from '../../../core/Search/contracts/SearchApiResponse';
+import { APP_CONFIG } from '../../../config/app-config';
+import { SearchService } from '../../search/components/searchService';
+import { SearchResultsPaginator, SearchResultsPaginatorApiResource } from '../../search/contracts/SearchResultsPaginator';
+import { SearchResultsPaginatorMapper } from '../../search/mappers/SearchResultsPaginatorMapper';
 
 type NutrientIndexApiResource = {
     data: NutrientApiResource[]
-} & PaginatorApiResource
+} & SearchResultsPaginatorApiResource
 
 @Injectable({ providedIn: 'root' })
 
 export class NutrientsStore {
     constructor(
-        private http: HttpClient,
-        private fetcher: ApiFetcherService
+        private fetcher: ApiFetcherService,
+        private searchService: SearchService
     ) {}
+
+    private cfg = inject(APP_CONFIG);
 
     private _nutrients = signal<Nutrient[]>([]);
     private _nutrient = signal<Nutrient | null>(null);
-    private _paginator = signal<Paginator | null>(null);
-    private _breadcrumb = signal<Breadcrumb[]>([]);
+    private _paginator = signal<SearchResultsPaginator | null>(null);
+    private _breadcrumb = signal<Breadcrumb[]>([
+        { icon: 'home', link: '/' },
+        { title: 'Nutrients' },
+    ]);
 
     // expose readonly signals
     readonly nutrients = this._nutrients.asReadonly();
@@ -43,7 +49,7 @@ export class NutrientsStore {
         this._nutrient.set(show);
     }
 
-    setPaginator(paginator: Paginator | null = null): void {
+    setPaginator(paginator: SearchResultsPaginator | null = null): void {
         this._paginator.set(paginator);
     }
 
@@ -51,35 +57,8 @@ export class NutrientsStore {
         this._breadcrumb.set(links);
     }
 
-    index (page: number | null = null, url: string = 'http://localhost:9015/api/nutrients'): Observable<void> {
-        const finalUrl = page ? `${url}?page=${page}` : url;
-
-        return this.fetcher.fetchAndProcess<NutrientIndexApiResource>(
-            finalUrl,
-            'Nutrients index loaded.',
-            body => {
-                if (!body) {
-                    this.setNutrients([]);
-                    this.setPaginator(null);
-                    return;
-                }
-
-                const { data, ...paginator } = body;
-                const nutrients: Nutrient[] = data.map(d => new NutrientsMapper().toApp(d));
-                this.setNutrients(nutrients);
-
-                this.setPaginator(new PaginatorMapper().toApp(paginator as PaginatorApiResource));
-
-                this.setBreadcrumb([
-                    { icon: 'home', link: '/' },
-                    { title: 'Nutrients' }
-                ]);
-            }
-        );
-    }
-
     show(id: number): Observable<void> {
-        const url = `http://localhost:9015/api/nutrients/${id}`;
+        const url = `${this.cfg.appBackendUrl}/api/nutrients/${id}`;
 
         return this.fetcher.fetchAndProcess<NutrientApiResource>(
             url,
@@ -100,5 +79,24 @@ export class NutrientsStore {
                 ]);
             }
         );
+    }
+
+    search(searchQuery: string, page: number = 1): void {
+        this.searchService.search<NutrientApiResource>(searchQuery, 'nutrients', page).subscribe({
+            next: ((response: SearchApiResponse<NutrientApiResource>) => {
+                if (!response) {
+                    return;
+                }
+                let nutrients: Nutrient[] = [];
+                response.results.forEach(result => nutrients.push(new NutrientsMapper().toApp(result)));
+                const paginatorResponse =  (({ results, ...paginator }) => paginator)(response);
+                const paginator: SearchResultsPaginator = new SearchResultsPaginatorMapper().toApp(paginatorResponse as SearchResultsPaginatorApiResource);
+                this.setNutrients(nutrients);
+                this.setPaginator(paginator);
+            }),
+            error: ((error: any) => {
+                console.log(error);
+            })
+        });
     }
 }

@@ -13,17 +13,24 @@ export class IngredientsIndexPage {
 
   constructor(public store: IngredientsStore, private router: Router) {}
 
-  onPageEvent(event: PageEvent): void
-  {
-    if (event.pageIndex === event.previousPageIndex) {
-      console.log('user wants to change page items');
-    } else {
-      this.store.index(event.pageIndex + 1).subscribe();
-    }
+  trackByIndex(index: number, item: any): number {
+    return index;
   }
 
   onShowClick(id: number): void {
     this.router.navigate(['/ingredients', id]);
   }
 
+  onSearch(searchQuery: string): void {
+    if (searchQuery.trim()) {
+      this.store.search(searchQuery);
+    }
+  }
+
+  onPageChange(page: number): void {
+    const paginator = this.store.paginator();
+    if (paginator) {
+      this.store.search(paginator.query, page);
+    }
+  }
 }
