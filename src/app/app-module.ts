@@ -25,13 +25,8 @@ import { Spinner } from './core/Spinner/spinner';
 import { MainMenu } from './modules/auth-layout/main-menu/main-menu';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
-import { NutrientsIndexPage } from './modules/nutrients/pages/index/index';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { NutrientShowPage } from './modules/nutrients/pages/show/show';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
-import { IngredientsIndexPage } from './modules/ingredients/pages/index/index';
-import { IngredientShowPage } from './modules/ingredients/pages/show/show';
 import { MatTableModule } from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -60,10 +55,6 @@ import { MarkdownPipe } from './core/pipes/MarkdownPipe';
     ConfirmCancelDialog,
     SnackBarComponent,
     MainMenu,
-    NutrientsIndexPage,
-    NutrientShowPage,
-    IngredientsIndexPage,
-    IngredientShowPage,
     SearchBarComponent,
     SearchContainerItemComponent,
     SearchResultsItemComponent,
@@ -85,7 +76,6 @@ import { MarkdownPipe } from './core/pipes/MarkdownPipe';
     MatSnackBarModule,
     MatListModule,
     MatDividerModule,
-    MatPaginatorModule,
     MatCardModule,
     MatChipsModule,
     MatTableModule,
