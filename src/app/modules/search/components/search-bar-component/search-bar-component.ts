@@ -20,7 +20,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription = this.inputSubject.pipe(
-      debounceTime(300),
+      debounceTime(2000),
       distinctUntilChanged()
     ).subscribe(query => this.search.emit(query));
   }

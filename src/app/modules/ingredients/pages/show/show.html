@@ -23,7 +23,10 @@
       }
 
       @if (ingredient.description) {
-        <div class="description" [innerHTML]="ingredient.description | markdown"></div>
+        <div class="detail-card">
+          <h2 class="detail-card-title">Description</h2>
+          <div class="description" [innerHTML]="ingredient.description | markdown"></div>
+        </div>
       }
 
       <div class="detail-card">
