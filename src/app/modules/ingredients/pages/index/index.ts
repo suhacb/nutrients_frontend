@@ -11,10 +11,6 @@ import { Router } from '@angular/router';
 export class IngredientsIndexPage {
   constructor(public store: IngredientsStore, private router: Router) {}
 
-  trackByIndex(index: number): number {
-    return index;
-  }
-
   onSearch(query: string): void {
     if (query.trim()) {
       this.store.search(query);

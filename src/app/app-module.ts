@@ -30,7 +30,6 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { NutrientShowPage } from './modules/nutrients/pages/show/show';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
-import { BreadcrumbComponent } from './core/Breadcrumb/breadcrumb';
 import { IngredientsIndexPage } from './modules/ingredients/pages/index/index';
 import { IngredientShowPage } from './modules/ingredients/pages/show/show';
 import { MatTableModule } from '@angular/material/table';
@@ -43,7 +42,6 @@ import { SearchResultsItemComponent } from './modules/search/components/search-r
 import { SearchPaginationComponent } from './modules/search/components/search-pagination-component/search-pagination-component';
 import { DecimalPipe } from './core/pipes/DecimalPipe';
 import { MarkdownPipe } from './core/pipes/MarkdownPipe';
-import { SearchInfoComponent } from './modules/search/components/search-info-component/search-info-component';
 
 /** Material 3 components and modules */
 
@@ -62,14 +60,12 @@ import { SearchInfoComponent } from './modules/search/components/search-info-com
     MainMenu,
     NutrientsIndexPage,
     NutrientShowPage,
-    BreadcrumbComponent,
     IngredientsIndexPage,
     IngredientShowPage,
     SearchBarComponent,
     SearchContainerItemComponent,
     SearchResultsItemComponent,
     SearchPaginationComponent,
-    SearchInfoComponent,
   ],
   imports: [
     BrowserModule,

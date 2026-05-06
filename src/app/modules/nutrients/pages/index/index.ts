@@ -17,10 +17,6 @@ export class NutrientsIndexPage {
     }
   }
 
-  trackByIndex(index: number): number {
-    return index;
-  }
-
   onPageChange(page: number): void {
     const paginator = this.store.paginator();
     if (paginator) {
