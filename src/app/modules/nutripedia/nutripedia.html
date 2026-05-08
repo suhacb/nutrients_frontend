@@ -64,7 +64,18 @@
         <div class="pedia-detail">
           <div class="detail-header">
             <h1 class="detail-title">{{ nutrient.name }}</h1>
-            <span class="detail-subtitle">{{ nutrient.slug }}</span>
+            @let ancestors = getAncestors(nutrient);
+            @if (ancestors.length) {
+              <nav class="breadcrumb">
+                @for (ancestor of ancestors; track ancestor.id) {
+                  <a class="breadcrumb-link" [routerLink]="['/nutripedia/nutrients', ancestor.id]">{{ ancestor.name }}</a>
+                  <span class="breadcrumb-sep">›</span>
+                }
+                <span class="breadcrumb-current">{{ nutrient.name }}</span>
+              </nav>
+            } @else {
+              <span class="detail-subtitle">{{ nutrient.slug }}</span>
+            }
           </div>
 
           @if (nutrient.tags?.length) {
@@ -119,7 +130,7 @@
 
           @if (nutrient.children?.length) {
             <div class="detail-card">
-              <h2 class="detail-card-title">Sub-nutrients</h2>
+              <h2 class="detail-card-title">Subcategories</h2>
               <div class="related-list">
                 @for (child of nutrient.children ?? []; track child.id) {
                   <a class="related-link" [routerLink]="['/nutripedia/nutrients', child.id]">
