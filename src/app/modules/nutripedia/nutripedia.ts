@@ -5,6 +5,7 @@ import { NutrientsStore } from '../nutrients/store/nutrients.store';
 import { IngredientsStore } from '../ingredients/store/ingredients.store';
 import { MatTableDataSource } from '@angular/material/table';
 import { NutritionFact } from '../ingredients/contracts/NutritionFact';
+import { Nutrient } from '../nutrients/contracts/Nutrient';
 
 export type PediaCategory = 'nutrients' | 'ingredients';
 
@@ -71,6 +72,16 @@ export class NutripediaPage implements OnInit, OnDestroy {
     } else {
       this.ingredientsStore.search(query);
     }
+  }
+
+  getAncestors(nutrient: Nutrient): Nutrient[] {
+    const ancestors: Nutrient[] = [];
+    let current: Nutrient | null | undefined = nutrient.parent;
+    while (current) {
+      ancestors.unshift(current);
+      current = current.parent;
+    }
+    return ancestors;
   }
 
   onLoadMore(): void {

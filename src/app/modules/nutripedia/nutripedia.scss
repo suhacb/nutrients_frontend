@@ -183,6 +183,32 @@
   color: rgba(0, 0, 0, 0.5);
 }
 
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  font-size: 13px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.breadcrumb-link {
+  color: #3b6fd4;
+  text-decoration: none;
+
+  &:hover { text-decoration: underline; }
+}
+
+.breadcrumb-sep {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.breadcrumb-current {
+  color: rgba(0, 0, 0, 0.5);
+}
+
 .chip-row {
   display: flex;
   flex-wrap: wrap;

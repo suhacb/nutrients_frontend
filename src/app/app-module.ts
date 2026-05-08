@@ -28,6 +28,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -79,6 +80,7 @@ import { MarkdownPipe } from './core/pipes/MarkdownPipe';
     MatCardModule,
     MatChipsModule,
     MatTableModule,
+    MatPaginatorModule,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
