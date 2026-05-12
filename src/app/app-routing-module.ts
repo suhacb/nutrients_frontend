@@ -10,6 +10,7 @@ import { Welcome } from './modules/welcome/welcome';
 import { NutripediaPage } from './modules/nutripedia/nutripedia';
 import { DietTagsListPage } from './modules/recipes/pages/diet-tags-list/diet-tags-list';
 import { RecipesListPage } from './modules/recipes/pages/recipes-list/recipes-list';
+import { RecipeFormPage } from './modules/recipes/pages/recipe-form/recipe-form';
 
 const routes: Routes = [
   {
@@ -23,6 +24,8 @@ const routes: Routes = [
       { path: 'nutripedia/:category', component: NutripediaPage, canActivate: [AuthGuard] },
       { path: 'nutripedia/:category/:id', component: NutripediaPage, canActivate: [AuthGuard] },
       { path: 'admin/recipes', component: RecipesListPage, canActivate: [AuthGuard] },
+      { path: 'admin/recipes/new', component: RecipeFormPage, canActivate: [AuthGuard] },
+      { path: 'admin/recipes/:id/edit', component: RecipeFormPage, canActivate: [AuthGuard] },
       { path: 'admin/diet-tags', component: DietTagsListPage, canActivate: [AuthGuard] },
       { path: 'nutrients', redirectTo: 'nutripedia/nutrients', pathMatch: 'full' },
       { path: 'nutrients/:id', redirectTo: 'nutripedia/nutrients/:id' },

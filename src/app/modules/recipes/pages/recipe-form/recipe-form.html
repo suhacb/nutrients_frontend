@@ -1,0 +1,46 @@
+<div class="page-shell">
+  <div class="page-header">
+    <div class="page-header-left">
+      <button mat-icon-button (click)="onCancel()" matTooltip="Back to recipes">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h1 class="page-title">{{ isEdit ? 'Edit recipe' : 'New recipe' }}</h1>
+    </div>
+    <button mat-flat-button color="primary" type="submit" form="recipeForm" [disabled]="saving">
+      {{ saving ? 'Saving…' : (isEdit ? 'Save' : 'Create') }}
+    </button>
+  </div>
+
+  <div class="form-body">
+    <form #form="ngForm" (ngSubmit)="onSubmit(form)" id="recipeForm">
+      <div class="form-card">
+        <h2 class="form-section-title">Basic info</h2>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Name</mat-label>
+          <input matInput [(ngModel)]="name" name="name" required maxlength="255" [disabled]="saving">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="portions-field">
+          <mat-label>Portions</mat-label>
+          <input matInput type="number" [(ngModel)]="portions" name="portions" required min="1" [disabled]="saving">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Source URL</mat-label>
+          <input matInput [(ngModel)]="sourceUrl" name="sourceUrl" maxlength="2048" [disabled]="saving">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Description</mat-label>
+          <textarea matInput [(ngModel)]="description" name="description" rows="4" [disabled]="saving"></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Instructions</mat-label>
+          <textarea matInput [(ngModel)]="instructions" name="instructions" rows="8" [disabled]="saving"></textarea>
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+</div>
