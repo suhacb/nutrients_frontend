@@ -1,10 +1,11 @@
-import { Component, OnInit, computed } from '@angular/core';
+import { Component, OnInit, computed, signal } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecipesStore } from '../../store/recipes.store';
 import { DietTagsStore } from '../../store/diet-tags.store';
 import { RecipeApiPayload } from '../../contracts/RecipeApiPayload';
 import { RecipeIngredient } from '../../contracts/Recipe';
+import { NutrientProfileRow } from '../../contracts/NutrientProfile';
 import { IngredientsStore } from '../../../ingredients/store/ingredients.store';
 import { UnitsStore } from '../../../ingredients/store/units.store';
 
@@ -36,6 +37,14 @@ export class RecipeFormPage implements OnInit {
   adding = false;
 
   readonly ingColumns = ['name', 'pivot', 'actions'];
+
+  // nutrient profile
+  readonly nutrientProfileView = signal<'total' | 'per_portion'>('total');
+  readonly profileRows = computed<NutrientProfileRow[]>(() => {
+    const profile = this.store.nutrientProfile();
+    if (!profile) return [];
+    return this.nutrientProfileView() === 'total' ? profile.total : profile.perPortion;
+  });
 
   name = '';
   description = '';
@@ -77,6 +86,7 @@ export class RecipeFormPage implements OnInit {
         this.instructions = recipe.instructions ?? '';
         this.portions = recipe.portions;
         this.sourceUrl = recipe.sourceUrl ?? '';
+        this.store.loadNutrientProfile(this.recipeId!).subscribe();
       });
     }
   }
@@ -93,6 +103,11 @@ export class RecipeFormPage implements OnInit {
   detachTag(tagId: number): void {
     if (!this.recipeId) return;
     this.store.detachDietTag(this.recipeId, tagId).subscribe();
+  }
+
+  refreshProfile(): void {
+    if (!this.recipeId) return;
+    this.store.loadNutrientProfile(this.recipeId).subscribe();
   }
 
   searchIngredients(): void {

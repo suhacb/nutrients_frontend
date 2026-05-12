@@ -144,3 +144,55 @@
 .ing-select      { width: 240px; }
 .add-amount-field { width: 100px; }
 .add-unit-field   { width: 180px; }
+
+.profile-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profile-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profile-toggle {
+  display: flex;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.toggle-btn {
+  padding: 4px 14px;
+  font-size: 13px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.6);
+
+  &.active {
+    background: #1976d2;
+    color: #fff;
+  }
+}
+
+.profile-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.profile-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  font-size: 13px;
+
+  &:last-child { border-bottom: none; }
+}
+
+.profile-name  { color: #1e2a3a; }
+.profile-amount { color: rgba(0, 0, 0, 0.6); font-variant-numeric: tabular-nums; }

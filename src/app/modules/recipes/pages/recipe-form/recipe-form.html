@@ -155,6 +155,50 @@
       </div>
     }
 
+    @if (isEdit) {
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Nutrient profile</mat-panel-title>
+          <mat-panel-description>
+            @if (store.nutrientProfile(); as profile) {
+              {{ profile.total.length }} nutrients · {{ profile.portions }} portion(s)
+            } @else {
+              Not yet loaded
+            }
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="profile-panel">
+          <div class="profile-toolbar">
+            <div class="profile-toggle">
+              <button class="toggle-btn" [class.active]="nutrientProfileView() === 'total'"
+                      (click)="nutrientProfileView.set('total')">Total</button>
+              <button class="toggle-btn" [class.active]="nutrientProfileView() === 'per_portion'"
+                      (click)="nutrientProfileView.set('per_portion')">
+                Per portion ({{ store.nutrientProfile()?.portions }})
+              </button>
+            </div>
+            <button mat-icon-button (click)="refreshProfile()" matTooltip="Refresh nutrient profile">
+              <mat-icon>refresh</mat-icon>
+            </button>
+          </div>
+
+          @if (profileRows().length) {
+            <div class="profile-list">
+              @for (row of profileRows(); track row.nutrientId) {
+                <div class="profile-row">
+                  <span class="profile-name">{{ row.nutrientName }}</span>
+                  <span class="profile-amount">{{ row.amount | decimal }} {{ row.unit }}</span>
+                </div>
+              }
+            </div>
+          } @else {
+            <p class="no-items">No nutrient data available.</p>
+          }
+        </div>
+      </mat-expansion-panel>
+    }
+
     <form #form="ngForm" (ngSubmit)="onSubmit(form)" id="recipeForm">
       <div class="form-card">
         <h2 class="form-section-title">Basic info</h2>
