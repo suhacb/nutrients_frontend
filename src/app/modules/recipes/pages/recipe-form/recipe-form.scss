@@ -67,3 +67,18 @@
 .portions-field {
   width: 140px;
 }
+
+.no-items {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.tag-add-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tag-select {
+  width: 240px;
+}

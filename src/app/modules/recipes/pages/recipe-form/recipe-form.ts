@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, computed } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecipesStore } from '../../store/recipes.store';
+import { DietTagsStore } from '../../store/diet-tags.store';
 import { RecipeApiPayload } from '../../contracts/RecipeApiPayload';
 
 @Component({
@@ -13,6 +14,8 @@ import { RecipeApiPayload } from '../../contracts/RecipeApiPayload';
 export class RecipeFormPage implements OnInit {
   recipeId: number | null = null;
   saving = false;
+  tagging = false;
+  selectedTagId: number | null = null;
 
   name = '';
   description = '';
@@ -24,13 +27,22 @@ export class RecipeFormPage implements OnInit {
     return this.recipeId !== null;
   }
 
+  readonly availableTags = computed(() => {
+    const all = this.dietTagsStore.dietTags();
+    const attachedIds = new Set((this.store.recipe()?.dietTags ?? []).map(t => t.id));
+    return all.filter(t => !attachedIds.has(t.id));
+  });
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     public store: RecipesStore,
+    public dietTagsStore: DietTagsStore,
   ) {}
 
   ngOnInit(): void {
+    this.dietTagsStore.index().subscribe();
+
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.recipeId = +id;
@@ -44,6 +56,20 @@ export class RecipeFormPage implements OnInit {
         this.sourceUrl = recipe.sourceUrl ?? '';
       });
     }
+  }
+
+  attachTag(): void {
+    if (!this.selectedTagId || !this.recipeId || this.tagging) return;
+    this.tagging = true;
+    this.store.attachDietTag(this.recipeId, this.selectedTagId).subscribe({
+      next: () => { this.selectedTagId = null; this.tagging = false; },
+      error: () => { this.tagging = false; },
+    });
+  }
+
+  detachTag(tagId: number): void {
+    if (!this.recipeId) return;
+    this.store.detachDietTag(this.recipeId, tagId).subscribe();
   }
 
   onSubmit(form: NgForm): void {

@@ -12,6 +12,42 @@
   </div>
 
   <div class="form-body">
+    @if (isEdit) {
+      <div class="form-card">
+        <h2 class="form-section-title">Diet tags</h2>
+
+        <mat-chip-set>
+          @for (tag of store.recipe()?.dietTags ?? []; track tag.id) {
+            <mat-chip (removed)="detachTag(tag.id)">
+              {{ tag.name }}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+          }
+          @if (!(store.recipe()?.dietTags ?? []).length) {
+            <span class="no-items">No tags attached.</span>
+          }
+        </mat-chip-set>
+
+        @if (availableTags().length) {
+          <div class="tag-add-row">
+            <mat-form-field appearance="outline" class="tag-select">
+              <mat-label>Add tag</mat-label>
+              <mat-select [(ngModel)]="selectedTagId" name="tagSelect" [disabled]="tagging">
+                @for (tag of availableTags(); track tag.id) {
+                  <mat-option [value]="tag.id">{{ tag.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <button mat-stroked-button (click)="attachTag()" [disabled]="!selectedTagId || tagging">
+              Add
+            </button>
+          </div>
+        }
+      </div>
+    }
+
     <form #form="ngForm" (ngSubmit)="onSubmit(form)" id="recipeForm">
       <div class="form-card">
         <h2 class="form-section-title">Basic info</h2>

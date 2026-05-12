@@ -32,6 +32,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { SearchBarComponent } from './modules/search/components/search-bar-component/search-bar-component';
 import { SearchContainerItemComponent } from './modules/search/components/search-container-item-component/search-container-item-component';
 import { SearchResultsItemComponent } from './modules/search/components/search-results-item-component/search-results-item-component';
@@ -92,6 +93,7 @@ import { MarkdownPipe } from './core/pipes/MarkdownPipe';
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
     DecimalPipe,
     MarkdownPipe
   ],
