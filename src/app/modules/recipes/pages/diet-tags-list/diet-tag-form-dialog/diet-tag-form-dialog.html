@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Edit diet tag' : 'New diet tag' }}</h2>
+
+<mat-dialog-content>
+  <form #form="ngForm" (ngSubmit)="onSubmit(form)" id="dietTagForm">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Name</mat-label>
+      <input matInput [(ngModel)]="name" name="name" required maxlength="255" [disabled]="saving">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <textarea matInput [(ngModel)]="description" name="description" rows="3" [disabled]="saving"></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()" [disabled]="saving">Cancel</button>
+  <button mat-flat-button color="primary" type="submit" form="dietTagForm" [disabled]="saving">
+    {{ isEdit ? 'Save' : 'Create' }}
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,53 @@
+<div class="page-shell">
+  <div class="page-header">
+    <h1 class="page-title">Recipes</h1>
+    <button mat-flat-button color="primary" routerLink="/admin/recipes/new">
+      <mat-icon>add</mat-icon>
+      New recipe
+    </button>
+  </div>
+
+  <table mat-table [dataSource]="store.recipes()" class="recipes-table">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let recipe">
+        <span class="recipe-name">{{ recipe.name }}</span>
+        <span class="recipe-slug">{{ recipe.slug }}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="portions">
+      <th mat-header-cell *matHeaderCellDef>Portions</th>
+      <td mat-cell *matCellDef="let recipe">{{ recipe.portions }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="syncStatus">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let recipe">
+        <span class="status-badge status-{{ recipe.syncStatus }}">{{ recipe.syncStatus }}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let recipe" class="actions-cell">
+        <button mat-icon-button (click)="openEdit(recipe)" matTooltip="Edit">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="confirmDelete(recipe)" matTooltip="Delete" class="delete-btn">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  @if (store.recipes().length === 0) {
+    <div class="empty-state">
+      <mat-icon>restaurant_menu</mat-icon>
+      <p>No recipes yet. Create the first one.</p>
+    </div>
+  }
+</div>

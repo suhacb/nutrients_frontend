@@ -1,0 +1,10 @@
+::ng-deep mat-dialog-content {
+  padding-top: 8px !important;
+}
+
+.full-width {
+  width: 100%;
+  display: block;
+
+  & + & { margin-top: 4px; }
+}

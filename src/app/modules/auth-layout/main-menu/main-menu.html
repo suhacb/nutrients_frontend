@@ -7,17 +7,37 @@
       @if (!collapsed) { <span class="nav-label">Home</span> }
     </a>
 
-    <a class="nav-item" routerLink="/nutripedia" routerLinkActive="active"
-       [matTooltip]="collapsed ? 'Nutripedia' : ''" matTooltipPosition="right">
-      <mat-icon class="nav-icon">menu_book</mat-icon>
-      @if (!collapsed) { <span class="nav-label">Nutripedia</span> }
-    </a>
-
     <button class="nav-item nav-item-button" (click)="triggerAiClick()"
             [matTooltip]="collapsed ? 'AI Assistant' : ''" matTooltipPosition="right">
       <mat-icon class="nav-icon">auto_awesome</mat-icon>
       @if (!collapsed) { <span class="nav-label">AI Assistant</span> }
     </button>
+  </section>
+
+  <mat-divider></mat-divider>
+
+  @if (!collapsed) {
+    <span class="nav-section-label">Browse</span>
+  }
+
+  <section class="nav-section">
+    <a class="nav-item" routerLink="/nutripedia/nutrients" routerLinkActive="active"
+       [matTooltip]="collapsed ? 'Nutrients' : ''" matTooltipPosition="right">
+      <mat-icon class="nav-icon">eco</mat-icon>
+      @if (!collapsed) { <span class="nav-label">Nutrients</span> }
+    </a>
+
+    <a class="nav-item" routerLink="/nutripedia/ingredients" routerLinkActive="active"
+       [matTooltip]="collapsed ? 'Ingredients' : ''" matTooltipPosition="right">
+      <mat-icon class="nav-icon">opacity</mat-icon>
+      @if (!collapsed) { <span class="nav-label">Ingredients</span> }
+    </a>
+
+    <a class="nav-item" routerLink="/nutripedia/recipes" routerLinkActive="active"
+       [matTooltip]="collapsed ? 'Recipes' : ''" matTooltipPosition="right">
+      <mat-icon class="nav-icon">restaurant_menu</mat-icon>
+      @if (!collapsed) { <span class="nav-label">Recipes</span> }
+    </a>
   </section>
 
   <mat-divider></mat-divider>
@@ -55,6 +75,18 @@
        [matTooltip]="collapsed ? 'Units' : ''" matTooltipPosition="right">
       <mat-icon class="nav-icon">straighten</mat-icon>
       @if (!collapsed) { <span class="nav-label">Units</span> }
+    </a>
+
+    <a class="nav-item" routerLink="/admin/recipes" routerLinkActive="active"
+       [matTooltip]="collapsed ? 'Recipes' : ''" matTooltipPosition="right">
+      <mat-icon class="nav-icon">restaurant_menu</mat-icon>
+      @if (!collapsed) { <span class="nav-label">Recipes</span> }
+    </a>
+
+    <a class="nav-item" routerLink="/admin/diet-tags" routerLinkActive="active"
+       [matTooltip]="collapsed ? 'Diet Tags' : ''" matTooltipPosition="right">
+      <mat-icon class="nav-icon">label</mat-icon>
+      @if (!collapsed) { <span class="nav-label">Diet Tags</span> }
     </a>
   </section>
 

@@ -616,6 +616,57 @@ export interface components {
             /** Format: date-time */
             updated_at?: string;
         };
+        DietTag: {
+            /** @example 1 */
+            id?: number;
+            /** @example Ketogenic */
+            name?: string;
+            /** @example ketogenic */
+            slug?: string;
+            /** @example High fat, very low carbohydrate diet. */
+            description?: string | null;
+            /** Format: date-time */
+            created_at?: string;
+            /** Format: date-time */
+            updated_at?: string;
+        };
+        RecipeIngredientPivot: {
+            recipe_id?: number;
+            ingredient_id?: number;
+            /** Format: float */
+            amount?: number;
+            unit_id?: number;
+            unit?: components["schemas"]["Unit"] | null;
+        };
+        RecipeIngredient: components["schemas"]["Ingredient"] & {
+            pivot?: components["schemas"]["RecipeIngredientPivot"];
+        };
+        Recipe: {
+            /** @example 1 */
+            id?: number;
+            /** @example Pasta Bolognese */
+            name?: string;
+            /** @example pasta-bolognese */
+            slug?: string;
+            /** @example A classic Italian dish. */
+            description?: string | null;
+            /** @example ## Method\n1. Cook pasta. */
+            instructions?: string | null;
+            /** @example 4 */
+            portions?: number;
+            /** @example https://example.com/pasta */
+            source_url?: string | null;
+            /** @enum {string} */
+            sync_status?: "pending" | "synced" | "failed";
+            diet_tags?: components["schemas"]["DietTag"][];
+            ingredients?: components["schemas"]["RecipeIngredient"][];
+            /** Format: date-time */
+            created_at?: string;
+            /** Format: date-time */
+            updated_at?: string;
+            /** Format: date-time */
+            deleted_at?: string | null;
+        };
     };
     responses: never;
     parameters: never;

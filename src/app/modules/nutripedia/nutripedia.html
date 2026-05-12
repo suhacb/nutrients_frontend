@@ -1,20 +1,9 @@
 <div class="pedia-shell">
 
   <div class="pedia-left">
-    <div class="pedia-category-tabs">
-      <button class="category-tab" [class.active]="category === 'nutrients'" (click)="onCategoryChange('nutrients')">
-        <mat-icon>eco</mat-icon>
-        Nutrients
-      </button>
-      <button class="category-tab" [class.active]="category === 'ingredients'" (click)="onCategoryChange('ingredients')">
-        <mat-icon>opacity</mat-icon>
-        Ingredients
-      </button>
-    </div>
-
     <div class="pedia-search">
       <app-search-bar-component
-        [icon]="category === 'nutrients' ? 'eco' : 'opacity'"
+        [icon]="category === 'nutrients' ? 'eco' : category === 'ingredients' ? 'opacity' : 'restaurant_menu'"
         [label]="'Search ' + category"
         (search)="onSearch($event)">
       </app-search-bar-component>
@@ -35,7 +24,7 @@
             </button>
           }
         }
-      } @else {
+      } @else if (category === 'ingredients') {
         @for (ingredient of ingredientsStore.ingredients(); track ingredient.id) {
           <div class="pedia-entry" [class.active]="activeId === ingredient.id" (click)="onEntrySelect(ingredient.id)">
             <span class="entry-name">{{ ingredient.name }}</span>
@@ -46,6 +35,20 @@
             <button class="load-more" (click)="onLoadMore()">
               Load more
               <span class="load-more-count">{{ ingredientsStore.ingredients().length }} / {{ p.total }}</span>
+            </button>
+          }
+        }
+      } @else {
+        @for (recipe of recipesStore.recipes(); track recipe.id) {
+          <div class="pedia-entry" [class.active]="activeId === recipe.id" (click)="onEntrySelect(recipe.id)">
+            <span class="entry-name">{{ recipe.name }}</span>
+          </div>
+        }
+        @if (recipesStore.paginator(); as p) {
+          @if (p.currentPage < p.lastPage) {
+            <button class="load-more" (click)="onLoadMore()">
+              Load more
+              <span class="load-more-count">{{ recipesStore.recipes().length }} / {{ p.total }}</span>
             </button>
           }
         }
@@ -144,7 +147,7 @@
           }
         </div>
       }
-    } @else {
+    } @else if (category === 'ingredients') {
       @if (ingredientsStore.ingredient(); as ingredient) {
         <div class="pedia-detail">
           <div class="detail-header">
@@ -237,6 +240,95 @@
               </div>
             </div>
           </div>
+        </div>
+      }
+    } @else {
+      @if (recipesStore.recipe(); as recipe) {
+        <div class="pedia-detail">
+          <div class="detail-header">
+            <h1 class="detail-title">{{ recipe.name }}</h1>
+            <span class="detail-subtitle">{{ recipe.slug }}</span>
+          </div>
+
+          @if (recipe.dietTags.length) {
+            <div class="chip-row">
+              @for (tag of recipe.dietTags; track tag.id) {
+                <mat-chip>{{ tag.name }}</mat-chip>
+              }
+            </div>
+          }
+
+          @if (recipe.description) {
+            <div class="detail-card">
+              <h2 class="detail-card-title">Description</h2>
+              <div class="description" [innerHTML]="recipe.description | markdown"></div>
+            </div>
+          }
+
+          <div class="detail-card">
+            <h2 class="detail-card-title">Details</h2>
+            <div class="detail-rows">
+              <div class="detail-row">
+                <span class="detail-label">Portions</span>
+                <span class="detail-value">{{ recipe.portions }}</span>
+              </div>
+              @if (recipe.sourceUrl) {
+                <div class="detail-row">
+                  <span class="detail-label">Source</span>
+                  <a class="detail-link" [href]="recipe.sourceUrl" target="_blank" rel="noopener">
+                    {{ recipe.sourceUrl }}
+                    <mat-icon class="detail-link-icon">open_in_new</mat-icon>
+                  </a>
+                </div>
+              }
+            </div>
+          </div>
+
+          @if (recipe.instructions) {
+            <div class="detail-card">
+              <h2 class="detail-card-title">Instructions</h2>
+              <div class="description" [innerHTML]="recipe.instructions | markdown"></div>
+            </div>
+          }
+
+          @if (recipe.ingredients.length) {
+            <div class="detail-card">
+              <h2 class="detail-card-title">Ingredients</h2>
+              <div class="related-list">
+                @for (ing of recipe.ingredients; track ing.id) {
+                  <div class="related-item">
+                    <mat-icon>opacity</mat-icon>
+                    <span class="related-item-name">{{ ing.name }}</span>
+                    <span class="related-item-amount">{{ ing.amount | decimal }} {{ ing.unitAbbreviation }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+
+          @if (profileRows().length) {
+            <div class="detail-card">
+              <div class="profile-header">
+                <h2 class="detail-card-title" style="margin:0">Nutrient profile</h2>
+                <div class="profile-toggle">
+                  <button class="toggle-btn" [class.active]="nutrientProfileView() === 'total'"
+                          (click)="nutrientProfileView.set('total')">Total</button>
+                  <button class="toggle-btn" [class.active]="nutrientProfileView() === 'per_portion'"
+                          (click)="nutrientProfileView.set('per_portion')">
+                    Per portion ({{ recipesStore.nutrientProfile()?.portions }})
+                  </button>
+                </div>
+              </div>
+              <div class="related-list profile-list">
+                @for (row of profileRows(); track row.nutrientId) {
+                  <div class="related-item">
+                    <span class="related-item-name">{{ row.nutrientName }}</span>
+                    <span class="related-item-amount">{{ row.amount | decimal }} {{ row.unit }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+          }
         </div>
       }
     }
