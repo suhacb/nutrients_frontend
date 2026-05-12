@@ -48,6 +48,113 @@
       </div>
     }
 
+    @if (isEdit) {
+      <div class="form-card">
+        <h2 class="form-section-title">Ingredients</h2>
+
+        @if ((store.recipe()?.ingredients ?? []).length) {
+          <table mat-table [dataSource]="store.recipe()?.ingredients ?? []" class="ing-table">
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Ingredient</th>
+              <td mat-cell *matCellDef="let ing">{{ ing.name }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="pivot">
+              <th mat-header-cell *matHeaderCellDef>Amount</th>
+              <td mat-cell *matCellDef="let ing">
+                @if (editingIngredientId === ing.id) {
+                  <div class="pivot-edit">
+                    <mat-form-field appearance="outline" class="edit-amount-field">
+                      <input matInput type="number" [(ngModel)]="editAmount" min="0">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="edit-unit-field">
+                      <mat-select [(ngModel)]="editUnitId">
+                        @for (unit of unitsStore.units(); track unit.id) {
+                          <mat-option [value]="unit.id">{{ unit.abbreviation }}</mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                } @else {
+                  {{ ing.amount | decimal }} {{ ing.unitAbbreviation }}
+                }
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let ing" class="actions-cell">
+                @if (editingIngredientId === ing.id) {
+                  <button mat-icon-button (click)="savePivot(ing.id)" matTooltip="Save" [disabled]="savingPivot">
+                    <mat-icon>check</mat-icon>
+                  </button>
+                  <button mat-icon-button (click)="cancelEdit()" matTooltip="Cancel">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                } @else {
+                  <button mat-icon-button (click)="startEdit(ing)" matTooltip="Edit amount/unit">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-icon-button (click)="detachIngredient(ing.id)" matTooltip="Remove" class="delete-btn">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                }
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="ingColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: ingColumns"></tr>
+          </table>
+        } @else {
+          <span class="no-items">No ingredients attached.</span>
+        }
+
+        <div class="add-ing-section">
+          <h3 class="add-ing-title">Add ingredient</h3>
+          <div class="add-ing-search">
+            <mat-form-field appearance="outline" class="search-field">
+              <mat-label>Search by name</mat-label>
+              <input matInput [(ngModel)]="addIngredientSearch" (keyup.enter)="searchIngredients()">
+            </mat-form-field>
+            <button mat-stroked-button (click)="searchIngredients()">Search</button>
+          </div>
+
+          @if (ingredientsStore.ingredients().length) {
+            <div class="add-ing-row">
+              <mat-form-field appearance="outline" class="ing-select">
+                <mat-label>Ingredient</mat-label>
+                <mat-select [(ngModel)]="addIngredientId">
+                  @for (ing of ingredientsStore.ingredients(); track ing.id) {
+                    <mat-option [value]="ing.id">{{ ing.name }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="add-amount-field">
+                <mat-label>Amount</mat-label>
+                <input matInput type="number" [(ngModel)]="addAmount" min="0">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="add-unit-field">
+                <mat-label>Unit</mat-label>
+                <mat-select [(ngModel)]="addUnitId">
+                  @for (unit of unitsStore.units(); track unit.id) {
+                    <mat-option [value]="unit.id">{{ unit.abbreviation }} — {{ unit.name }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+
+              <button mat-flat-button color="primary"
+                      (click)="attachIngredient()"
+                      [disabled]="!addIngredientId || !addUnitId || !addAmount || adding">
+                Add
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
     <form #form="ngForm" (ngSubmit)="onSubmit(form)" id="recipeForm">
       <div class="form-card">
         <h2 class="form-section-title">Basic info</h2>

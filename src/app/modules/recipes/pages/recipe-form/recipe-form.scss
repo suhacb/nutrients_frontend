@@ -82,3 +82,65 @@
 .tag-select {
   width: 240px;
 }
+
+.ing-table {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.actions-cell {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.delete-btn {
+  color: rgba(0, 0, 0, 0.4);
+  &:hover { color: #c62828; }
+}
+
+.pivot-edit {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.edit-amount-field { width: 90px; }
+.edit-unit-field   { width: 100px; }
+
+.add-ing-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  margin-top: 8px;
+}
+
+.add-ing-title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.add-ing-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.search-field { width: 280px; }
+
+.add-ing-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ing-select      { width: 240px; }
+.add-amount-field { width: 100px; }
+.add-unit-field   { width: 180px; }
