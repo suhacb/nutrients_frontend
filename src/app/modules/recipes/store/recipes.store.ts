@@ -67,43 +67,39 @@ export class RecipesStore {
   setRecipes(recipes: Recipe[]): void { this._recipes.set(recipes); }
   setNutrientProfile(profile: NutrientProfile | null): void { this._nutrientProfile.set(profile); }
 
-  index(page = 1, append = false): Observable<void> {
+  index(page = 1, append = false): void {
     const url = `${this.cfg.appBackendUrl}/api/recipes?page=${page}`;
-    return this.fetcher.fetchAndProcess<RecipePaginatedApiResponse>(url, '', body => {
+    this.fetcher.fetchAndProcess<RecipePaginatedApiResponse>(url, '', body => {
       if (!body) return;
       const recipes = body.data.map(r => this.mapper.toApp(r));
       this._recipes.set(append ? [...this._recipes(), ...recipes] : recipes);
-      this._paginator.set(this.paginatorMapper.make());
-      this._paginator.update(p => p ? ({
-        ...p,
+      this._paginator.set({
+        ...this.paginatorMapper.make(),
         total: body.total,
         perPage: body.per_page,
         currentPage: body.current_page,
         lastPage: body.last_page,
         pages: Array.from({ length: body.last_page }, (_, i) => i + 1),
-      }) : null);
-    });
+      });
+    }).subscribe();
   }
 
-  search(query: string, page = 1, append = false): Observable<void> {
+  search(query: string, page = 1, append = false): void {
     const url = `${this.cfg.appBackendUrl}/api/recipes/search`;
-    return this.fetcher.postAndProcess<{ query: string; page: number }, RecipeSearchApiResponse>(
+    this.fetcher.postAndProcess<{ query: string; page: number }, RecipeSearchApiResponse>(
       url, { query, page }, '',
-    ).pipe(
-      tap(body => {
-        const recipes = (body.results ?? []).map(r => this.mapper.toApp(r));
-        this._recipes.set(append ? [...this._recipes(), ...recipes] : recipes);
-        this._paginator.update(() => ({
-          ...this.paginatorMapper.make(),
-          total: body.total,
-          perPage: body.per_page,
-          currentPage: body.current_page,
-          lastPage: body.last_page,
-          pages: Array.from({ length: body.last_page }, (_, i) => i + 1),
-        }));
-      }),
-      map(() => void 0),
-    );
+    ).subscribe(body => {
+      const recipes = (body.results ?? []).map(r => this.mapper.toApp(r));
+      this._recipes.set(append ? [...this._recipes(), ...recipes] : recipes);
+      this._paginator.set({
+        ...this.paginatorMapper.make(),
+        total: body.total,
+        perPage: body.per_page,
+        currentPage: body.current_page,
+        lastPage: body.last_page,
+        pages: Array.from({ length: body.last_page }, (_, i) => i + 1),
+      });
+    });
   }
 
   show(id: number): Observable<void> {
