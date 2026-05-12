@@ -8,6 +8,7 @@ import { AuthLayout } from './modules/auth-layout/auth-layout';
 import { GuestGuard } from './core/guards/guest-guard';
 import { Welcome } from './modules/welcome/welcome';
 import { NutripediaPage } from './modules/nutripedia/nutripedia';
+import { DietTagsListPage } from './modules/recipes/pages/diet-tags-list/diet-tags-list';
 
 const routes: Routes = [
   {
@@ -20,6 +21,7 @@ const routes: Routes = [
       { path: 'nutripedia', redirectTo: 'nutripedia/nutrients', pathMatch: 'full' },
       { path: 'nutripedia/:category', component: NutripediaPage, canActivate: [AuthGuard] },
       { path: 'nutripedia/:category/:id', component: NutripediaPage, canActivate: [AuthGuard] },
+      { path: 'admin/diet-tags', component: DietTagsListPage, canActivate: [AuthGuard] },
       { path: 'nutrients', redirectTo: 'nutripedia/nutrients', pathMatch: 'full' },
       { path: 'nutrients/:id', redirectTo: 'nutripedia/nutrients/:id' },
       { path: 'ingredients', redirectTo: 'nutripedia/ingredients', pathMatch: 'full' },

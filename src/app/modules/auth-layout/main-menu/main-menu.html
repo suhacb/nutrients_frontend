@@ -76,6 +76,12 @@
       <mat-icon class="nav-icon">straighten</mat-icon>
       @if (!collapsed) { <span class="nav-label">Units</span> }
     </a>
+
+    <a class="nav-item" routerLink="/admin/diet-tags" routerLinkActive="active"
+       [matTooltip]="collapsed ? 'Diet Tags' : ''" matTooltipPosition="right">
+      <mat-icon class="nav-icon">label</mat-icon>
+      @if (!collapsed) { <span class="nav-label">Diet Tags</span> }
+    </a>
   </section>
 
   <mat-divider></mat-divider>
