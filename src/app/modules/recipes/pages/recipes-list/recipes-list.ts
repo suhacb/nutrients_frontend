@@ -33,6 +33,7 @@ export class RecipesListPage implements OnInit {
       data: {
         title: 'Delete recipe',
         content: `Delete "${recipe.name}"? This cannot be undone.`,
+        confirmLabel: 'Delete',
       },
     });
 

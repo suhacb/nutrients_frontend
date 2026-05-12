@@ -42,6 +42,7 @@ export class DietTagsListPage implements OnInit {
       data: {
         title: 'Delete diet tag',
         content: `Delete "${dietTag.name}"? This cannot be undone.`,
+        confirmLabel: 'Delete',
       },
     });
 

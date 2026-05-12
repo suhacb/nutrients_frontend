@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 interface ConfirmCancelDialogData {
   title: string;
   content: string;
+  confirmLabel?: string;
 }
 
 @Component({
