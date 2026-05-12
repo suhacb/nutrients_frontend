@@ -40,6 +40,7 @@ import { NutripediaPage } from './modules/nutripedia/nutripedia';
 import { BreadcrumbComponent } from './core/Breadcrumb/breadcrumb';
 import { DietTagsListPage } from './modules/recipes/pages/diet-tags-list/diet-tags-list';
 import { DietTagFormDialog } from './modules/recipes/pages/diet-tags-list/diet-tag-form-dialog/diet-tag-form-dialog';
+import { RecipesListPage } from './modules/recipes/pages/recipes-list/recipes-list';
 import { DecimalPipe } from './core/pipes/DecimalPipe';
 import { MarkdownPipe } from './core/pipes/MarkdownPipe';
 
@@ -66,6 +67,7 @@ import { MarkdownPipe } from './core/pipes/MarkdownPipe';
     BreadcrumbComponent,
     DietTagsListPage,
     DietTagFormDialog,
+    RecipesListPage,
   ],
   imports: [
     BrowserModule,

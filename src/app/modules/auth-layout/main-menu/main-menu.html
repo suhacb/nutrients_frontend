@@ -77,6 +77,12 @@
       @if (!collapsed) { <span class="nav-label">Units</span> }
     </a>
 
+    <a class="nav-item" routerLink="/admin/recipes" routerLinkActive="active"
+       [matTooltip]="collapsed ? 'Recipes' : ''" matTooltipPosition="right">
+      <mat-icon class="nav-icon">restaurant_menu</mat-icon>
+      @if (!collapsed) { <span class="nav-label">Recipes</span> }
+    </a>
+
     <a class="nav-item" routerLink="/admin/diet-tags" routerLinkActive="active"
        [matTooltip]="collapsed ? 'Diet Tags' : ''" matTooltipPosition="right">
       <mat-icon class="nav-icon">label</mat-icon>
