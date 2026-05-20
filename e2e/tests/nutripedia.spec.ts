@@ -57,6 +57,54 @@ test.describe('Nutripedia - nutrients', () => {
     await expect(authenticatedPage.locator('app-nutripedia')).toBeVisible({ timeout: 10_000 });
   });
 
+  test('navigates to a child nutrient via subcategory link', async ({ authenticatedPage }) => {
+    await authenticatedPage.goto('/nutripedia/nutrients');
+
+    const searchInput = authenticatedPage.locator('input[type="text"]').first();
+    await expect(searchInput).toBeVisible({ timeout: 10_000 });
+    await searchInput.fill('vitamins');
+    await searchInput.press('Enter');
+
+    const vitaminsEntry = authenticatedPage.locator('.pedia-entry', {
+      has: authenticatedPage.locator('.entry-name', { hasText: /^Vitamins$/ }),
+    });
+    await expect(vitaminsEntry).toBeVisible({ timeout: 10_000 });
+    await vitaminsEntry.click();
+
+    const subcategoriesCard = authenticatedPage.locator('.detail-card', { hasText: 'Subcategories' });
+    await expect(subcategoriesCard).toBeVisible({ timeout: 10_000 });
+
+    const parentUrl = authenticatedPage.url();
+    await subcategoriesCard.locator('.related-link').first().click();
+
+    await expect(authenticatedPage).toHaveURL(/\/nutripedia\/nutrients\/\d+/);
+    await expect(authenticatedPage.url()).not.toBe(parentUrl);
+    await expect(authenticatedPage.locator('.detail-title')).toBeVisible({ timeout: 10_000 });
+  });
+
+  test('navigates to parent nutrient via breadcrumb', async ({ authenticatedPage }) => {
+    await authenticatedPage.goto('/nutripedia/nutrients');
+
+    const searchInput = authenticatedPage.locator('input[type="text"]').first();
+    await expect(searchInput).toBeVisible({ timeout: 10_000 });
+    await searchInput.fill('fat-soluble');
+    await searchInput.press('Enter');
+
+    const firstEntry = authenticatedPage.locator('.pedia-entry').first();
+    await expect(firstEntry).toBeVisible({ timeout: 10_000 });
+    await firstEntry.click();
+
+    const breadcrumb = authenticatedPage.locator('.breadcrumb');
+    await expect(breadcrumb).toBeVisible({ timeout: 10_000 });
+
+    const breadcrumbLink = authenticatedPage.locator('.breadcrumb-link').last();
+    const parentName = (await breadcrumbLink.textContent())!.trim();
+    await breadcrumbLink.click();
+
+    await expect(authenticatedPage).toHaveURL(/\/nutripedia\/nutrients\/\d+/);
+    await expect(authenticatedPage.locator('.detail-title')).toHaveText(parentName, { timeout: 10_000 });
+  });
+
   test('direct URL loads nutrient detail without searching', async ({ authenticatedPage }) => {
     await authenticatedPage.goto('/nutripedia/nutrients');
 
