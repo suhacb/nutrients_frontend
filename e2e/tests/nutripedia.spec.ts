@@ -57,6 +57,22 @@ test.describe('Nutripedia - recipes', () => {
     await expect(authenticatedPage).toHaveURL(/\/nutripedia\/recipes\/\d+/);
     await expect(authenticatedPage.locator('.detail-title')).toBeVisible({ timeout: 10_000 });
   });
+
+  test('recipe detail shows nutrient profile', async ({ authenticatedPage }) => {
+    await authenticatedPage.goto('/nutripedia/recipes');
+
+    const searchInput = authenticatedPage.locator('input[type="text"]').first();
+    await expect(searchInput).toBeVisible({ timeout: 10_000 });
+    await searchInput.fill('grilled');
+    await searchInput.press('Enter');
+
+    const firstEntry = authenticatedPage.locator('.pedia-entry').first();
+    await expect(firstEntry).toBeVisible({ timeout: 10_000 });
+    await firstEntry.click();
+
+    await expect(authenticatedPage.locator('.detail-title')).toBeVisible({ timeout: 10_000 });
+    await expect(authenticatedPage.locator('.profile-list .related-item').first()).toBeVisible({ timeout: 10_000 });
+  });
 });
 
 test.describe('Nutripedia - ingredients', () => {
