@@ -42,6 +42,17 @@ test.describe('Nutripedia - nutrients', () => {
 });
 
 test.describe('Nutripedia - recipes', () => {
+  test('shows recipes after search', async ({ authenticatedPage }) => {
+    await authenticatedPage.goto('/nutripedia/recipes');
+
+    const searchInput = authenticatedPage.locator('input[type="text"]').first();
+    await expect(searchInput).toBeVisible({ timeout: 10_000 });
+    await searchInput.fill('grilled');
+    await searchInput.press('Enter');
+
+    await expect(authenticatedPage.locator('.pedia-entry').first()).toBeVisible({ timeout: 10_000 });
+  });
+
   test('selects a recipe and shows its detail panel', async ({ authenticatedPage }) => {
     await authenticatedPage.goto('/nutripedia/recipes');
 
