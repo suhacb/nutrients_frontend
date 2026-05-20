@@ -56,6 +56,21 @@ test.describe('Nutripedia - nutrients', () => {
     await expect(authenticatedPage).toHaveURL('/nutripedia/ingredients');
     await expect(authenticatedPage.locator('app-nutripedia')).toBeVisible({ timeout: 10_000 });
   });
+
+  test('direct URL loads nutrient detail without searching', async ({ authenticatedPage }) => {
+    await authenticatedPage.goto('/nutripedia/nutrients');
+
+    const searchInput = authenticatedPage.locator('input[type="text"]').first();
+    await expect(searchInput).toBeVisible({ timeout: 10_000 });
+    await searchInput.fill('vitamins');
+    await searchInput.press('Enter');
+
+    await authenticatedPage.locator('.pedia-entry').first().click();
+    const detailUrl = authenticatedPage.url();
+
+    await authenticatedPage.goto(detailUrl);
+    await expect(authenticatedPage.locator('.detail-title')).toBeVisible({ timeout: 10_000 });
+  });
 });
 
 test.describe('Nutripedia - recipes', () => {
@@ -98,6 +113,22 @@ test.describe('Nutripedia - recipes', () => {
     await expect(firstEntry).toBeVisible({ timeout: 10_000 });
     await firstEntry.click();
 
+    await expect(authenticatedPage.locator('.detail-title')).toBeVisible({ timeout: 10_000 });
+    await expect(authenticatedPage.locator('.profile-list .related-item').first()).toBeVisible({ timeout: 10_000 });
+  });
+
+  test('direct URL loads recipe detail without searching', async ({ authenticatedPage }) => {
+    await authenticatedPage.goto('/nutripedia/recipes');
+
+    const searchInput = authenticatedPage.locator('input[type="text"]').first();
+    await expect(searchInput).toBeVisible({ timeout: 10_000 });
+    await searchInput.fill('grilled');
+    await searchInput.press('Enter');
+
+    await authenticatedPage.locator('.pedia-entry').first().click();
+    const detailUrl = authenticatedPage.url();
+
+    await authenticatedPage.goto(detailUrl);
     await expect(authenticatedPage.locator('.detail-title')).toBeVisible({ timeout: 10_000 });
     await expect(authenticatedPage.locator('.profile-list .related-item').first()).toBeVisible({ timeout: 10_000 });
   });
@@ -151,6 +182,21 @@ test.describe('Nutripedia - ingredients', () => {
     await firstEntry.click();
 
     await expect(authenticatedPage).toHaveURL(/\/nutripedia\/ingredients\/\d+/);
+    await expect(authenticatedPage.locator('.detail-title')).toBeVisible({ timeout: 10_000 });
+  });
+
+  test('direct URL loads ingredient detail without searching', async ({ authenticatedPage }) => {
+    await authenticatedPage.goto('/nutripedia/ingredients');
+
+    const searchInput = authenticatedPage.locator('input[type="text"]').first();
+    await expect(searchInput).toBeVisible({ timeout: 10_000 });
+    await searchInput.fill('chicken');
+    await searchInput.press('Enter');
+
+    await authenticatedPage.locator('.pedia-entry').first().click();
+    const detailUrl = authenticatedPage.url();
+
+    await authenticatedPage.goto(detailUrl);
     await expect(authenticatedPage.locator('.detail-title')).toBeVisible({ timeout: 10_000 });
   });
 });
