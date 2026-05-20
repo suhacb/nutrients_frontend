@@ -73,6 +73,29 @@ test.describe('Nutripedia - recipes', () => {
     await expect(authenticatedPage.locator('.detail-title')).toBeVisible({ timeout: 10_000 });
     await expect(authenticatedPage.locator('.profile-list .related-item').first()).toBeVisible({ timeout: 10_000 });
   });
+
+  test('switches between nutrient profile total and per-portion views', async ({ authenticatedPage }) => {
+    await authenticatedPage.goto('/nutripedia/recipes');
+
+    const searchInput = authenticatedPage.locator('input[type="text"]').first();
+    await expect(searchInput).toBeVisible({ timeout: 10_000 });
+    await searchInput.fill('grilled');
+    await searchInput.press('Enter');
+
+    const firstEntry = authenticatedPage.locator('.pedia-entry').first();
+    await expect(firstEntry).toBeVisible({ timeout: 10_000 });
+    await firstEntry.click();
+
+    await expect(authenticatedPage.locator('.profile-list .related-item').first()).toBeVisible({ timeout: 10_000 });
+
+    const totalBtn = authenticatedPage.locator('.toggle-btn', { hasText: 'Total' });
+    const perPortionBtn = authenticatedPage.locator('.toggle-btn', { hasText: 'Per portion' });
+
+    await expect(totalBtn).toHaveClass(/active/);
+    await perPortionBtn.click();
+    await expect(perPortionBtn).toHaveClass(/active/);
+    await expect(totalBtn).not.toHaveClass(/active/);
+  });
 });
 
 test.describe('Nutripedia - ingredients', () => {
