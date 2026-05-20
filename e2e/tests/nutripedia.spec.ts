@@ -99,6 +99,17 @@ test.describe('Nutripedia - recipes', () => {
 });
 
 test.describe('Nutripedia - ingredients', () => {
+  test('shows ingredients after search', async ({ authenticatedPage }) => {
+    await authenticatedPage.goto('/nutripedia/ingredients');
+
+    const searchInput = authenticatedPage.locator('input[type="text"]').first();
+    await expect(searchInput).toBeVisible({ timeout: 10_000 });
+    await searchInput.fill('chicken');
+    await searchInput.press('Enter');
+
+    await expect(authenticatedPage.locator('.pedia-entry').first()).toBeVisible({ timeout: 10_000 });
+  });
+
   test('selects an ingredient and shows its detail panel', async ({ authenticatedPage }) => {
     await authenticatedPage.goto('/nutripedia/ingredients');
 
