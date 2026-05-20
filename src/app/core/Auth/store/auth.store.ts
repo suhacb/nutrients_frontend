@@ -4,11 +4,14 @@ import { AccessTokenMapper } from '../../AccessToken/AccessTokenMapper';
 import { catchError, map, Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ApiHandlerService } from '../../ApiHandlerService/api-handler-service';
+import { APP_CONFIG } from '../../../config/app-config';
 import { decodeJwt } from '../../DecodeJWT/decodeJwt';
 
 @Injectable({ providedIn: 'root' })
 
 export class AuthStore {
+    private cfg = inject(APP_CONFIG);
+
     constructor(private http: HttpClient, private apiHandlerService: ApiHandlerService) {}
 
     private _accessToken = signal<string | null>(null);
@@ -95,7 +98,7 @@ export class AuthStore {
     }
 
     validateAccessToken(): Observable<boolean> {
-        const url = 'http://localhost:9015/api/auth/validate-access-token';
+        const url = `${this.cfg.appBackendUrl}/api/auth/validate-access-token`;
         return this.http.get<AccessTokenApiResource | boolean | string>(url, { observe: 'response' as const}).pipe(
             map((response) => {
                 if (!response.body) throw new Error('Response body is empty');
@@ -123,7 +126,7 @@ export class AuthStore {
     }
 
     logout(): Observable<boolean> {
-        const url = 'http://localhost:9015/api/auth/logout';
+        const url = `${this.cfg.appBackendUrl}/api/auth/logout`;
         return this.http.post<boolean>(url, [], { observe: 'response' as const}).pipe(
             map(() => {
                 this.resetToken();

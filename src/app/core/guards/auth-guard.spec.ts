@@ -3,6 +3,7 @@ import { Router, UrlTree } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
 import { AuthGuard } from './auth-guard';
 import { AuthStore } from '../Auth/store/auth.store';
+import { APP_CONFIG } from '../../config/app-config';
 
 describe('AuthGuard', () => {
   let guard: AuthGuard;
@@ -28,6 +29,7 @@ describe('AuthGuard', () => {
         AuthGuard,
         { provide: AuthStore, useValue: storeSpy },
         { provide: Router, useValue: routerSpy },
+        { provide: APP_CONFIG, useValue: { appNameHeader: 'nutrients', appBaseUrl: 'http://localhost:9010', appName: 'Nutrients', appTitle: 'The Nutritionist', appBackendUrl: 'http://localhost:9015', e2e: false } },
       ],
     });
 
@@ -178,5 +180,46 @@ describe('AuthGuard', () => {
       expect(storeSpy.setStoreValue).toHaveBeenCalledWith('accessToken', 'my-token');
       expect(storeSpy.setStoreValue).toHaveBeenCalledWith('refreshToken', 'my-refresh');
     });
+  });
+});
+
+// ---------------------------------------------------------------------------
+// e2e mode — backend validation skipped
+// ---------------------------------------------------------------------------
+
+describe('AuthGuard in e2e mode', () => {
+  let guard: AuthGuard;
+  let storeSpy: jasmine.SpyObj<AuthStore>;
+  let routerSpy: jasmine.SpyObj<Router>;
+
+  beforeEach(() => {
+    storeSpy = jasmine.createSpyObj('AuthStore', {
+      setStoreValue: undefined,
+      resetToken: undefined,
+      validateAccessToken: of(true),
+      accessToken: 'e2e-token',
+    });
+
+    routerSpy = jasmine.createSpyObj('Router', ['parseUrl']);
+
+    TestBed.configureTestingModule({
+      providers: [
+        AuthGuard,
+        { provide: AuthStore, useValue: storeSpy },
+        { provide: Router, useValue: routerSpy },
+        { provide: APP_CONFIG, useValue: { appNameHeader: 'nutrients', appBaseUrl: 'http://localhost:9010', appName: 'Nutrients', appTitle: 'The Nutritionist', appBackendUrl: 'http://localhost:4200', e2e: true } },
+      ],
+    });
+
+    guard = TestBed.inject(AuthGuard);
+    localStorage.setItem('accessToken', 'e2e-token');
+  });
+
+  afterEach(() => localStorage.clear());
+
+  it('returns true without calling validateAccessToken', () => {
+    const result = guard.canActivate();
+    expect(result).toBeTrue();
+    expect(storeSpy.validateAccessToken).not.toHaveBeenCalled();
   });
 });

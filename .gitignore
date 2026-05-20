@@ -37,6 +37,11 @@ yarn-error.log
 testem.log
 /typings
 
+# Playwright
+/playwright-report
+/test-results
+/e2e/.auth
+
 # System files
 .DS_Store
 Thumbs.db

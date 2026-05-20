@@ -61,6 +61,17 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "e2e": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/app/environments/environments.ts",
+                  "with": "src/app/environments/environments.e2e.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -73,6 +84,10 @@
             },
             "development": {
               "buildTarget": "nutrients:build:development"
+            },
+            "e2e": {
+              "buildTarget": "nutrients:build:e2e",
+              "proxyConfig": "e2e/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

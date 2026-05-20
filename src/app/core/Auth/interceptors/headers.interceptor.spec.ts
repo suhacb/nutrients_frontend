@@ -18,6 +18,7 @@ describe('appHeadersInterceptor', () => {
     appName: 'Nutrients',
     appTitle: 'The Nutritionist',
     appBackendUrl: 'http://localhost:9015',
+    e2e: false,
   };
 
   function configureStore(opts: {
@@ -152,6 +153,21 @@ describe('appHeadersInterceptor', () => {
   });
 
   // ---------------------------------------------------------------------------
+  // X-Test-Mode header
+  // ---------------------------------------------------------------------------
+
+  describe('X-Test-Mode header', () => {
+    it('is absent when e2e is false', () => {
+      configureStore();
+      http.get(testUrl).subscribe();
+
+      const req = httpMock.expectOne(testUrl);
+      expect(req.request.headers.has('X-Test-Mode')).toBeFalse();
+      req.flush({});
+    });
+  });
+
+  // ---------------------------------------------------------------------------
   // All headers together
   // ---------------------------------------------------------------------------
 
@@ -172,5 +188,44 @@ describe('appHeadersInterceptor', () => {
       expect(req.request.headers.get('X-Client-Url')).toBe('http://localhost:9010');
       req.flush({});
     });
+  });
+});
+
+describe('appHeadersInterceptor in e2e mode', () => {
+  let http: HttpClient;
+  let httpMock: HttpTestingController;
+  let storeSpy: jasmine.SpyObj<AuthStore>;
+
+  const testUrl = 'http://test/api/resource';
+
+  beforeEach(() => {
+    storeSpy = jasmine.createSpyObj('AuthStore', {
+      accessToken: null,
+      refreshToken: null,
+      externalAppName: null,
+      externalAppUrl: null,
+    });
+
+    TestBed.configureTestingModule({
+      providers: [
+        provideHttpClient(withInterceptors([appHeadersInterceptor])),
+        provideHttpClientTesting(),
+        { provide: AuthStore, useValue: storeSpy },
+        { provide: APP_CONFIG, useValue: { appNameHeader: 'nutrients-app', appBaseUrl: 'http://localhost:9010', appName: 'Nutrients', appTitle: 'The Nutritionist', appBackendUrl: 'http://localhost:9015', e2e: true } },
+      ],
+    });
+
+    http = TestBed.inject(HttpClient);
+    httpMock = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => httpMock.verify());
+
+  it('adds X-Test-Mode: true to every request', () => {
+    http.get(testUrl).subscribe();
+
+    const req = httpMock.expectOne(testUrl);
+    expect(req.request.headers.get('X-Test-Mode')).toBe('true');
+    req.flush({});
   });
 });

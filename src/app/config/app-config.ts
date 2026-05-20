@@ -5,8 +5,9 @@ export interface AppConfig {
     appNameHeader: string;
     appBaseUrl: string;
     appName: string;
-    appTitle: string,
-    appBackendUrl: string
+    appTitle: string;
+    appBackendUrl: string;
+    e2e: boolean;
 }
 
 export const APP_CONFIG = new InjectionToken<AppConfig>('APP_CONFIG', {
@@ -17,7 +18,8 @@ export const APP_CONFIG = new InjectionToken<AppConfig>('APP_CONFIG', {
             appBaseUrl: environment.CLIENT_URL,
             appName: environment.APP_NAME,
             appTitle: environment.APP_TITLE,
-            appBackendUrl: environment.BACKEND_URL
+            appBackendUrl: environment.BACKEND_URL,
+            e2e: environment.E2E,
         }
     }
 });

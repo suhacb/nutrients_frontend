@@ -4,6 +4,7 @@ import { provideHttpClientTesting, HttpTestingController } from '@angular/common
 import { AuthStore } from './auth.store';
 import { ApiHandlerService } from '../../ApiHandlerService/api-handler-service';
 import { AccessTokenApiResource } from '../../AccessToken/AccessToken';
+import { APP_CONFIG } from '../../../config/app-config';
 
 function makeJwt(payload: object): string {
   const encoded = btoa(JSON.stringify(payload))
@@ -39,6 +40,7 @@ describe('AuthStore', () => {
         provideHttpClient(),
         provideHttpClientTesting(),
         { provide: ApiHandlerService, useValue: jasmine.createSpyObj('ApiHandlerService', ['showSuccess', 'showError']) },
+        { provide: APP_CONFIG, useValue: { appNameHeader: 'nutrients', appBaseUrl: 'http://localhost:9010', appName: 'Nutrients', appTitle: 'The Nutritionist', appBackendUrl: 'http://localhost:9015', e2e: false } },
       ],
     });
     store = TestBed.inject(AuthStore);
