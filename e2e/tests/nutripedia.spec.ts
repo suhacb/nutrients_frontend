@@ -18,6 +18,23 @@ test.describe('Nutripedia - nutrients', () => {
     await expect(authenticatedPage.locator('.pedia-entry').first()).toBeVisible({ timeout: 10_000 });
   });
 
+  test('load more appends additional nutrients', async ({ authenticatedPage }) => {
+    await authenticatedPage.goto('/nutripedia/nutrients');
+
+    const searchInput = authenticatedPage.locator('input[type="text"]').first();
+    await expect(searchInput).toBeVisible({ timeout: 10_000 });
+    await searchInput.fill('test-nutrient');
+    await searchInput.press('Enter');
+
+    const loadMoreBtn = authenticatedPage.locator('.load-more');
+    await expect(loadMoreBtn).toBeVisible({ timeout: 10_000 });
+
+    const countBefore = await authenticatedPage.locator('.pedia-entry').count();
+    await loadMoreBtn.click();
+
+    await expect(authenticatedPage.locator('.pedia-entry')).not.toHaveCount(countBefore, { timeout: 10_000 });
+  });
+
   test('selects a nutrient and shows its detail panel', async ({ authenticatedPage }) => {
     await authenticatedPage.goto('/nutripedia/nutrients');
 
