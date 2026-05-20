@@ -40,3 +40,21 @@ test.describe('Nutripedia - nutrients', () => {
     await expect(authenticatedPage.locator('app-nutripedia')).toBeVisible({ timeout: 10_000 });
   });
 });
+
+test.describe('Nutripedia - ingredients', () => {
+  test('selects an ingredient and shows its detail panel', async ({ authenticatedPage }) => {
+    await authenticatedPage.goto('/nutripedia/ingredients');
+
+    const searchInput = authenticatedPage.locator('input[type="text"]').first();
+    await expect(searchInput).toBeVisible({ timeout: 10_000 });
+    await searchInput.fill('chicken');
+    await searchInput.press('Enter');
+
+    const firstEntry = authenticatedPage.locator('.pedia-entry').first();
+    await expect(firstEntry).toBeVisible({ timeout: 10_000 });
+    await firstEntry.click();
+
+    await expect(authenticatedPage).toHaveURL(/\/nutripedia\/ingredients\/\d+/);
+    await expect(authenticatedPage.locator('.detail-title')).toBeVisible({ timeout: 10_000 });
+  });
+});
