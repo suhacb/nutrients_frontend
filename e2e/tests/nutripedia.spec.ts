@@ -18,6 +18,22 @@ test.describe('Nutripedia - nutrients', () => {
     await expect(authenticatedPage.locator('.pedia-entry').first()).toBeVisible({ timeout: 10_000 });
   });
 
+  test('selects a nutrient and shows its detail panel', async ({ authenticatedPage }) => {
+    await authenticatedPage.goto('/nutripedia/nutrients');
+
+    const searchInput = authenticatedPage.locator('input[type="text"]').first();
+    await expect(searchInput).toBeVisible({ timeout: 10_000 });
+    await searchInput.fill('vitamins');
+    await searchInput.press('Enter');
+
+    const firstEntry = authenticatedPage.locator('.pedia-entry').first();
+    await expect(firstEntry).toBeVisible({ timeout: 10_000 });
+    await firstEntry.click();
+
+    await expect(authenticatedPage).toHaveURL(/\/nutripedia\/nutrients\/\d+/);
+    await expect(authenticatedPage.locator('.detail-title')).toBeVisible({ timeout: 10_000 });
+  });
+
   test('navigates to ingredient tab', async ({ authenticatedPage }) => {
     await authenticatedPage.goto('/nutripedia/ingredients');
     await expect(authenticatedPage).toHaveURL('/nutripedia/ingredients');
