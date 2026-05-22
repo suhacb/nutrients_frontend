@@ -117,6 +117,7 @@ test.describe('Admin - recipes', () => {
 
   test('attaches a diet tag to a recipe', async ({ authenticatedPage }) => {
     await authenticatedPage.goto('/admin/recipes');
+    await expect(authenticatedPage.locator('.recipe-name').first()).toBeVisible({ timeout: 5_000 });
     await authenticatedPage.locator('.actions-cell button:not(.delete-btn)').first().click();
     await expect(authenticatedPage).toHaveURL(/\/admin\/recipes\/\d+\/edit/, { timeout: 5_000 });
 
@@ -134,22 +135,25 @@ test.describe('Admin - recipes', () => {
 
   test('detaches a diet tag from a recipe', async ({ authenticatedPage }) => {
     await authenticatedPage.goto('/admin/recipes');
+    await expect(authenticatedPage.locator('.recipe-name').first()).toBeVisible({ timeout: 5_000 });
     await authenticatedPage.locator('.actions-cell button:not(.delete-btn)').first().click();
     await expect(authenticatedPage).toHaveURL(/\/admin\/recipes\/\d+\/edit/, { timeout: 5_000 });
 
     // Attach a tag first so there is one to remove
     await expect(authenticatedPage.locator('.tag-add-row')).toBeVisible({ timeout: 5_000 });
+    const chipsBefore = await authenticatedPage.locator('mat-chip').count();
+
     await authenticatedPage.locator('.tag-select mat-select').click();
     await authenticatedPage.locator('mat-option').first().click();
     await expect(authenticatedPage.locator('mat-option').first()).not.toBeVisible({ timeout: 5_000 });
     await authenticatedPage.locator('.tag-add-row button', { hasText: 'Add' }).click();
 
-    const chip = authenticatedPage.locator('mat-chip').first();
-    await expect(chip).toBeVisible({ timeout: 5_000 });
+    await expect(authenticatedPage.locator('mat-chip')).toHaveCount(chipsBefore + 1, { timeout: 5_000 });
 
-    await chip.locator('button').click();
+    // Remove the chip that was just attached (it is the last one in the list)
+    await authenticatedPage.locator('mat-chip').last().locator('button').click();
 
-    await expect(authenticatedPage.locator('mat-chip')).not.toBeVisible({ timeout: 5_000 });
+    await expect(authenticatedPage.locator('mat-chip')).toHaveCount(chipsBefore, { timeout: 5_000 });
   });
 
   test('nutrient profile loads in recipe edit form', async ({ authenticatedPage }) => {
