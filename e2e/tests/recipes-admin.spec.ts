@@ -139,21 +139,23 @@ test.describe('Admin - recipes', () => {
     await authenticatedPage.locator('.actions-cell button:not(.delete-btn)').first().click();
     await expect(authenticatedPage).toHaveURL(/\/admin\/recipes\/\d+\/edit/, { timeout: 5_000 });
 
-    // Attach a tag first so there is one to remove
+    // The seeder syncs exactly test-vegan to this recipe on every reset.
+    // Wait for that chip to render before interacting (recipe.show() and
+    // dietTagsStore.index() are independent; tag-add-row can appear before
+    // the recipe loads, which would make chipsBefore = 0 if captured too early).
+    await expect(authenticatedPage.locator('mat-chip').first()).toBeVisible({ timeout: 5_000 });
     await expect(authenticatedPage.locator('.tag-add-row')).toBeVisible({ timeout: 5_000 });
-    const chipsBefore = await authenticatedPage.locator('mat-chip').count();
 
+    // Attach the second available tag so there are two chips total (seeded + new).
     await authenticatedPage.locator('.tag-select mat-select').click();
     await authenticatedPage.locator('mat-option').first().click();
     await expect(authenticatedPage.locator('mat-option').first()).not.toBeVisible({ timeout: 5_000 });
     await authenticatedPage.locator('.tag-add-row button', { hasText: 'Add' }).click();
+    await expect(authenticatedPage.locator('mat-chip')).toHaveCount(2, { timeout: 5_000 });
 
-    await expect(authenticatedPage.locator('mat-chip')).toHaveCount(chipsBefore + 1, { timeout: 5_000 });
-
-    // Remove the chip that was just attached (it is the last one in the list)
+    // Detach the chip that was just attached (last in the list).
     await authenticatedPage.locator('mat-chip').last().locator('button').click();
-
-    await expect(authenticatedPage.locator('mat-chip')).toHaveCount(chipsBefore, { timeout: 5_000 });
+    await expect(authenticatedPage.locator('mat-chip')).toHaveCount(1, { timeout: 5_000 });
   });
 
   test('nutrient profile loads in recipe edit form', async ({ authenticatedPage }) => {
