@@ -4,5 +4,6 @@ export const environment = {
   CLIENT_URL: 'http://localhost:9010',
   APP_NAME: 'Nutrients',
   APP_TITLE: 'The Nutritionist',
-  BACKEND_URL: 'http://localhost:9015'
+  BACKEND_URL: 'http://localhost:9015',
+  E2E: false,
 };

@@ -1,14 +1,16 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { catchError, map, Observable, of } from 'rxjs';
 import { AuthStore } from '../Auth/store/auth.store';
 import { AccessTokenMapper } from '../AccessToken/AccessTokenMapper';
 import { AccessToken } from '../AccessToken/AccessToken';
+import { APP_CONFIG } from '../../config/app-config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
+  private cfg = inject(APP_CONFIG);
   constructor(private store: AuthStore, private router: Router) {}
 
   canActivate(): boolean | UrlTree | Observable<boolean | UrlTree> {
@@ -32,6 +34,9 @@ export class AuthGuard implements CanActivate {
       this.store.resetToken();
       return this.router.parseUrl('/welcome');
     }
+
+    // In e2e mode, trust the localStorage token without a backend round-trip.
+    if (this.cfg.e2e) return true;
 
     return this.store.validateAccessToken().pipe(
       map(isValid => {

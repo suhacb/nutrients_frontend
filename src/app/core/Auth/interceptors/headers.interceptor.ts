@@ -19,6 +19,7 @@ export const appHeadersInterceptor: HttpInterceptorFn = (req, next) => {
     if (refreshToken && typeof refreshToken === 'string') {
         headers['X-Refresh-Token'] = refreshToken;
     }
+    if (cfg.e2e) headers['X-Test-Mode'] = 'true';
 
     return next(req.clone({ setHeaders: headers }));
 }
