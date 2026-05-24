@@ -45,6 +45,7 @@ import { DietTagFormDialog } from './modules/recipes/pages/diet-tags-list/diet-t
 import { RecipesListPage } from './modules/recipes/pages/recipes-list/recipes-list';
 import { RecipeFormPage } from './modules/recipes/pages/recipe-form/recipe-form';
 import { MappingReviewsListPage } from './modules/nutrient-mapping-reviews/pages/mapping-reviews-list/mapping-reviews-list';
+import { UnitConverterComponent } from './modules/unit-converter/components/unit-converter/unit-converter.component';
 import { TitleCasePipe } from '@angular/common';
 import { DecimalPipe } from './core/pipes/DecimalPipe';
 import { MarkdownPipe } from './core/pipes/MarkdownPipe';
@@ -75,6 +76,7 @@ import { MarkdownPipe } from './core/pipes/MarkdownPipe';
     RecipesListPage,
     RecipeFormPage,
     MappingReviewsListPage,
+    UnitConverterComponent,
   ],
   imports: [
     BrowserModule,

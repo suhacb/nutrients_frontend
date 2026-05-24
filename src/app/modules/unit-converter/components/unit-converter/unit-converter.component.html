@@ -1,0 +1,38 @@
+<div class="converter-form">
+  <mat-form-field appearance="outline" class="converter-field converter-field--value">
+    <mat-label>Value</mat-label>
+    <input matInput type="number" [(ngModel)]="inputValue" name="converterValue" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="converter-field">
+    <mat-label>From</mat-label>
+    <mat-select [(ngModel)]="fromUnitId" name="fromUnit">
+      @for (unit of unitsStore.units(); track unit.id) {
+        <mat-option [value]="unit.id">{{ unit.name }} ({{ unit.abbreviation }})</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <span class="converter-arrow">→</span>
+
+  <mat-form-field appearance="outline" class="converter-field">
+    <mat-label>To</mat-label>
+    <mat-select [(ngModel)]="toUnitId" name="toUnit">
+      @for (unit of unitsStore.units(); track unit.id) {
+        <mat-option [value]="unit.id">{{ unit.name }} ({{ unit.abbreviation }})</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-flat-button color="primary" [disabled]="!canConvert()" (click)="convert()">
+    Convert
+  </button>
+</div>
+
+@if (result(); as r) {
+  <div class="converter-result">
+    <span class="result-value">{{ r.value | decimal }}</span>
+    <span class="result-unit">{{ r.toUnit.abbreviation }}</span>
+    <span class="result-context">(from {{ r.fromUnit.abbreviation }})</span>
+  </div>
+}

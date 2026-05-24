@@ -1,0 +1,43 @@
+.converter-form {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.converter-field {
+  flex: 1;
+  min-width: 140px;
+
+  &--value {
+    max-width: 120px;
+  }
+}
+
+.converter-arrow {
+  font-size: 1.25rem;
+  color: #888;
+  padding: 0 4px;
+}
+
+.converter-result {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 8px 0;
+}
+
+.result-value {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.result-unit {
+  font-size: 1rem;
+}
+
+.result-context {
+  font-size: 0.85rem;
+  color: #888;
+}
