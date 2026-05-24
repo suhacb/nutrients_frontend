@@ -1,5 +1,45 @@
 import { test, expect } from '../fixtures';
 
+test.describe('Nutripedia - nutrient source mappings', () => {
+  test('shows "Canonical" chip for a nutrient with no source mappings', async ({ authenticatedPage }) => {
+    await authenticatedPage.goto('/nutripedia/nutrients');
+
+    const searchInput = authenticatedPage.locator('input[type="text"]').first();
+    await expect(searchInput).toBeVisible({ timeout: 5_000 });
+    await searchInput.fill('test-nutrient-01');
+    await searchInput.press('Enter');
+
+    const entry = authenticatedPage.locator('.pedia-entry').first();
+    await expect(entry).toBeVisible({ timeout: 5_000 });
+    await entry.click();
+
+    await expect(authenticatedPage.locator('.detail-title')).toBeVisible({ timeout: 5_000 });
+
+    const typeRow = authenticatedPage.locator('.detail-row', { hasText: 'Type' });
+    await expect(typeRow.locator('mat-chip', { hasText: 'Canonical' })).toBeVisible({ timeout: 5_000 });
+  });
+
+  test('shows source and external ID chip for a source-mapped nutrient', async ({ authenticatedPage }) => {
+    await authenticatedPage.goto('/nutripedia/nutrients');
+
+    const searchInput = authenticatedPage.locator('input[type="text"]').first();
+    await expect(searchInput).toBeVisible({ timeout: 5_000 });
+    await searchInput.fill('Test Mapped Nutrient');
+    await searchInput.press('Enter');
+
+    const entry = authenticatedPage.locator('.pedia-entry').first();
+    await expect(entry).toBeVisible({ timeout: 5_000 });
+    await entry.click();
+
+    await expect(authenticatedPage.locator('.detail-title')).toBeVisible({ timeout: 5_000 });
+
+    const typeRow = authenticatedPage.locator('.detail-row', { hasText: 'Type' });
+    await expect(typeRow.locator('mat-chip')).not.toHaveText('Canonical', { timeout: 5_000 });
+    await expect(typeRow.locator('mat-chip')).toContainText('USDA FoodData Central', { timeout: 5_000 });
+    await expect(typeRow.locator('mat-chip')).toContainText('TEST-001', { timeout: 5_000 });
+  });
+});
+
 test.describe('Nutripedia - nutrients', () => {
   test('navigates to nutrients page', async ({ authenticatedPage }) => {
     await authenticatedPage.goto('/nutripedia/nutrients');
@@ -246,5 +286,52 @@ test.describe('Nutripedia - ingredients', () => {
 
     await authenticatedPage.goto(detailUrl);
     await expect(authenticatedPage.locator('.detail-title')).toBeVisible({ timeout: 5_000 });
+  });
+
+  test('unit converter is visible on ingredient detail', async ({ authenticatedPage }) => {
+    await authenticatedPage.goto('/nutripedia/ingredients');
+
+    const searchInput = authenticatedPage.locator('input[type="text"]').first();
+    await expect(searchInput).toBeVisible({ timeout: 5_000 });
+    await searchInput.fill('chicken');
+    await searchInput.press('Enter');
+
+    const firstEntry = authenticatedPage.locator('.pedia-entry').first();
+    await expect(firstEntry).toBeVisible({ timeout: 5_000 });
+    await firstEntry.click();
+
+    await expect(authenticatedPage.locator('app-unit-converter')).toBeVisible({ timeout: 5_000 });
+    await expect(authenticatedPage.locator('app-unit-converter button', { hasText: 'Convert' })).toBeVisible();
+  });
+
+  test('unit converter converts a value between compatible units', async ({ authenticatedPage }) => {
+    await authenticatedPage.goto('/nutripedia/ingredients');
+
+    const searchInput = authenticatedPage.locator('input[type="text"]').first();
+    await expect(searchInput).toBeVisible({ timeout: 5_000 });
+    await searchInput.fill('chicken');
+    await searchInput.press('Enter');
+
+    const firstEntry = authenticatedPage.locator('.pedia-entry').first();
+    await expect(firstEntry).toBeVisible({ timeout: 5_000 });
+    await firstEntry.click();
+
+    await expect(authenticatedPage.locator('app-unit-converter')).toBeVisible({ timeout: 5_000 });
+
+    // Fill value
+    await authenticatedPage.locator('app-unit-converter input[type="number"]').fill('100');
+
+    // Select "From" unit: gram
+    await authenticatedPage.locator('app-unit-converter mat-select').first().click();
+    await authenticatedPage.locator('mat-option', { hasText: 'gram (g)' }).click();
+
+    // Select "To" unit: ounce
+    await authenticatedPage.locator('app-unit-converter mat-select').nth(1).click();
+    await authenticatedPage.locator('mat-option', { hasText: 'ounce (oz)' }).click();
+
+    await authenticatedPage.locator('app-unit-converter button', { hasText: 'Convert' }).click();
+
+    await expect(authenticatedPage.locator('app-unit-converter .converter-result')).toBeVisible({ timeout: 5_000 });
+    await expect(authenticatedPage.locator('app-unit-converter .result-unit')).toHaveText('oz', { timeout: 5_000 });
   });
 });
