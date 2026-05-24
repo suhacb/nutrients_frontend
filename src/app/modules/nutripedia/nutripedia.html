@@ -99,12 +99,18 @@
           <div class="detail-card">
             <h2 class="detail-card-title">Details</h2>
             <div class="detail-rows">
-              @if (nutrient.source) {
-                <div class="detail-row">
-                  <span class="detail-label">Source</span>
-                  <span class="detail-value">{{ nutrient.source.name }}</span>
-                </div>
-              }
+              <div class="detail-row">
+                <span class="detail-label">Type</span>
+                <span class="detail-value">
+                  @if (nutrient.sourceMappings.length === 0) {
+                    <mat-chip>Canonical</mat-chip>
+                  } @else {
+                    @for (mapping of nutrient.sourceMappings; track mapping.id) {
+                      <mat-chip>{{ mapping.source?.name ?? 'Unknown' }} · {{ mapping.externalId }}</mat-chip>
+                    }
+                  }
+                </span>
+              </div>
               @if (nutrient.canonicalUnit) {
                 <div class="detail-row">
                   <span class="detail-label">Canonical unit</span>

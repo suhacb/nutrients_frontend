@@ -3,14 +3,13 @@ import { Nutrient } from '../contracts/Nutrient';
 import { NutrientApiPayload } from '../contracts/NutrientApiPayload';
 import { NutrientApiResource } from '../contracts/NutrientApiResource';
 import { NutrientTagMapper } from './NutrientTagMapper';
-import { SourceMapper } from './SourceMapper';
+import { NutrientSourceMappingMapper } from './NutrientSourceMappingMapper';
 import { UnitsMapper } from '../../ingredients/mappers/UnitsMapper';
 
 export class NutrientsMapper extends ResourceMapper<Nutrient, NutrientApiResource, NutrientApiPayload> {
   public toApp(api: NutrientApiResource): Nutrient {
     return {
       id: api.id!,
-      externalId: api.external_id ?? null,
       name: api.name!,
       description: api.description ?? null,
       slug: api.slug ?? '',
@@ -18,7 +17,7 @@ export class NutrientsMapper extends ResourceMapper<Nutrient, NutrientApiResourc
       isLabelStandard: api.is_label_standard ?? false,
       displayOrder: api.display_order ?? null,
       syncStatus: api.sync_status ?? '',
-      ...(api.source !== undefined && { source: api.source ? new SourceMapper().toApp(api.source) : null }),
+      sourceMappings: (api.source_mappings ?? []).map(m => new NutrientSourceMappingMapper().toApp(m)),
       ...(api.canonical_unit !== undefined && { canonicalUnit: api.canonical_unit ? new UnitsMapper().toApp(api.canonical_unit) : null }),
       ...(api.parent !== undefined && { parent: api.parent ? this.toApp(api.parent) : null }),
       ...(api.children !== undefined && { children: api.children.map(c => this.toApp(c)) }),
@@ -31,11 +30,11 @@ export class NutrientsMapper extends ResourceMapper<Nutrient, NutrientApiResourc
 
   public toApi(app: Nutrient): NutrientApiPayload {
     return {
-      source_id: app.source?.id ?? 0,
       name: app.name,
-      external_id: app.externalId,
       description: app.description,
+      parent_id: app.parent?.id ?? null,
       slug: app.slug,
+      canonical_unit_id: app.canonicalUnit?.id ?? null,
       iu_to_canonical_factor: app.iuToCanonicalFactor,
       is_label_standard: app.isLabelStandard,
       display_order: app.displayOrder,
@@ -45,7 +44,6 @@ export class NutrientsMapper extends ResourceMapper<Nutrient, NutrientApiResourc
   public make(): Nutrient {
     return {
       id: 0,
-      externalId: null,
       name: '',
       description: null,
       slug: '',
@@ -53,6 +51,7 @@ export class NutrientsMapper extends ResourceMapper<Nutrient, NutrientApiResourc
       isLabelStandard: false,
       displayOrder: null,
       syncStatus: '',
+      sourceMappings: [],
       createdAt: new Date(),
       updatedAt: null,
       deletedAt: null,

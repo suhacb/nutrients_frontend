@@ -1,10 +1,9 @@
 import { Unit } from '../../ingredients/contracts/Unit';
-import { Source } from './Source';
+import { NutrientSourceMapping } from './NutrientSourceMapping';
 import { NutrientTag } from './NutrientTag';
 
 export type Nutrient = {
   id: number;
-  externalId: string | null;
   name: string;
   description: string | null;
   slug: string;
@@ -12,7 +11,7 @@ export type Nutrient = {
   isLabelStandard: boolean;
   displayOrder: number | null;
   syncStatus: string;
-  source?: Source | null;
+  sourceMappings: NutrientSourceMapping[];
   canonicalUnit?: Unit | null;
   parent?: Nutrient | null;
   children?: Nutrient[];

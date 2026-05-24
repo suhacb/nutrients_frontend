@@ -11,9 +11,9 @@ import { Nutrient } from '../nutrients/contracts/Nutrient';
 
 function makeNutrient(overrides: Partial<Nutrient> = {}): Nutrient {
   return {
-    id: 1, externalId: null, name: 'Vitamin C', description: null, slug: 'vitamin-c',
+    id: 1, name: 'Vitamin C', description: null, slug: 'vitamin-c',
     iuToCanonicalFactor: null, isLabelStandard: true, displayOrder: 1, syncStatus: 'synced',
-    createdAt: new Date(), updatedAt: null, deletedAt: null,
+    sourceMappings: [], createdAt: new Date(), updatedAt: null, deletedAt: null,
     ...overrides,
   };
 }

@@ -1,7 +1,5 @@
 export type NutrientApiPayload = {
-  source_id: number;
   name: string;
-  external_id?: string | null;
   description?: string | null;
   parent_id?: number | null;
   slug?: string | null;
