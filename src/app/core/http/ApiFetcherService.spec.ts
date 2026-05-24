@@ -237,6 +237,88 @@ describe('ApiFetcherService', () => {
   });
 
   // ---------------------------------------------------------------------------
+  // patchAndProcess
+  // ---------------------------------------------------------------------------
+
+  describe('patchAndProcess', () => {
+    it('issues a PATCH request with the provided payload', () => {
+      service.patchAndProcess(testUrl, { decision: 'reject' }, 'Resolved.').subscribe();
+
+      const req = httpMock.expectOne(testUrl);
+      expect(req.request.method).toBe('PATCH');
+      expect(req.request.body).toEqual({ decision: 'reject' });
+      req.flush({ id: 1 });
+    });
+
+    it('emits the raw response body when no process function is provided', (done) => {
+      service.patchAndProcess<unknown, { id: number }>(testUrl, {}, 'Resolved.').subscribe(result => {
+        expect(result).toEqual({ id: 9 });
+        done();
+      });
+
+      httpMock.expectOne(testUrl).flush({ id: 9 });
+    });
+
+    it('emits the transformed body when a process function is provided', (done) => {
+      const transform = (body: { id: number }) => ({ ...body, id: body.id * 2 });
+
+      service.patchAndProcess<unknown, { id: number }>(testUrl, {}, 'Resolved.', transform).subscribe(result => {
+        expect(result).toEqual({ id: 18 });
+        done();
+      });
+
+      httpMock.expectOne(testUrl).flush({ id: 9 });
+    });
+
+    it('calls showSuccess with the provided message', () => {
+      service.patchAndProcess(testUrl, {}, 'Review resolved.').subscribe();
+      httpMock.expectOne(testUrl).flush({});
+
+      expect(apiHandlerSpy.showSuccess).toHaveBeenCalledOnceWith('Review resolved.');
+    });
+
+    it('calls showError and completes silently on a non-401/422 error', (done) => {
+      let emitted = false;
+
+      service.patchAndProcess(testUrl, {}, 'Resolved.').subscribe({
+        next: () => { emitted = true; },
+        error: () => fail('should not error'),
+        complete: () => {
+          expect(emitted).toBeFalse();
+          expect(apiHandlerSpy.showError).toHaveBeenCalled();
+          done();
+        },
+      });
+
+      httpMock.expectOne(testUrl).flush(null, { status: 500, statusText: 'Server Error' });
+    });
+
+    it('re-throws on a 401 error', (done) => {
+      service.patchAndProcess(testUrl, {}, 'Resolved.').subscribe({
+        next: () => fail('should not emit'),
+        error: (err: HttpErrorResponse) => {
+          expect(err.status).toBe(401);
+          done();
+        },
+      });
+
+      httpMock.expectOne(testUrl).flush(null, { status: 401, statusText: 'Unauthorized' });
+    });
+
+    it('re-throws on a 422 error', (done) => {
+      service.patchAndProcess(testUrl, {}, 'Resolved.').subscribe({
+        next: () => fail('should not emit'),
+        error: (err: HttpErrorResponse) => {
+          expect(err.status).toBe(422);
+          done();
+        },
+      });
+
+      httpMock.expectOne(testUrl).flush(null, { status: 422, statusText: 'Unprocessable Entity' });
+    });
+  });
+
+  // ---------------------------------------------------------------------------
   // deleteAndProcess
   // ---------------------------------------------------------------------------
 

@@ -88,6 +88,12 @@
       <mat-icon class="nav-icon">label</mat-icon>
       @if (!collapsed) { <span class="nav-label">Diet Tags</span> }
     </a>
+
+    <a class="nav-item" routerLink="/admin/mapping-reviews" routerLinkActive="active"
+       [matTooltip]="collapsed ? 'Mapping Reviews' : ''" matTooltipPosition="right">
+      <mat-icon class="nav-icon">rate_review</mat-icon>
+      @if (!collapsed) { <span class="nav-label">Mapping Reviews</span> }
+    </a>
   </section>
 
   <mat-divider></mat-divider>

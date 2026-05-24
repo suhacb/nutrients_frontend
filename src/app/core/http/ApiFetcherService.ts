@@ -64,6 +64,22 @@ export class ApiFetcherService {
     );
   }
 
+  patchAndProcess<TRequest, TResponse>(
+    url: string,
+    payload: TRequest,
+    successMessage: string,
+    process?: (body: TResponse) => TResponse
+  ): Observable<TResponse> {
+    return this.http.patch<TResponse>(url, payload, { observe: 'response' as const }).pipe(
+      tap(() => this.apiHandlerService.showSuccess(successMessage)),
+      map((response: HttpResponse<TResponse>) => {
+        const body = response.body!;
+        return process ? process(body) : body;
+      }),
+      catchError((error: HttpErrorResponse) => this.handleError(error))
+    );
+  }
+
   deleteAndProcess(url: string, successMessage: string): Observable<void> {
     return this.http.delete(url, { observe: 'response' as const }).pipe(
       tap(() => this.apiHandlerService.showSuccess(successMessage)),

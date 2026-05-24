@@ -11,6 +11,7 @@ import { NutripediaPage } from './modules/nutripedia/nutripedia';
 import { DietTagsListPage } from './modules/recipes/pages/diet-tags-list/diet-tags-list';
 import { RecipesListPage } from './modules/recipes/pages/recipes-list/recipes-list';
 import { RecipeFormPage } from './modules/recipes/pages/recipe-form/recipe-form';
+import { MappingReviewsListPage } from './modules/nutrient-mapping-reviews/pages/mapping-reviews-list/mapping-reviews-list';
 
 const routes: Routes = [
   {
@@ -27,6 +28,7 @@ const routes: Routes = [
       { path: 'admin/recipes/new', component: RecipeFormPage, canActivate: [AuthGuard] },
       { path: 'admin/recipes/:id/edit', component: RecipeFormPage, canActivate: [AuthGuard] },
       { path: 'admin/diet-tags', component: DietTagsListPage, canActivate: [AuthGuard] },
+      { path: 'admin/mapping-reviews', component: MappingReviewsListPage, canActivate: [AuthGuard] },
       { path: 'nutrients', redirectTo: 'nutripedia/nutrients', pathMatch: 'full' },
       { path: 'nutrients/:id', redirectTo: 'nutripedia/nutrients/:id' },
       { path: 'ingredients', redirectTo: 'nutripedia/ingredients', pathMatch: 'full' },

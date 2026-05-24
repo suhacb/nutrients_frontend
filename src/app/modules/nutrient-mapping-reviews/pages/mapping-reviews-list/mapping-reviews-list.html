@@ -1,0 +1,61 @@
+<div class="reviews-shell">
+
+  <div class="reviews-header">
+    <h1 class="reviews-title">Mapping Reviews</h1>
+    <div class="status-toggle">
+      @for (s of statuses; track s) {
+        <button class="toggle-btn" [class.active]="activeStatus === s" (click)="onStatusChange(s)">
+          {{ s | titlecase }}
+        </button>
+      }
+    </div>
+  </div>
+
+  @if (store.reviews().length === 0) {
+    <div class="reviews-empty">
+      <mat-icon>check_circle</mat-icon>
+      <p>No {{ activeStatus }} reviews.</p>
+    </div>
+  } @else {
+    <table mat-table [dataSource]="store.reviews()" class="reviews-table">
+
+      <ng-container matColumnDef="nutrient">
+        <th mat-header-cell *matHeaderCellDef>Nutrient</th>
+        <td mat-cell *matCellDef="let row">{{ row.nutrient?.name ?? '—' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="suggestedCanonical">
+        <th mat-header-cell *matHeaderCellDef>Suggested canonical</th>
+        <td mat-cell *matCellDef="let row">{{ row.suggestedCanonical?.name ?? '—' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="confidence">
+        <th mat-header-cell *matHeaderCellDef>Confidence</th>
+        <td mat-cell *matCellDef="let row">{{ row.confidence != null ? (row.confidence + '%') : '—' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="reasoning">
+        <th mat-header-cell *matHeaderCellDef>Reasoning</th>
+        <td mat-cell *matCellDef="let row" class="reasoning-cell">{{ row.reasoning ?? '—' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let row">
+          @if (activeStatus === 'pending') {
+            <div class="action-buttons">
+              <button mat-stroked-button color="primary" (click)="onResolve(row, 'merge')">Merge</button>
+              <button mat-stroked-button color="primary" (click)="onResolve(row, 'parent')">Parent</button>
+              <button mat-stroked-button color="primary" (click)="onResolve(row, 'keep')">Keep</button>
+              <button mat-stroked-button color="warn" (click)="onResolve(row, 'reject')">Reject</button>
+            </div>
+          }
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  }
+
+</div>
