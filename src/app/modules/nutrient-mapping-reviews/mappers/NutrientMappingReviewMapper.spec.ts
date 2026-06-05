@@ -11,7 +11,7 @@ describe('NutrientMappingReviewMapper', () => {
     decision_type: 'merge',
     reasoning: 'High similarity score.',
     resolved_at: null,
-    nutrient: { id: 10, name: 'Vitamin D' },
+    source_nutrient: { id: 10, name: 'Vitamin D' },
     suggested_canonical: { id: 20, name: 'Vitamin D3' },
   };
 
@@ -28,7 +28,7 @@ describe('NutrientMappingReviewMapper', () => {
     expect(result.decisionType).toBe('merge');
     expect(result.reasoning).toBe('High similarity score.');
     expect(result.resolvedAt).toBeNull();
-    expect(result.nutrient).toEqual({ id: 10, name: 'Vitamin D' });
+    expect(result.nutrient).toEqual({ id: 10, name: 'Vitamin D' }); // app model field stays `nutrient`
     expect(result.suggestedCanonical).toEqual({ id: 20, name: 'Vitamin D3' });
   });
 
@@ -45,7 +45,7 @@ describe('NutrientMappingReviewMapper', () => {
   });
 
   it('sets nutrient to null when API returns null', () => {
-    const resource: NutrientMappingReviewApiResource = { ...fullResource, nutrient: null };
+    const resource: NutrientMappingReviewApiResource = { ...fullResource, source_nutrient: null };
     expect(mapper.toApp(resource).nutrient).toBeNull();
   });
 

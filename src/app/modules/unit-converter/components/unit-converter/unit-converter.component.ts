@@ -1,4 +1,5 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UnitsStore } from '../../../ingredients/store/units.store';
 import { UnitConversionResult } from '../../contracts/UnitConversionResult';
 import { UnitConverterService } from '../../services/unit-converter.service';
@@ -17,6 +18,8 @@ export class UnitConverterComponent implements OnInit {
 
   readonly result = signal<UnitConversionResult | null>(null);
 
+  private readonly destroyRef = inject(DestroyRef);
+
   constructor(
     public unitsStore: UnitsStore,
     private converterService: UnitConverterService,
@@ -24,7 +27,7 @@ export class UnitConverterComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.unitsStore.units().length === 0) {
-      this.unitsStore.index().subscribe();
+      this.unitsStore.index().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
     }
   }
 
@@ -36,6 +39,7 @@ export class UnitConverterComponent implements OnInit {
     if (!this.canConvert()) return;
     this.converterService
       .convert(this.inputValue!, this.fromUnitId!, this.toUnitId!, this.nutrientId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(result => this.result.set(result));
   }
 }

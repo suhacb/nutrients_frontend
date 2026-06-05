@@ -18,7 +18,7 @@ describe('NutrientMappingReviewsStore', () => {
     decision_type: 'merge',
     reasoning: 'Similar compounds.',
     resolved_at: null,
-    nutrient: { id: 10, name: 'Vitamin D' },
+    source_nutrient: { id: 10, name: 'Vitamin D' },
     suggested_canonical: { id: 20, name: 'Vitamin D3' },
   };
 

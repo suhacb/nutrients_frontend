@@ -10,7 +10,7 @@ export class NutrientMappingReviewMapper {
       decisionType: api.decision_type ?? null,
       reasoning: api.reasoning ?? null,
       resolvedAt: api.resolved_at ? new Date(api.resolved_at) : null,
-      nutrient: api.nutrient ? { id: api.nutrient.id!, name: api.nutrient.name! } : null,
+      nutrient: api.source_nutrient ? { id: api.source_nutrient.id!, name: api.source_nutrient.name! } : null,
       suggestedCanonical: api.suggested_canonical
         ? { id: api.suggested_canonical.id!, name: api.suggested_canonical.name! }
         : null,

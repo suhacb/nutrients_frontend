@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NutrientMappingReview } from '../../contracts/NutrientMappingReview';
 import { NutrientMappingReviewResolvePayload } from '../../contracts/NutrientMappingReviewResolvePayload';
 import { NutrientMappingReviewsStore } from '../../store/nutrient-mapping-reviews.store';
@@ -14,6 +15,8 @@ export class MappingReviewsListPage implements OnInit {
   readonly statuses = ['pending', 'approved', 'rejected'] as const;
 
   activeStatus: 'pending' | 'approved' | 'rejected' = 'pending';
+
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(public store: NutrientMappingReviewsStore) {}
 
@@ -31,6 +34,8 @@ export class MappingReviewsListPage implements OnInit {
     decision: NutrientMappingReviewResolvePayload['decision'],
   ): void {
     const canonicalId = review.suggestedCanonical?.id ?? null;
-    this.store.resolve(review.id, decision, canonicalId).subscribe();
+    this.store.resolve(review.id, decision, canonicalId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe();
   }
 }

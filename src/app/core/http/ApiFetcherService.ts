@@ -23,10 +23,9 @@ export class ApiFetcherService {
     process: (body: TResponse) => void
   ): Observable<void> {
     return this.http.get<TResponse>(url, { observe: 'response' as const }).pipe(
-      tap(() => this.apiHandlerService.showSuccess(successMessage)),
-       map((response: HttpResponse<TResponse>) => {
-        const body = response.body;
-        process(body!); // assume body is not null
+      tap(() => { if (successMessage) this.apiHandlerService.showSuccess(successMessage); }),
+      map((response: HttpResponse<TResponse>) => {
+        process(response.body!);
       }),
       catchError((error: HttpErrorResponse) => this.handleError(error))
     );
@@ -38,13 +37,10 @@ export class ApiFetcherService {
     successMessage: string,
     process?: (body: TResponse) => TResponse
   ): Observable<TResponse> {
-    return this.http.post<TResponse>(url, payload, { observe: 'response' as const }).pipe(
-      tap(() => this.apiHandlerService.showSuccess(successMessage)),
-      map((response: HttpResponse<TResponse>) => {
-        const body = response.body!;
-        return process ? process(body) : body;
-      }),
-      catchError((error: HttpErrorResponse) => this.handleError(error))
+    return this.processMutationResponse(
+      this.http.post<TResponse>(url, payload, { observe: 'response' as const }),
+      successMessage,
+      process,
     );
   }
 
@@ -54,13 +50,10 @@ export class ApiFetcherService {
     successMessage: string,
     process?: (body: TResponse) => TResponse
   ): Observable<TResponse> {
-    return this.http.put<TResponse>(url, payload, { observe: 'response' as const }).pipe(
-      tap(() => this.apiHandlerService.showSuccess(successMessage)),
-      map((response: HttpResponse<TResponse>) => {
-        const body = response.body!;
-        return process ? process(body) : body;
-      }),
-      catchError((error: HttpErrorResponse) => this.handleError(error))
+    return this.processMutationResponse(
+      this.http.put<TResponse>(url, payload, { observe: 'response' as const }),
+      successMessage,
+      process,
     );
   }
 
@@ -70,13 +63,25 @@ export class ApiFetcherService {
     successMessage: string,
     process?: (body: TResponse) => TResponse
   ): Observable<TResponse> {
-    return this.http.patch<TResponse>(url, payload, { observe: 'response' as const }).pipe(
-      tap(() => this.apiHandlerService.showSuccess(successMessage)),
+    return this.processMutationResponse(
+      this.http.patch<TResponse>(url, payload, { observe: 'response' as const }),
+      successMessage,
+      process,
+    );
+  }
+
+  private processMutationResponse<TResponse>(
+    request$: Observable<HttpResponse<TResponse>>,
+    successMessage: string,
+    process?: (body: TResponse) => TResponse,
+  ): Observable<TResponse> {
+    return request$.pipe(
+      tap(() => { if (successMessage) this.apiHandlerService.showSuccess(successMessage); }),
       map((response: HttpResponse<TResponse>) => {
         const body = response.body!;
         return process ? process(body) : body;
       }),
-      catchError((error: HttpErrorResponse) => this.handleError(error))
+      catchError((error: HttpErrorResponse) => this.handleError(error)),
     );
   }
 

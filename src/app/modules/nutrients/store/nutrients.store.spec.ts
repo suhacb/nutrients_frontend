@@ -18,7 +18,7 @@ describe('NutrientsStore', () => {
     id: 1,
     name: 'Vitamin D',
     slug: 'vitamin-d',
-    source_mappings: [],
+    source_nutrients: [],
     description: 'Essential vitamin.',
     sync_status: 'synced',
     is_label_standard: true,

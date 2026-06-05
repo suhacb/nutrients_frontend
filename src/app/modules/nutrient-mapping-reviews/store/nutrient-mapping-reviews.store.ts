@@ -1,5 +1,5 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { APP_CONFIG } from '../../../config/app-config';
 import { ApiFetcherService } from '../../../core/http/ApiFetcherService';
@@ -23,9 +23,12 @@ export class NutrientMappingReviewsStore {
   readonly _reviews = signal<NutrientMappingReview[]>([]);
   readonly reviews = this._reviews.asReadonly();
 
+  private loadSub?: Subscription;
+
   load(status: 'pending' | 'approved' | 'rejected' = 'pending'): void {
+    this.loadSub?.unsubscribe();
     const url = `${this.cfg.appBackendUrl}/api/nutrient-mapping-reviews?status=${status}`;
-    this.fetcher.fetchAndProcess<ReviewListApiResponse>(url, '', body => {
+    this.loadSub = this.fetcher.fetchAndProcess<ReviewListApiResponse>(url, '', body => {
       this._reviews.set((body?.data ?? []).map(r => this.mapper.toApp(r)));
     }).subscribe();
   }

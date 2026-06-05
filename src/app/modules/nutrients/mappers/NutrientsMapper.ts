@@ -17,7 +17,7 @@ export class NutrientsMapper extends ResourceMapper<Nutrient, NutrientApiResourc
       isLabelStandard: api.is_label_standard ?? false,
       displayOrder: api.display_order ?? null,
       syncStatus: api.sync_status ?? '',
-      sourceMappings: (api.source_mappings ?? []).map(m => new NutrientSourceMappingMapper().toApp(m)),
+      sourceMappings: (api.source_nutrients ?? []).map(m => new NutrientSourceMappingMapper().toApp(m)),
       ...(api.canonical_unit !== undefined && { canonicalUnit: api.canonical_unit ? new UnitsMapper().toApp(api.canonical_unit) : null }),
       ...(api.parent !== undefined && { parent: api.parent ? this.toApp(api.parent) : null }),
       ...(api.children !== undefined && { children: api.children.map(c => this.toApp(c)) }),

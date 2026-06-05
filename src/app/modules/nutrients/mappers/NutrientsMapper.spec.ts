@@ -20,6 +20,7 @@ describe('NutrientsMapper', () => {
   const sourceMappingResource: NutrientSourceMappingApiResource = {
     id: 1,
     external_id: 'VIT_D',
+    name: 'Vitamin D',
     source: sourceResource,
   };
 
@@ -44,13 +45,13 @@ describe('NutrientsMapper', () => {
   };
 
   // Fixtures are typed without explicit annotation so this spec is valid before and after
-  // generated.d.ts is regenerated (the Nutrient schema changed: source_mappings replaces
+  // generated.d.ts is regenerated (the Nutrient schema changed: source_nutrients replaces
   // top-level source / external_id). Run npm run generate:api-types to sync generated.d.ts.
   const childResource = {
     id: 2,
     name: 'Vitamin D3',
     slug: 'vitamin-d3',
-    source_mappings: [] as NutrientSourceMappingApiResource[],
+    source_nutrients: [] as NutrientSourceMappingApiResource[],
     description: null,
     sync_status: 'synced',
     is_label_standard: false,
@@ -65,7 +66,7 @@ describe('NutrientsMapper', () => {
     id: 1,
     name: 'Vitamin D',
     slug: 'vitamin-d',
-    source_mappings: [sourceMappingResource],
+    source_nutrients: [sourceMappingResource],
     description: 'Essential vitamin.',
     sync_status: 'synced',
     is_label_standard: true,
@@ -110,7 +111,7 @@ describe('NutrientsMapper', () => {
       expect(result.sourceMappings[0].source!.name).toBe('USDA');
     });
 
-    it('returns an empty sourceMappings array when source_mappings is absent', () => {
+    it('returns an empty sourceMappings array when source_nutrients is absent', () => {
       const minimal = {
         id: 99,
         name: 'Iron',

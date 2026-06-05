@@ -24,6 +24,7 @@ describe('NutrientSourceMappingMapper', () => {
       const resource: NutrientSourceMappingApiResource = {
         id: 1,
         external_id: '1004',
+        name: 'Protein',
         source: sourceResource,
       };
 
@@ -31,16 +32,30 @@ describe('NutrientSourceMappingMapper', () => {
 
       expect(result.id).toBe(1);
       expect(result.externalId).toBe('1004');
+      expect(result.name).toBe('Protein');
       expect(result.source).not.toBeNull();
       expect(result.source!.id).toBe(1);
       expect(result.source!.name).toBe('USDA FoodData Central');
       expect(result.source!.slug).toBe('usda-fooddata-central');
     });
 
+    it('sets name to null when absent', () => {
+      const resource: NutrientSourceMappingApiResource = {
+        id: 1,
+        external_id: '1004',
+        source: sourceResource,
+      };
+
+      const result = mapper.toApp(resource);
+
+      expect(result.name).toBeNull();
+    });
+
     it('sets source to null when API returns null', () => {
       const resource: NutrientSourceMappingApiResource = {
         id: 2,
         external_id: 'VIT_C',
+        name: 'Vitamin C',
         source: null,
       };
 
@@ -48,6 +63,7 @@ describe('NutrientSourceMappingMapper', () => {
 
       expect(result.id).toBe(2);
       expect(result.externalId).toBe('VIT_C');
+      expect(result.name).toBe('Vitamin C');
       expect(result.source).toBeNull();
     });
   });

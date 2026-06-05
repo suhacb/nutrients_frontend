@@ -864,7 +864,7 @@ export interface components {
             display_order?: number | null;
             /** @example synced */
             sync_status?: string;
-            source_mappings?: components["schemas"]["NutrientSourcePivot"][];
+            source_nutrients?: components["schemas"]["SourceNutrient"][];
             canonical_unit?: components["schemas"]["Unit"] | null;
             parent?: components["schemas"]["Nutrient"] | null;
             children?: components["schemas"]["Nutrient"][];
@@ -876,11 +876,13 @@ export interface components {
             /** Format: date-time */
             deleted_at?: string | null;
         };
-        NutrientSourcePivot: {
+        SourceNutrient: {
             /** @example 1 */
             id?: number;
             /** @example 1004 */
             external_id?: string;
+            /** @example Protein */
+            name?: string;
             source?: components["schemas"]["Source"] | null;
         };
         NutrientTag: {

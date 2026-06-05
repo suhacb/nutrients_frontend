@@ -7,6 +7,7 @@ export class NutrientSourceMappingMapper {
     return {
       id: api.id!,
       externalId: api.external_id!,
+      name: api.name ?? null,
       source: api.source ? new SourceMapper().toApp(api.source) : null,
     };
   }
